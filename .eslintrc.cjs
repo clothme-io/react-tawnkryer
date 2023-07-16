@@ -42,5 +42,7 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 0,
     '@typescript-eslint/no-unused-vars': 0,
     'no-console': 0,
+    'jsx-a11y/heading-has-content': 0,
+    'react/require-default-props': 0,
   },
 };
