@@ -1,6 +1,5 @@
-// import { useAuth } from "@/lib/firebase/AuthContext"
-// import { signIn } from "@/lib/firebase/authFunctions"
 import React from 'react';
+import { signIn } from '../../../../lib/firebase/authFunctions';
 import {
   Button,
   Card,
@@ -19,25 +18,23 @@ export function LoginForm() {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   //   const { addAccount, addProject } = useAppStore()
-  //   const { authUser } = useAuth()
 
   const handleForm = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
 
-    // const result = await signIn(email, password)
+    const result = await signIn(email, password);
 
-    // if (!result.ok) {
-    //   return console.log(result)
-    // } else {
-    //   console.log("The auth user in login ====", authUser)
-    //   const account = {
-    //     id: result.value.user.uid,
-    //     email: result.value.user.email,
-    //   }
-    //   addAccount(account)
-    //   // addProject
-    //   return router.push("/keyword")
+    if (!result.ok) {
+      return console.log(result);
+    }
+    return result;
+    // const account = {
+    //   id: result.value.user.uid,
+    //   email: result.value.user.email,
     // }
+    // addAccount(account)
+    // // addProject
+    // return router.push("/keyword")
   };
 
   return (

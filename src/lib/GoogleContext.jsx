@@ -1,15 +1,14 @@
-"use client"
+import React from 'react';
 
-import React from "react"
+export const GoogleAdsContext = React.createContext({});
 
-export const GoogleAdsContext = React.createContext({})
-
-export const GoogleAdsContextProvider = ({ children }) => {
-  const [googleAdsData, setGoogleAdsData] = React.useState(null)
+export function GoogleAdsContextProvider({ children }) {
+  const [googleAdsData, setGoogleAdsData] = React.useState(null);
 
   return (
-    <GoogleAdsContext.Provider value={{ googleAdsData, setGoogleAdsData}}>
+    // eslint-disable-next-line react/jsx-no-constructed-context-values
+    <GoogleAdsContext.Provider value={{ googleAdsData, setGoogleAdsData }}>
       {children}
     </GoogleAdsContext.Provider>
-  )
+  );
 }
