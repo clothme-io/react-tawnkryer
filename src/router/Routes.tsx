@@ -2,6 +2,7 @@ import { Home, LogIn } from 'lucide-react';
 import { AppLayout } from '../app/AppLayout';
 import { HomePage } from '../pages/home/HomePage';
 import { LoginPage } from '../pages/auth/login/LoginPage';
+import { AuthLayout } from '../pages/auth/AuthLayout';
 
 export const routes = [
   {
@@ -22,7 +23,7 @@ export const routes = [
   {
     path: '/login',
     name: 'Login',
-    element: <AppLayout />,
+    element: <AuthLayout />,
     isPrivate: false,
     margin: true,
     icon: <LogIn />,
