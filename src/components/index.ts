@@ -28,7 +28,7 @@ export {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuRadioGroup,
-} from './ui/dropdownMenu';
+} from './ui/dropdown-menu';
 export {
   Dialog,
   DialogTrigger,
@@ -38,3 +38,45 @@ export {
   DialogTitle,
   DialogDescription,
 } from './ui/dialog';
+export { Separator } from './ui/separator';
+export {
+  Menubar,
+  MenubarMenu,
+  MenubarTrigger,
+  MenubarContent,
+  MenubarItem,
+  MenubarSeparator,
+  MenubarLabel,
+  MenubarCheckboxItem,
+  MenubarRadioGroup,
+  MenubarRadioItem,
+  MenubarPortal,
+  MenubarSubContent,
+  MenubarSubTrigger,
+  MenubarGroup,
+  MenubarSub,
+  MenubarShortcut,
+} from './ui/menubar';
+export { Avatar, AvatarImage, AvatarFallback } from './ui/avatar';
+export {
+  Command,
+  CommandDialog,
+  CommandInput,
+  CommandList,
+  CommandEmpty,
+  CommandGroup,
+  CommandItem,
+  CommandShortcut,
+  CommandSeparator,
+} from './ui/command';
+export { Popover, PopoverTrigger, PopoverContent } from './ui/popover';
+export {
+  Select,
+  SelectGroup,
+  SelectValue,
+  SelectTrigger,
+  SelectContent,
+  SelectLabel,
+  SelectItem,
+  SelectSeparator,
+} from './ui/select';

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { signIn } from '../../../../lib/firebase/authFunctions';
 import {
   Button,
@@ -18,6 +19,7 @@ export function LoginForm() {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const { addAccount } = useAppStore();
+  const navigate = useNavigate();
 
   async function handleLogin(event: any) {
     event.preventDefault();
@@ -25,15 +27,16 @@ export function LoginForm() {
     const result = await signIn(email, password);
 
     if (!result.ok) {
-      return console.log(result);
+      console.log(result);
+    } else {
+      const account = {
+        id: result.value.user.uid,
+        email: result.value.user.email,
+      };
+      addAccount(account);
+      navigate('/dashboard');
+      // // addProject
     }
-    const account = {
-      id: result.value.user.uid,
-      email: result.value.user.email,
-    };
-    addAccount(account);
-    return result;
-    // // addProject
   }
 
   return (

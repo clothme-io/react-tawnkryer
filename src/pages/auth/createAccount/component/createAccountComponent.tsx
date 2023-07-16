@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { signUp } from '../../../../lib/firebase/authFunctions';
 import {
   Card,
@@ -16,6 +17,7 @@ export function CreateAccountComponent() {
   const [errorMessage, setErrorMessage] = React.useState<string>('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const navigate = useNavigate();
 
   const handleForm = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -29,6 +31,7 @@ export function CreateAccountComponent() {
     } else {
       // else successful
       console.log(result);
+      navigate('/login');
     }
   };
 

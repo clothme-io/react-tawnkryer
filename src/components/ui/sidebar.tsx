@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
-import { LayoutDashboard, PenTool, KeyIcon, Link2 } from 'lucide-react';
+import { LayoutDashboard, PenTool, KeyIcon, ChevronLeft } from 'lucide-react';
 import { WriterPage } from '../../pages/writer/WriterPage';
 import { KeywordPage } from '../../pages/keyword/KeywordPage';
 import { DashboardPage } from '../../pages/dashboard/DashboardPage';
+import { MainNavBar } from './main-nav-bar';
 
 export const SideBarRoutes = [
   {
@@ -56,14 +57,14 @@ export const SideBarRoutes = [
 export function Sidebar() {
   const [open, setOpen] = useState(true);
   return (
-    <section className="flex gap-6">
+    <section className="flex">
       <div
-        className={`bg-[#444141] min-h-screen ${
-          open ? 'w-72' : 'w-16'
+        className={`basis-1/8 bg-[#fafafa] min-h-screen ${
+          open ? 'w-60' : 'w-16'
         } duration-500 text-gray-100 px-4`}
       >
         <div className="py-3 flex justify-end">
-          <Link2
+          <ChevronLeft
             size={26}
             className="cursor-pointer"
             onClick={() => setOpen(!open)}
@@ -73,11 +74,10 @@ export function Sidebar() {
           {SideBarRoutes?.map((menu, i) => (
             <Link
               to={menu?.path}
-              // eslint-disable-next-line react/no-array-index-key
               key={i}
               className={` ${
                 menu?.margin && 'mt-5'
-              } group flex items-center text-sm  gap-3.5 font-medium p-2 hover:bg-gray-800 rounded-md`}
+              } group flex items-center text-sm text-black gap-3.5 font-medium p-2 hover:bg-gray-800 hover:text-white rounded-md active:bg-gray-800 active:text-white`}
             >
               {menu?.icon}
               <h2
@@ -101,7 +101,8 @@ export function Sidebar() {
           ))}
         </div>
       </div>
-      <div className="m-3 text-xl text-gray-900 font-semibold">
+      <div className="grow m-3 text-xl text-gray-900 font-semibold">
+        <MainNavBar />
         <Outlet />
       </div>
     </section>
