@@ -1,4 +1,5 @@
 import { Command } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 import { LoginForm } from './component/LoginForm';
 
@@ -14,7 +15,7 @@ export function LoginPage() {
           }}
         />
         <div className="relative z-20 flex items-center text-lg font-medium">
-          <Command className="mr-2 h-6 w-6" /> Tawnkryer
+          <Command className="mr-2 h-6 w-6" /> <Link to="/">Tawnkryer</Link>
         </div>
       </div>
       <div className="lg:p-8">
@@ -22,8 +23,8 @@ export function LoginPage() {
           <LoginForm />
           <p>
             Don't have an accout?{' '}
-            <span>
-              <div>Sign Up</div>
+            <span className="mx-auto">
+              <Link to="/create-account">Sign Up</Link>
             </span>
           </p>
         </div>

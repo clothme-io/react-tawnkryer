@@ -12,14 +12,14 @@ import {
   Label,
 } from '../../../../components';
 
-// import { useAppStore } from "@/app/store/store"
+import { useAppStore } from '../../../../store/store';
 
 export function LoginForm() {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  //   const { addAccount, addProject } = useAppStore()
+  const { addAccount } = useAppStore();
 
-  const handleForm = async (event: { preventDefault: () => void }) => {
+  async function handleLogin(event: any) {
     event.preventDefault();
 
     const result = await signIn(email, password);
@@ -27,18 +27,17 @@ export function LoginForm() {
     if (!result.ok) {
       return console.log(result);
     }
+    const account = {
+      id: result.value.user.uid,
+      email: result.value.user.email,
+    };
+    addAccount(account);
     return result;
-    // const account = {
-    //   id: result.value.user.uid,
-    //   email: result.value.user.email,
-    // }
-    // addAccount(account)
     // // addProject
-    // return router.push("/keyword")
-  };
+  }
 
   return (
-    <form onSubmit={handleForm}>
+    <form onSubmit={handleLogin}>
       <Card>
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl">Create an account</CardTitle>
