@@ -11,28 +11,40 @@ export function WriterPage() {
     <div className="h-screen grid grid-cols-2">
       <div className="">
         <div className="pb-10">
-          <Tabs defaultValue="singleKeyword" className="h-full space-y-2">
-            <div className="space-between flex items-center">
+          <div className="flex items-center justify-between space-y-2 pl-4">
+            <h2 className="text-3xl font-bold tracking-tight mb-6">Writer</h2>
+          </div>
+          <Tabs
+            defaultValue="singleKeywordWriter"
+            className="h-full space-y-2  p-4"
+          >
+            <div className="space-between flex items-center  mb-10">
               <TabsList>
-                <TabsTrigger value="singleKeyword" className="relative">
-                  Single Keyword
+                <TabsTrigger value="singleKeywordWriter" className="relative">
+                  Single Writer
                 </TabsTrigger>
-                <TabsTrigger value="multiKeyword">Multi Keyword</TabsTrigger>
+                <TabsTrigger value="multiKeyword">Multi Writer</TabsTrigger>
                 <TabsTrigger value="topicalAuthority">
-                  Topical Authority
+                  Topical Authority Writer
                 </TabsTrigger>
                 <TabsTrigger value="keywordGapAnalysis">
-                  Keyword Gap Analysis
+                  Keyword Gap Analysis Writer
                 </TabsTrigger>
-                <TabsTrigger value="holistic">Holistic</TabsTrigger>
+                <TabsTrigger value="holisticWriter">
+                  Holistic Writer
+                </TabsTrigger>
               </TabsList>
             </div>
+            <Separator className="my-4" />
             <TabsContent
-              value="singleKeyword"
+              value="singleKeywordWriter"
               className="border-none p-0 outline-none"
             >
-              <div className="flex items-center justify-between">
-                <div className="space-y-1">Single Keyword Avalanche</div>
+              <div className="flex">
+                <div className="basis-1/4 space-y-1 pr-4">
+                  {/* <SingleKeywordComponent /> */}
+                </div>
+                <div className="grow pl-20">Canvas Writer</div>
               </div>
             </TabsContent>
             <TabsContent
@@ -65,7 +77,7 @@ export function WriterPage() {
               </div>
             </TabsContent>
             <TabsContent
-              value="holistic"
+              value="holisticWriter"
               className="border-none p-0 outline-none"
             >
               <div className="flex items-center justify-between">

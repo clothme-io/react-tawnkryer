@@ -1,6 +1,12 @@
 import { useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
-import { LayoutDashboard, PenTool, KeyIcon, ChevronLeft } from 'lucide-react';
+import {
+  LayoutDashboard,
+  PenTool,
+  KeyIcon,
+  ChevronLeftCircle,
+  ChevronRightCircle,
+} from 'lucide-react';
 import { WriterPage } from '../../pages/writer/WriterPage';
 import { KeywordPage } from '../../pages/keyword/KeywordPage';
 import { DashboardPage } from '../../pages/dashboard/DashboardPage';
@@ -64,11 +70,19 @@ export function Sidebar() {
         } duration-500 text-gray-100 px-4`}
       >
         <div className="py-3 flex justify-end">
-          <ChevronLeft
-            size={26}
-            className="cursor-pointer"
-            onClick={() => setOpen(!open)}
-          />
+          {open ? (
+            <ChevronLeftCircle
+              size={26}
+              className="cursor-pointer text-black"
+              onClick={() => setOpen(!open)}
+            />
+          ) : (
+            <ChevronRightCircle
+              size={26}
+              className="cursor-pointer text-black"
+              onClick={() => setOpen(!open)}
+            />
+          )}
         </div>
         <div className="mt-4 flex flex-col gap-4 relative">
           {SideBarRoutes?.map((menu, i) => (

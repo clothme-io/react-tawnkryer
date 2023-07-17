@@ -45,5 +45,7 @@ module.exports = {
     'jsx-a11y/heading-has-content': 0,
     'react/require-default-props': 0,
     'react/no-array-index-key': 0,
+    'react/no-unstable-nested-components': 0,
+    '@typescript-eslint/no-shadow': 0,
   },
 };

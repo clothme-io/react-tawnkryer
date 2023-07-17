@@ -5,14 +5,18 @@ import {
   TabsTrigger,
   Separator,
 } from '../../components';
+import { SingleKeywordComponent } from './components/SingleKeywordComponent';
 
 export function KeywordPage() {
   return (
-    <div className="h-screen grid grid-cols-2">
+    <div className="h-screen">
       <div className="">
         <div className="pb-10">
-          <Tabs defaultValue="singleKeyword" className="h-full space-y-2">
-            <div className="space-between flex items-center">
+          <div className="flex items-center justify-between space-y-2 p-2 pl-4">
+            <h2 className="text-3xl font-bold tracking-tight mb-0">Keyword</h2>
+          </div>
+          <Tabs defaultValue="singleKeyword" className="h-full space-y-2 p-4">
+            <div className="space-between flex items-center mb-10">
               <TabsList>
                 <TabsTrigger value="singleKeyword" className="relative">
                   Single Keyword
@@ -27,12 +31,16 @@ export function KeywordPage() {
                 <TabsTrigger value="holistic">Holistic</TabsTrigger>
               </TabsList>
             </div>
+            <Separator className="my-4" />
             <TabsContent
               value="singleKeyword"
-              className="border-none p-0 outline-none"
+              className="border-none p-0 outline-none pt-8"
             >
-              <div className="flex items-center justify-between">
-                <div className="space-y-1">Single Keyword Avalanche</div>
+              <div className="flex">
+                <div className="basis-1/4 space-y-1 pr-4">
+                  <SingleKeywordComponent />
+                </div>
+                <div className="grow pl-20">Canvas</div>
               </div>
             </TabsContent>
             <TabsContent
