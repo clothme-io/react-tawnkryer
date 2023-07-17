@@ -1,9 +1,9 @@
 import { doc, setDoc } from 'firebase/firestore';
 // import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
 
-import { db } from '../firebase/firebaseConfig';
-import { CustomError } from '../util/customError';
-import { Result } from '../util/resultType';
+import { db } from '../../../lib/firebase/firebaseConfig';
+import { CustomError } from '../../../lib/util/customError';
+import { Result } from '../../../lib/util/resultType';
 
 export const addKeywordData = async (
   keywordData: any
