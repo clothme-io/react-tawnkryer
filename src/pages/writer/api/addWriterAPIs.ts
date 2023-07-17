@@ -9,7 +9,7 @@ export const addKeywordData = async (
   keywordData: any
 ): Promise<Result<any, CustomError>> => {
   try {
-    await setDoc(doc(db, 'keyword', keywordData.id), keywordData.data, {
+    await setDoc(doc(db, 'writer', keywordData.id), keywordData.data, {
       merge: true,
     });
     console.log('Got here =====', keywordData);
@@ -25,7 +25,7 @@ export const saveMultiKeywordData = async (
 ): Promise<Result<any, CustomError>> => {
   console.log('T am hereee ====', keywordData);
   try {
-    await setDoc(doc(db, 'keyword', keywordData.id), keywordData.data, {
+    await setDoc(doc(db, 'writer', keywordData.id), keywordData.data, {
       merge: true,
     });
 

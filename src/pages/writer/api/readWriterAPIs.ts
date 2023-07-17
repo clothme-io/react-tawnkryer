@@ -17,7 +17,7 @@ export const readSingleKeywordContents = async (
 ): Promise<Result<any, CustomError>> => {
   try {
     const q = query(
-      collection(db, 'keyword'),
+      collection(db, 'writer'),
       where('account_id', '==', userId),
       where('project_id', '==', project_id)
     );
@@ -39,7 +39,7 @@ export const readSingleKeywordContent = async (
   docId: string
 ): Promise<Result<any, CustomError>> => {
   try {
-    const unsub = onSnapshot(doc(db, 'keyword', docId), (doc) => {
+    const unsub = onSnapshot(doc(db, 'writer', docId), (doc) => {
       console.log('Current data: ', doc.data());
       return doc.data();
     });
