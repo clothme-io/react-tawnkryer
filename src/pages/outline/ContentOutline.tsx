@@ -5,9 +5,8 @@ import {
   TabsTrigger,
   Separator,
 } from '../../components';
-import { SingleKeywordWriter } from './components/SingleKeywordTab';
 
-export function WriterPage() {
+export function ContentOutlinePage() {
   return (
     <div className="h-screen grid grid-cols-2">
       <div className="">
@@ -43,7 +42,7 @@ export function WriterPage() {
             >
               <div className="flex">
                 <div className="basis-1/4 space-y-1 pr-4">
-                  <SingleKeywordWriter />
+                  {/* <SingleKeywordWriter /> */}
                 </div>
                 <div className="grow pl-20">Canvas Writer</div>
               </div>

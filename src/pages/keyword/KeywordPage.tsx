@@ -5,7 +5,11 @@ import {
   TabsTrigger,
   Separator,
 } from '../../components';
+import { HolisticComponent } from './components/HolisticComponent';
+import { KeywordGapAnalysisComponent } from './components/KeywordGapAnalysisComponent';
 import { SingleKeywordComponent } from './components/SingleKeywordComponent';
+import { TopicalAuthorityComponent } from './components/TopicalAuthorityComponent';
+import { MultiKeywordComponent } from './components/multiKeywordComponent';
 
 export function KeywordPage() {
   return (
@@ -45,41 +49,46 @@ export function KeywordPage() {
             </TabsContent>
             <TabsContent
               value="multiKeyword"
-              className="h-full flex-col border-none p-0 data-[state=active]:flex"
+              className="border-none p-0 outline-none pt-8"
             >
-              <div className="flex items-center justify-between">
-                <div className="space-y-1">Multi Keyword Avalanche</div>
+              <div className="flex">
+                <div className="basis-1/4 space-y-1 pr-4">
+                  <MultiKeywordComponent />
+                </div>
+                <div className="grow pl-20">Canvas</div>
               </div>
-              <Separator className="my-4" />
             </TabsContent>
             <TabsContent
               value="topicalAuthority"
-              className="border-none p-0 outline-none"
+              className="border-none p-0 outline-none pt-8"
             >
-              <div className="flex items-center justify-between">
-                <div className="space-y-1">
-                  <p>Topical Authority</p>
+              <div className="flex">
+                <div className="basis-1/4 space-y-1 pr-4">
+                  <TopicalAuthorityComponent />
                 </div>
+                <div className="grow pl-20">Canvas</div>
               </div>
             </TabsContent>
             <TabsContent
               value="keywordGapAnalysis"
-              className="border-none p-0 outline-none"
+              className="border-none p-0 outline-none pt-8"
             >
-              <div className="flex items-center justify-between">
-                <div className="space-y-1">
-                  <p>Keyword Gap Analysis</p>
+              <div className="flex">
+                <div className="basis-1/4 space-y-1 pr-4">
+                  <KeywordGapAnalysisComponent />
                 </div>
+                <div className="grow pl-20">Canvas</div>
               </div>
             </TabsContent>
             <TabsContent
               value="holistic"
-              className="border-none p-0 outline-none"
+              className="border-none p-0 outline-none pt-8"
             >
-              <div className="flex items-center justify-between">
-                <div className="space-y-1">
-                  <p>Holistic</p>
+              <div className="flex">
+                <div className="basis-1/4 space-y-1 pr-4">
+                  <HolisticComponent />
                 </div>
+                <div className="grow pl-20">Canvas</div>
               </div>
             </TabsContent>
           </Tabs>

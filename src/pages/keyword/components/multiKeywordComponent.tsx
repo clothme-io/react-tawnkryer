@@ -1,15 +1,15 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
-
-import { Button, Input, Label } from '../../../components';
+import { Input, Label, Textarea } from '../../../components';
+import { Button } from '../../../components/ui/button';
 
 interface IFormInput {
-  keyword: string;
+  keywords: string;
   kd: string;
   minVolume: string;
   maxVolume: string;
 }
 
-export function SingleKeywordComponent() {
+export function MultiKeywordComponent() {
   const { register, handleSubmit } = useForm<IFormInput>();
   const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data);
 
@@ -18,11 +18,7 @@ export function SingleKeywordComponent() {
       <div className="grid gap-6">
         <div className="grid gap-2">
           <Label htmlFor="keyword">Keyword</Label>
-          <Input
-            type="text"
-            placeholder="Enter Keyword"
-            {...register('keyword')}
-          />
+          <Textarea placeholder="Enter Keywords" {...register('keywords')} />
         </div>
 
         <div className="grid gap-2">

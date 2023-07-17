@@ -3,6 +3,7 @@ import { Link, Outlet } from 'react-router-dom';
 import {
   LayoutDashboard,
   PenTool,
+  Book,
   KeyIcon,
   ChevronLeftCircle,
   ChevronRightCircle,
@@ -11,6 +12,7 @@ import { WriterPage } from '../../pages/writer/WriterPage';
 import { KeywordPage } from '../../pages/keyword/KeywordPage';
 import { DashboardPage } from '../../pages/dashboard/DashboardPage';
 import { MainNavBar } from './main-nav-bar';
+import { ContentOutlinePage } from '../../pages/outline/ContentOutline';
 
 export const SideBarRoutes = [
   {
@@ -39,6 +41,21 @@ export const SideBarRoutes = [
       {
         path: '/keyword',
         element: <KeywordPage />,
+        // loader: eventLoader,
+      },
+    ],
+  },
+  {
+    path: '/outline',
+    name: 'Outline',
+    element: <Sidebar />,
+    isPrivate: false,
+    margin: true,
+    icon: <Book />,
+    children: [
+      {
+        path: '/outline',
+        element: <ContentOutlinePage />,
         // loader: eventLoader,
       },
     ],
