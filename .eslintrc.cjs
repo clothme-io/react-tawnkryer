@@ -47,5 +47,6 @@ module.exports = {
     'react/no-array-index-key': 0,
     'react/no-unstable-nested-components': 0,
     '@typescript-eslint/no-shadow': 0,
+    '@typescript-eslint/ban-ts-comment': 0,
   },
 };

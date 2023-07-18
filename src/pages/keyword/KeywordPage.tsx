@@ -7,6 +7,7 @@ import {
 } from '../../components';
 import { HolisticComponent } from './components/HolisticComponent';
 import { KeywordGapAnalysisComponent } from './components/KeywordGapAnalysisComponent';
+import { EditorComponent } from './components/KeywordWriter';
 import { SingleKeywordComponent } from './components/SingleKeywordComponent';
 import { TopicalAuthorityComponent } from './components/TopicalAuthorityComponent';
 import { MultiKeywordComponent } from './components/multiKeywordComponent';
@@ -40,11 +41,13 @@ export function KeywordPage() {
               value="singleKeyword"
               className="border-none p-0 outline-none pt-8"
             >
-              <div className="flex">
-                <div className="basis-1/4 space-y-1 pr-4">
+              <div className="grid grid-cols-12">
+                <div className="col-span-3 space-y-1 pr-4 sticky top-2">
                   <SingleKeywordComponent />
                 </div>
-                <div className="grow pl-20">Canvas</div>
+                <div className="col-span-9 p-10 bg-gray-50 min-h-screen">
+                  <EditorComponent />
+                </div>
               </div>
             </TabsContent>
             <TabsContent
