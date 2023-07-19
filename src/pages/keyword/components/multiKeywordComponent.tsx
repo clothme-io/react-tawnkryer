@@ -1,6 +1,10 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { nanoid } from 'nanoid';
 import { Input, Label, Textarea } from '../../../components';
 import { Button } from '../../../components/ui/button';
+
+// API functions
+import { addMultiKeywordData } from '../api/addKeywordAPIs';
 
 interface IFormInput {
   keywords: string;
@@ -10,8 +14,26 @@ interface IFormInput {
 }
 
 export function MultiKeywordComponent() {
-  const { register, handleSubmit } = useForm<IFormInput>();
-  const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data);
+  const { register, reset, handleSubmit } = useForm<IFormInput>();
+
+  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    console.log(data);
+    reset();
+    const keywordId = nanoid();
+    const date = Date.now() as unknown as string;
+    const keywordInput = {
+      id: keywordId,
+      data: {
+        account_id: '',
+        project_id: '',
+        type: 'multiKeyword',
+        created_at: date,
+        keywords: data,
+      },
+    };
+    const response = await addMultiKeywordData(keywordInput);
+    console.log('The resposne from UI ===', response);
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

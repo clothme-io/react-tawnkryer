@@ -1,6 +1,8 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { nanoid } from 'nanoid';
 import { Button, Input, Label } from '../../../components';
+
+// API function
 import { addKeywordData } from '../api/addKeywordAPIs';
 
 interface IFormInput {
@@ -11,25 +13,23 @@ interface IFormInput {
 }
 
 export function SingleKeywordComponent() {
-  const { register, handleSubmit } = useForm<IFormInput>();
+  const { register, reset, handleSubmit } = useForm<IFormInput>();
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    console.log(data);
-    console.log('Here is the value for keyword ==', data);
-    // console.log('Here is the value for user ==', account.id);
+    reset();
     const keywordId = nanoid();
     const date = Date.now() as unknown as string;
-    const dataToSave = {
+    const keywordInput = {
       id: keywordId,
       data: {
         account_id: 'account.id',
         project_id: '',
-        type: 'single',
+        type: 'singleKeyword',
         created_at: date,
         details: data,
       },
     };
-    const response = await addKeywordData(dataToSave);
+    const response = await addKeywordData(keywordInput);
     console.log('The resposne from UI ===', response);
   };
 

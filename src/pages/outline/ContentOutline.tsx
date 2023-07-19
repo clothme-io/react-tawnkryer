@@ -11,14 +11,16 @@ export function ContentOutlinePage() {
     <div className="h-screen grid grid-cols-2">
       <div className="">
         <div className="pb-10">
-          <div className="flex items-center justify-between space-y-2 pl-4">
-            <h2 className="text-3xl font-bold tracking-tight mb-6">Writer</h2>
-          </div>
           <Tabs
             defaultValue="singleKeywordWriter"
-            className="h-full space-y-2  p-4"
+            className="h-full space-y-2 pl-4"
           >
-            <div className="space-between flex items-center  mb-10">
+            <div className="space-between flex items-center mb-10">
+              <div className="flex items-center justify-between space-y-2 pr-10">
+                <h2 className="text-3xl font-bold tracking-tight mb-0">
+                  Outline
+                </h2>
+              </div>
               <TabsList>
                 <TabsTrigger value="singleKeywordWriter" className="relative">
                   Single Writer

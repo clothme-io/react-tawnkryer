@@ -12,7 +12,7 @@ export const addKeywordData = async (
     await setDoc(doc(db, 'keyword', keywordData.id), keywordData.data, {
       merge: true,
     });
-    console.log('Got here =====', keywordData);
+    // console.log('Got here =====', keywordData);
     return { ok: true, value: 'Successfully Added' };
   } catch (err) {
     const error = new CustomError(500, '', err);
@@ -20,10 +20,11 @@ export const addKeywordData = async (
   }
 };
 
+// used in the MUltiKeyword : to be revisited
 export const saveMultiKeywordData = async (
   keywordData: any
 ): Promise<Result<any, CustomError>> => {
-  console.log('T am hereee ====', keywordData);
+  // console.log('T am hereee ====', keywordData);
   try {
     await setDoc(doc(db, 'keyword', keywordData.id), keywordData.data, {
       merge: true,
@@ -37,39 +38,38 @@ export const saveMultiKeywordData = async (
 };
 
 export const addMultiKeywordData = async (
-  keywordData: any
+  inputData: any
 ): Promise<Result<any, CustomError>> => {
   try {
-    const keywords = keywordData.data.details.Keywords.split('\n');
-    console.log('this is the keywords data ====', keywords);
-    console.log('this is the keywordData ====', keywordData);
+    // console.log('this is the keywordData ====', inputData);
+    const keywords = inputData.data.keywords.keywords.split('\n');
+    // console.log('this is the keywords data ====', keywords);
 
     if (!keywords) {
-      const error = new CustomError(500, '', keywords);
+      const error = new CustomError(500, 'Keywords are missing!', keywords);
       return { ok: false, error };
     }
     const obj = {
-      id: keywordData.id,
+      id: inputData.id,
       data: {
-        account_id: keywordData.data.account_id,
-        project_id: keywordData.data.project_id,
-        created_at: keywordData.data.created_at,
+        account_id: inputData.data.account_id,
+        project_id: inputData.data.project_id,
+        created_at: inputData.data.created_at,
+        type: inputData.data.type,
         details: {
           keywords,
-          intent: keywordData.data.details.intent,
-          keywordDifficulty: keywordData.data.details.keywordDifficulty,
-          maxVolume: keywordData.data.details.maxVolume,
-          minVolume: keywordData.data.details.minVolume,
+          keywordDifficulty: inputData.data.keywords.kd,
+          maxVolume: inputData.data.keywords.maxVolume,
+          minVolume: inputData.data.keywords.minVolume,
         },
       },
     };
-    console.log('I got here ====');
     const response = await saveMultiKeywordData(obj);
     if (!response.ok) {
       const error = new CustomError(500, '', response.error);
       return { ok: false, error };
     }
-    console.log('this is the keyword data ====', keywordData);
+    // console.log('this is the keyword data ====', inputData);
     return { ok: true, value: 'Successfully Added' };
   } catch (err) {
     const error = new CustomError(500, '', err);

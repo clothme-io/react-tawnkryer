@@ -17,11 +17,13 @@ export function KeywordPage() {
     <div className="h-screen">
       <div className="">
         <div className="pb-10">
-          <div className="flex items-center justify-between space-y-2 p-2 pl-4">
-            <h2 className="text-3xl font-bold tracking-tight mb-0">Keyword</h2>
-          </div>
-          <Tabs defaultValue="singleKeyword" className="h-full space-y-2 p-4">
+          <Tabs defaultValue="singleKeyword" className="h-full space-y-2 pl-4">
             <div className="space-between flex items-center mb-10">
+              <div className="flex items-center justify-between space-y-2 pr-10">
+                <h2 className="text-3xl font-bold tracking-tight mb-0">
+                  Keyword
+                </h2>
+              </div>
               <TabsList>
                 <TabsTrigger value="singleKeyword" className="relative">
                   Single Keyword
