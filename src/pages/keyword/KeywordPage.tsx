@@ -10,6 +10,7 @@ import { KeywordGapAnalysisComponent } from './components/KeywordGapAnalysisComp
 import { EditorComponent } from './components/KeywordWriter';
 import { SingleKeywordComponent } from './components/SingleKeywordComponent';
 import { TopicalAuthorityComponent } from './components/TopicalAuthorityComponent';
+import { DialogDemo } from './components/dialog';
 import { MultiKeywordComponent } from './components/multiKeywordComponent';
 
 export function KeywordPage() {
@@ -44,7 +45,10 @@ export function KeywordPage() {
               className="border-none p-0 outline-none pt-8"
             >
               <div className="grid grid-cols-12">
-                <div className="col-span-3 space-y-1 pr-4 sticky top-2">
+                <div className="col-span-2 space-y-1 pr-4 sticky top-2">
+                  <div className="max-w-full">
+                    <DialogDemo />
+                  </div>
                   <SingleKeywordComponent />
                 </div>
                 <div className="col-span-9 p-10 bg-gray-50 min-h-screen">

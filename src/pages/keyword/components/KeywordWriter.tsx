@@ -2,12 +2,16 @@ import React from 'react';
 import { EditorState, RichUtils } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { onSnapshot, collection, query, where } from 'firebase/firestore';
+
+import { db } from '../../../lib/firebase/firebaseConfig';
 
 export function EditorComponent() {
   const [editorState, setEditorState] = React.useState(() =>
     EditorState.createEmpty()
   );
 
+  const [keywordData, setKeywordData] = React.useState<any>();
   const handleKeyCommand = (command: string, editorState: EditorState) => {
     const newState = RichUtils.handleKeyCommand(editorState, command);
 
@@ -19,8 +23,27 @@ export function EditorComponent() {
     return 'not-handled';
   };
 
+  React.useEffect(() => {
+    const q = query(
+      collection(db, 'keyword'),
+      where('account_id', '==', 'accountid'),
+      where('project_id', '==', '1234')
+    );
+    onSnapshot(q, (querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        setKeywordData(doc.data());
+        // setKeywordData((prev: any) => [...prev, doc.data()]);
+      });
+    });
+  }, []);
+
+  React.useEffect(() => {
+    // console.log('the datat =====', keywordData);
+  }, [keywordData]);
+
   return (
     <div className="max-w-full">
+      {/* <div>{keywordData ? keywordData.details.entity : ''}</div> */}
       <Editor
         editorState={editorState}
         wrapperClassName="max-w-full"

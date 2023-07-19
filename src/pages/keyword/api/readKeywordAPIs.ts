@@ -12,13 +12,13 @@ import { CustomError } from '../../../lib/util/customError';
 import { Result } from '../../../lib/util/resultType';
 
 export const readSingleKeywordContents = async (
-  userId: string,
+  account_id: string,
   project_id: string
 ): Promise<Result<any, CustomError>> => {
   try {
     const q = query(
       collection(db, 'keyword'),
-      where('account_id', '==', userId),
+      where('account_id', '==', account_id),
       where('project_id', '==', project_id)
     );
     const keywords: DocumentData[] = [];
@@ -26,9 +26,9 @@ export const readSingleKeywordContents = async (
       querySnapshot.forEach((doc) => {
         keywords.push(doc.data());
       });
-      console.log('Current cities in CA: ', keywords.join(', '));
     });
-    return { ok: true, value: keywords };
+    console.log('Current cities in CA: ', keywords);
+    return { ok: true, data: keywords };
   } catch (err) {
     const error = new CustomError(500, '', err);
     return { ok: false, error };
@@ -44,7 +44,7 @@ export const readSingleKeywordContent = async (
       return doc.data();
     });
     console.log('Got here =====', unsub);
-    return { ok: true, value: unsub };
+    return { ok: true, data: unsub };
   } catch (err) {
     const error = new CustomError(500, '', err);
     return { ok: false, error };
