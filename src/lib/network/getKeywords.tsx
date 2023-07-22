@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 export const getKeyword = async () => {
   const response = await fetch('http://127.0.0.1:5000/ping');
   //   const response = await fetch("https://tawnkryer-gfmvm7kfdq-uc.a.run.app/ping")
@@ -25,8 +27,20 @@ export const getOutLineForMultiKeyword = async (
 };
 
 export const adWordAuth = async () => {
-  const response = await fetch('http://127.0.0.1:5000/ping');
+  const header = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': '*',
+    'Access-Control-Allow-Credentials': 'true',
+  };
+  const response = await axios.get('http://127.0.0.1:5000/authorize', {
+    withCredentials: true,
+    headers: header,
+  });
   //   const response = await fetch("https://tawnkryer-gfmvm7kfdq-uc.a.run.app/ping")
-  if (!response.ok) throw new Error('Failed to fetch data');
-  return response.json();
+  if (!response) {
+    console.log('the response ===', response);
+    throw new Error('Failed to fetch data');
+  }
+  console.log('the response ===', response.data);
+  return response.data;
 };

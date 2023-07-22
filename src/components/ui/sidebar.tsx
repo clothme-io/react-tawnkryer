@@ -14,6 +14,8 @@ import { DashboardPage } from '../../pages/dashboard/DashboardPage';
 import { MainNavBar } from './main-nav-bar';
 import { ContentOutlinePage } from '../../pages/outline/ContentOutline';
 
+import { RequireAuth } from '../../pages/UseAuth';
+
 export const SideBarRoutes = [
   {
     path: '/dashboard',
@@ -25,7 +27,11 @@ export const SideBarRoutes = [
     children: [
       {
         path: '/dashboard',
-        element: <DashboardPage />,
+        element: (
+          <RequireAuth>
+            <DashboardPage />
+          </RequireAuth>
+        ),
         // loader: eventLoader,
       },
     ],
@@ -40,7 +46,11 @@ export const SideBarRoutes = [
     children: [
       {
         path: '/keyword',
-        element: <KeywordPage />,
+        element: (
+          <RequireAuth>
+            <KeywordPage />
+          </RequireAuth>
+        ),
         // loader: eventLoader,
       },
     ],
@@ -55,7 +65,11 @@ export const SideBarRoutes = [
     children: [
       {
         path: '/outline',
-        element: <ContentOutlinePage />,
+        element: (
+          <RequireAuth>
+            <ContentOutlinePage />
+          </RequireAuth>
+        ),
         // loader: eventLoader,
       },
     ],
@@ -70,10 +84,21 @@ export const SideBarRoutes = [
     children: [
       {
         path: '/writer',
-        element: <WriterPage />,
+        element: (
+          <RequireAuth>
+            <WriterPage />
+          </RequireAuth>
+        ),
         // loader: eventLoader,
       },
     ],
+  },
+  {
+    path: '/',
+    name: 'Sign Out',
+    isPrivate: false,
+    margin: true,
+    icon: <PenTool />,
   },
 ];
 

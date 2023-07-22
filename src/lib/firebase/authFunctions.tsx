@@ -19,7 +19,7 @@ export async function signUp(
       email,
       password
     );
-    return { ok: true, value: authResult };
+    return { ok: true, data: authResult };
   } catch (e) {
     const error: CustomError = new CustomError(
       500,
@@ -50,7 +50,7 @@ export async function signIn(
       console.log(doc.id, ' => ', doc.data());
     });
     // console.log("The user after sign in ===", signInResult)
-    return { ok: true, value: signInResult };
+    return { ok: true, data: signInResult };
   } catch (e) {
     const error = new CustomError(500, 'Error in catch block of sign up', e);
     return { ok: false, error };

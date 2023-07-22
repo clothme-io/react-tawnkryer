@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { signIn } from '../../../../lib/firebase/authFunctions';
 import {
   Button,
   Card,
@@ -14,6 +13,7 @@ import {
 } from '../../../../components';
 
 import { useAppStore } from '../../../../store/store';
+import { signIn } from '../../../../lib/firebase/authFunctions';
 
 export function LoginForm() {
   const [email, setEmail] = React.useState('');
@@ -29,10 +29,12 @@ export function LoginForm() {
     if (!result.ok) {
       console.log(result);
     } else {
+      console.log('in Result', result);
       const account = {
-        id: result.value.user.uid,
-        email: result.value.user.email,
+        id: result.data.user.uid,
+        email: result.data.user.email,
       };
+      localStorage.setItem('tempUser', result.data.user.email as string);
       addAccount(account);
       navigate('/dashboard');
       // // addProject
@@ -57,7 +59,6 @@ export function LoginForm() {
               id="email"
               type="email"
               placeholder="m@example.com"
-              autoComplete="off"
             />
           </div>
           <div className="grid gap-2">
@@ -67,7 +68,6 @@ export function LoginForm() {
               required
               id="password"
               type="password"
-              autoComplete="off"
             />
           </div>
         </CardContent>
