@@ -1,6 +1,7 @@
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
+import { MantineProvider } from '@mantine/core';
 import { App } from './app/App';
 
 const colors = {
@@ -15,6 +16,8 @@ const theme = extendTheme({ colors });
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <ChakraProvider theme={theme}>
-    <App />
+    <MantineProvider withGlobalStyles withNormalizeCSS>
+      <App />
+    </MantineProvider>
   </ChakraProvider>
 );

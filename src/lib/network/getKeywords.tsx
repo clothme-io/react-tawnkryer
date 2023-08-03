@@ -29,12 +29,14 @@ export const getOutLineForMultiKeyword = async (
 export const adWordAuth = async () => {
   const header = {
     'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': '*',
     'Access-Control-Allow-Headers': '*',
-    'Access-Control-Allow-Credentials': 'true',
+    'Content-Type': 'application/json'
+    // 'Access-Control-Allow-Credentials': 'true',
   };
   const response = await axios.get('http://127.0.0.1:5000/authorize', {
-    withCredentials: true,
-    headers: header,
+    // withCredentials: true,
+    // headers: header,
   });
   //   const response = await fetch("https://tawnkryer-gfmvm7kfdq-uc.a.run.app/ping")
   if (!response) {
@@ -42,5 +44,6 @@ export const adWordAuth = async () => {
     throw new Error('Failed to fetch data');
   }
   console.log('the response ===', response.data);
+  // window.location = response.data;
   return response.data;
 };

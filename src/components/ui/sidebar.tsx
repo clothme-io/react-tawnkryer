@@ -1,13 +1,6 @@
 import { useState } from 'react';
-import { Link, Outlet } from 'react-router-dom';
-import {
-  LayoutDashboard,
-  PenTool,
-  Book,
-  KeyIcon,
-  ChevronLeftCircle,
-  ChevronRightCircle,
-} from 'lucide-react';
+import { Outlet } from 'react-router-dom';
+import { LayoutDashboard, PenTool, Book, KeyIcon } from 'lucide-react';
 import { WriterPage } from '../../pages/writer/WriterPage';
 import { KeywordPage } from '../../pages/keyword/KeywordPage';
 import { DashboardPage } from '../../pages/dashboard/DashboardPage';
@@ -15,6 +8,8 @@ import { MainNavBar } from './main-nav-bar';
 import { ContentOutlinePage } from '../../pages/outline/ContentOutline';
 
 import { RequireAuth } from '../../pages/UseAuth';
+import { SettingPage } from '../../pages/setting/SettingPage';
+import { SideBarFullNested } from './side-bar-full';
 
 export const SideBarRoutes = [
   {
@@ -94,6 +89,25 @@ export const SideBarRoutes = [
     ],
   },
   {
+    path: '/setting',
+    name: 'Setting',
+    element: <Sidebar />,
+    isPrivate: false,
+    margin: true,
+    icon: <PenTool />,
+    children: [
+      {
+        path: '/setting',
+        element: (
+          <RequireAuth>
+            <SettingPage />
+          </RequireAuth>
+        ),
+        // loader: eventLoader,
+      },
+    ],
+  },
+  {
     path: '/',
     name: 'Sign Out',
     isPrivate: false,
@@ -106,27 +120,8 @@ export function Sidebar() {
   const [open, setOpen] = useState(true);
   return (
     <section className="flex">
-      <div
-        className={`basis-1/8 bg-[#fafafa] min-h-screen ${
-          open ? 'w-60' : 'w-16'
-        } duration-500 text-gray-100 px-4`}
-      >
-        <div className="py-3 flex justify-end">
-          {open ? (
-            <ChevronLeftCircle
-              size={26}
-              className="cursor-pointer text-black"
-              onClick={() => setOpen(!open)}
-            />
-          ) : (
-            <ChevronRightCircle
-              size={26}
-              className="cursor-pointer text-black"
-              onClick={() => setOpen(!open)}
-            />
-          )}
-        </div>
-        <div className="mt-4 flex flex-col gap-4 relative">
+      <SideBarFullNested open={open} />
+      {/* <div className="mt-4 flex flex-col gap-4 relative">
           {SideBarRoutes?.map((menu, i) => (
             <Link
               to={menu?.path}
@@ -155,10 +150,9 @@ export function Sidebar() {
               </h2>
             </Link>
           ))}
-        </div>
-      </div>
-      <div className="grow m-3 text-xl text-gray-900 font-semibold">
-        <MainNavBar />
+        </div> */}
+      <div className="grow text-xl text-gray-900 font-semibold bg-[#f9fafc]">
+        <MainNavBar open={open} setOpen={setOpen} />
         <Outlet />
       </div>
     </section>

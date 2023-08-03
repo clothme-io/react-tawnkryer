@@ -29,12 +29,12 @@ export function LoginForm() {
     if (!result.ok) {
       console.log(result);
     } else {
-      console.log('in Result', result);
       const account = {
         id: result.data.user.uid,
         email: result.data.user.email,
       };
       localStorage.setItem('tempUser', result.data.user.email as string);
+      localStorage.setItem('tempUserId', result.data.user.uid as string);
       addAccount(account);
       navigate('/dashboard');
       // // addProject
