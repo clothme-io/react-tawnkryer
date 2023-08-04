@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-key */
 /* eslint-disable react/destructuring-assignment */
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import {
   Group,
   Box,
@@ -65,9 +65,11 @@ const useStyles = createStyles((theme) => ({
 interface LinksGroupProps {
   icon: React.FC<any>;
   label: string;
-  initiallyOpened?: boolean;
   open: boolean;
-  links?: { label: string; path: any }[];
+  initiallyOpened?: boolean;
+  hasChildren?: boolean;
+  path?: string;
+  children?: { label: string; path: string; element: ReactNode }[];
 }
 
 export function LinksGroup({
@@ -75,17 +77,22 @@ export function LinksGroup({
   label,
   initiallyOpened,
   open,
-  links,
+  hasChildren,
+  path,
+  children,
 }: LinksGroupProps) {
   const { classes, theme } = useStyles();
-  const hasLinks = Array.isArray(links);
+  const hasLinks = Array.isArray(children);
   const [opened, setOpened] = useState(initiallyOpened || false);
   const ChevronIcon = theme.dir === 'ltr' ? IconChevronRight : IconChevronLeft;
 
+  console.log('This is has children *****************', hasChildren);
+  console.log('This is has children *****************', hasChildren);
+  console.log('This is has PAth *****************', path);
   return (
     <>
       <UnstyledButton
-        onClick={() => (open ? setOpened((o) => !o) : null)}
+        onClick={() => (open && hasChildren ? setOpened((o) => !o) : null)}
         className={classes.control}
       >
         <Group position="apart" spacing={0}>
@@ -109,15 +116,21 @@ export function LinksGroup({
           )}
         </Group>
       </UnstyledButton>
-      {hasLinks ? (
+      {hasLinks && hasChildren ? (
         <Collapse in={opened}>
-          {links.map((link) => (
-            <Link to={link.path} key={link.path} className={classes.link}>
-              <Text>{link.label}</Text>
+          {children.map((child, index) => (
+            <Link to={child.path} key={index} className={classes.link}>
+              <Text>{child.label}</Text>
             </Link>
           ))}
         </Collapse>
-      ) : null}
+      ) : (
+        <Link to={path as string} className={classes.link}>
+          {/* <Collapse in={opened}> */}
+          <Text>{label}</Text>
+          {/* </Collapse> */}
+        </Link>
+      )}
     </>
   );
 }

@@ -12,7 +12,7 @@ import { TopicalAuthorityComponent } from './components/TopicalAuthorityComponen
 import { DialogDemo } from './components/dialog';
 import { MultiKeywordComponent } from './components/multiKeywordComponent';
 
-export function KeywordPage() {
+export function TopicalAuthorityKeywordPage() {
   return (
     <div className="h-screen">
       <div className="">

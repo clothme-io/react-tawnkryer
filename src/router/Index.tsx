@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { routes } from './Routes';
-import { SideBarRoutes } from '../components/ui/sidebar';
+import { routesData } from '../components/ui/sidebar';
 
-const menuRoutes = [...routes, ...SideBarRoutes];
+const menuRoutes = [...routes, ...routesData];
 export const router = createBrowserRouter(menuRoutes);

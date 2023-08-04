@@ -1,47 +1,6 @@
 /* eslint-disable react/destructuring-assignment */
 import { Navbar, createStyles } from '@mantine/core';
-import {
-  IconNotes,
-  IconCalendarStats,
-  IconPencil,
-  IconPresentationAnalytics,
-  IconKey,
-  IconSettings,
-} from '@tabler/icons-react';
 import { LinksGroup } from './linkGroup';
-
-const mockdata = [
-  { label: 'Dashboard', icon: IconPresentationAnalytics, path: '/dashboard' },
-  {
-    label: 'Keyword',
-    icon: IconKey,
-    links: [
-      { label: 'Topical Authority', path: '/topical-authority-keyword' },
-      { label: 'Topical Gap', path: '/topical-gap-keyword' },
-    ],
-  },
-  {
-    label: 'Outline',
-    icon: IconNotes,
-    links: [
-      { label: 'Topical Authority', path: '/topical-authority-outline' },
-      { label: 'Topical Gap', path: '/topical-gap-outline' },
-    ],
-  },
-  {
-    label: 'Writer',
-    icon: IconPencil,
-    links: [
-      {
-        label: 'Topical Authority',
-        path: '/dashboard',
-      },
-      { label: 'Topical Gap', path: '/topical-gap-writer' },
-    ],
-  },
-  { label: 'Scheduler', icon: IconCalendarStats },
-  { label: 'Settings', icon: IconSettings, path: '/setting' },
-];
 
 const useStyles = createStyles((theme) => ({
   navbar: {
@@ -69,9 +28,9 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export function SideBarFullNested(props: { open: boolean }) {
+export function SideBarFullNested(props: { open: boolean; routesData: any }) {
   const { classes } = useStyles();
-  const links = mockdata.map((item) => (
+  const links = props.routesData.map((item: any) => (
     <LinksGroup open={props.open} {...item} key={item.label} />
   ));
 

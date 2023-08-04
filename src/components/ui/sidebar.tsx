@@ -1,8 +1,16 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { LayoutDashboard, PenTool, Book, KeyIcon } from 'lucide-react';
+import {
+  IconNotes,
+  IconCalendarStats,
+  IconPencil,
+  IconPresentationAnalytics,
+  IconKey,
+  IconSettings,
+} from '@tabler/icons-react';
 import { WriterPage } from '../../pages/writer/WriterPage';
-import { KeywordPage } from '../../pages/keyword/KeywordPage';
+import { TopicalAuthorityKeywordPage } from '../../pages/keyword/TopicalAuthorityKeywordPage';
 import { DashboardPage } from '../../pages/dashboard/DashboardPage';
 import { MainNavBar } from './main-nav-bar';
 import { ContentOutlinePage } from '../../pages/outline/ContentOutline';
@@ -43,7 +51,7 @@ export const SideBarRoutes = [
         path: '/keyword',
         element: (
           <RequireAuth>
-            <KeywordPage />
+            <TopicalAuthorityKeywordPage />
           </RequireAuth>
         ),
         // loader: eventLoader,
@@ -116,41 +124,137 @@ export const SideBarRoutes = [
   },
 ];
 
+export const routesData = [
+  {
+    label: 'Dashboard',
+    icon: IconPresentationAnalytics,
+    path: '/dashboard',
+    element: <Sidebar />,
+    hasChildren: true,
+    // children: [
+    //   {
+    //     path: '/dashboard',
+    //     element: (
+    //       <RequireAuth>
+    //         <DashboardPage />
+    //       </RequireAuth>
+    //     ),
+    //     // loader: eventLoader,
+    //   },
+    // ],
+  },
+  {
+    label: 'Keyword',
+    icon: IconKey,
+    element: <Sidebar />,
+    hasChildren: true,
+    children: [
+      {
+        label: 'Topical Authority',
+        path: '/topical-authority-keyword',
+        element: (
+          <RequireAuth>
+            <TopicalAuthorityKeywordPage />
+          </RequireAuth>
+        ),
+      },
+      {
+        label: 'Topical Gap',
+        path: '/topical-gap-keyword',
+        element: (
+          <RequireAuth>
+            <SettingPage />
+          </RequireAuth>
+        ),
+      },
+    ],
+  },
+  {
+    label: 'Outline',
+    icon: IconNotes,
+    element: <Sidebar />,
+    hasChildren: true,
+    children: [
+      {
+        label: 'Topical Authority',
+        path: '/topical-authority-outline',
+        element: (
+          <RequireAuth>
+            <SettingPage />
+          </RequireAuth>
+        ),
+      },
+      { label: 'Topical Gap', path: '/topical-gap-outline' },
+    ],
+  },
+  {
+    label: 'Writer',
+    icon: IconPencil,
+    element: <Sidebar />,
+    hasChildren: true,
+    children: [
+      {
+        label: 'Topical Authority',
+        path: '/dashboard',
+        element: (
+          <RequireAuth>
+            <SettingPage />
+          </RequireAuth>
+        ),
+      },
+      {
+        label: 'Topical Gap',
+        path: '/topical-gap-writer',
+        element: (
+          <RequireAuth>
+            <SettingPage />
+          </RequireAuth>
+        ),
+      },
+    ],
+  },
+  {
+    label: 'Scheduler',
+    icon: IconCalendarStats,
+    element: <Sidebar />,
+    hasChildren: true,
+    children: [
+      {
+        label: 'Topical Authority',
+        path: '/dashboard',
+        element: (
+          <RequireAuth>
+            <SettingPage />
+          </RequireAuth>
+        ),
+      },
+    ],
+  },
+  {
+    label: 'Settings',
+    icon: IconSettings,
+    element: <Sidebar />,
+    path: '/setting',
+    hasChildren: false,
+    // children: [
+    //   {
+    //     label: 'Setting',
+    //     path: '/setting',
+    //     element: (
+    //       <RequireAuth>
+    //         <SettingPage />
+    //       </RequireAuth>
+    //     ),
+    //   },
+    // ],
+  },
+];
+
 export function Sidebar() {
   const [open, setOpen] = useState(true);
   return (
     <section className="flex">
-      <SideBarFullNested open={open} />
-      {/* <div className="mt-4 flex flex-col gap-4 relative">
-          {SideBarRoutes?.map((menu, i) => (
-            <Link
-              to={menu?.path}
-              key={i}
-              className={` ${
-                menu?.margin && 'mt-5'
-              } group flex items-center text-sm text-black gap-3.5 font-medium p-2 hover:bg-gray-800 hover:text-white rounded-md active:bg-gray-800 active:text-white`}
-            >
-              {menu?.icon}
-              <h2
-                style={{
-                  transitionDelay: `${i + 3}00ms`,
-                }}
-                className={`whitespace-pre duration-500 ${
-                  !open && 'opacity-0 translate-x-28 overflow-hidden'
-                }`}
-              >
-                {menu?.name}
-              </h2>
-              <h2
-                className={`${
-                  open && 'hidden'
-                } absolute left-48 bg-white font-semibold whitespace-pre text-gray-900 rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:duration-300 group-hover:w-fit  `}
-              >
-                {menu?.name}
-              </h2>
-            </Link>
-          ))}
-        </div> */}
+      <SideBarFullNested open={open} routesData={routesData} />
       <div className="grow text-xl text-gray-900 font-semibold bg-[#f9fafc]">
         <MainNavBar open={open} setOpen={setOpen} />
         <Outlet />
