@@ -1,99 +1,37 @@
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-  Separator,
-} from '../../components';
-import { KeywordGapAnalysisComponent } from './components/KeywordGapAnalysisComponent';
-import { EditorComponent } from './components/KeywordWriter';
-import { SingleKeywordComponent } from './components/SingleKeywordComponent';
-import { TopicalAuthorityComponent } from './components/TopicalAuthorityComponent';
-import { DialogDemo } from './components/dialog';
-import { MultiKeywordComponent } from './components/multiKeywordComponent';
+/* eslint-disable react/function-component-definition */
+import { useState } from 'react';
+import { Button, Row, Col } from 'antd';
+import { EntityModel } from './components/EntityModel';
 
-export function TopicalAuthorityKeywordPage() {
+export const TopicalAuthorityKeywordPage = () => {
+  const [open, setOpen] = useState(false);
+
+  const showModal = () => {
+    setOpen(true);
+  };
+
+  const handleCancel = () => {
+    setOpen(false);
+  };
+
   return (
-    <div className="h-screen">
-      <div className="">
-        <div className="pb-10">
-          <Tabs
-            defaultValue="topicalAuthority"
-            className="h-full space-y-2 pl-4"
+    <>
+      <Row>
+        <Col span={6} />
+        <Col span={6} />
+        <Col span={6} />
+        <Col span={6} className="grid justify-end">
+          <Button
+            type="default"
+            size="large"
+            onClick={showModal}
+            className="bg-black text-white hover:text-white"
           >
-            <div className="space-between flex items-center mb-10">
-              <div className="flex items-center justify-between space-y-2 pr-10">
-                <h2 className="text-3xl font-bold tracking-tight mb-0">
-                  Keyword
-                </h2>
-              </div>
-              <TabsList>
-                <TabsTrigger value="topicalAuthority">
-                  Topical Authority
-                </TabsTrigger>
-                <TabsTrigger value="keywordGapAnalysis">
-                  Keyword Gap Analysis
-                </TabsTrigger>
-                <TabsTrigger value="multiKeyword">Multi Keyword</TabsTrigger>
-                <TabsTrigger value="singleKeyword" className="relative">
-                  Single Keyword
-                </TabsTrigger>
-              </TabsList>
-            </div>
-            <Separator className="my-4" />
-            <TabsContent
-              value="singleKeyword"
-              className="border-none p-0 outline-none pt-8"
-            >
-              <div className="grid grid-cols-12">
-                <div className="col-span-2 space-y-1 pr-4 sticky top-2">
-                  <div className="max-w-full">
-                    <DialogDemo />
-                  </div>
-                  <SingleKeywordComponent />
-                </div>
-                <div className="col-span-9 p-10 bg-gray-50 min-h-screen">
-                  <EditorComponent />
-                </div>
-              </div>
-            </TabsContent>
-            <TabsContent
-              value="multiKeyword"
-              className="border-none p-0 outline-none pt-8"
-            >
-              <div className="flex">
-                <div className="basis-1/4 space-y-1 pr-4">
-                  <MultiKeywordComponent />
-                </div>
-                <div className="grow pl-20">Canvas</div>
-              </div>
-            </TabsContent>
-            <TabsContent
-              value="topicalAuthority"
-              className="border-none p-0 outline-none pt-8"
-            >
-              <div className="flex">
-                <div className="basis-1/4 space-y-1 pr-4">
-                  <TopicalAuthorityComponent />
-                </div>
-                <div className="grow pl-20">Canvas</div>
-              </div>
-            </TabsContent>
-            <TabsContent
-              value="keywordGapAnalysis"
-              className="border-none p-0 outline-none pt-8"
-            >
-              <div className="flex">
-                <div className="basis-1/4 space-y-1 pr-4">
-                  <KeywordGapAnalysisComponent />
-                </div>
-                <div className="grow pl-20">Canvas</div>
-              </div>
-            </TabsContent>
-          </Tabs>
-        </div>
-      </div>
-      <div className="" />
-    </div>
+            New Entity
+          </Button>
+        </Col>
+      </Row>
+      <EntityModel open={open} handleCancel={handleCancel} setOpen={setOpen} />
+    </>
   );
-}
+};

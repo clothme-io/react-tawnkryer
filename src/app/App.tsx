@@ -1,8 +1,5 @@
-import { RouterProvider } from 'react-router-dom';
-import { router } from '../router/Index';
+import { AntSidebar } from '../components/ui/antSideBar';
 
 export function App() {
-  return <RouterProvider router={router} />;
+  return <AntSidebar />;
 }
-
-export default App;
