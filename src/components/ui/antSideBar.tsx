@@ -49,26 +49,46 @@ export function AntSidebar() {
   return (
     <Layout>
       <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div className="text-white text-2xl font-bold flex justify-center items-center bg-blue-gray-500 h-16">
+        {/* <div className="text-white text-2xl font-bold flex justify-center items-center bg-blue-gray-500 h-16">
           <p>T</p>
-        </div>
+        </div> */}
         <Menu
           theme="dark"
-          mode="inline"
+          // mode="inline"
           defaultSelectedKeys={['1']}
           items={items}
           onClick={({ key }) => {
             if (key === 'signout') {
-              //
+              localStorage.removeItem('tempUser');
+              navigate('/login');
             } else {
               navigate(key);
             }
           }}
-          style={{ paddingTop: '60px' }}
+          style={{
+            paddingTop: '60px',
+            overflow: 'auto',
+            height: '100vh',
+            position: 'fixed',
+            left: 0,
+            top: 0,
+            bottom: 0,
+          }}
         />
       </Sider>
       <Layout>
-        <Header style={{ padding: 0, background: colorBgContainer }}>
+        <Header
+          style={{
+            padding: 0,
+            background: colorBgContainer,
+            position: 'sticky',
+            top: 0,
+            zIndex: 1,
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
           <Button
             type="text"
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
@@ -82,10 +102,10 @@ export function AntSidebar() {
         </Header>
         <Content
           style={{
-            margin: '24px 16px',
+            margin: '0px 6px',
             padding: 24,
             minHeight: '100vh',
-            background: colorBgContainer,
+            // background: colorBgContainer,
           }}
         >
           <SimpleRouter />

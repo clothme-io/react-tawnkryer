@@ -4,7 +4,7 @@ import { HomeNavBar } from '../components/ui/homeNavbar';
 export function AppLayout() {
   return (
     <div>
-      <div className="sticky top-0 z-30 max-h-full bg-white">
+      <div className="sticky top-0 z-30 max-h-full">
         <HomeNavBar />
       </div>
       <main>

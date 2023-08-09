@@ -2,8 +2,10 @@
 import { useState } from 'react';
 import { Button, Row, Col } from 'antd';
 import { EntityModel } from './components/EntityModel';
+import { EntityDataComponent } from './components/EntityDataComponent';
+import { EntityListComponent } from './components/EntityListComponent';
 
-export const TopicalAuthorityKeywordPage = () => {
+export const EntityPage = () => {
   const [open, setOpen] = useState(false);
 
   const showModal = () => {
@@ -32,6 +34,24 @@ export const TopicalAuthorityKeywordPage = () => {
         </Col>
       </Row>
       <EntityModel open={open} handleCancel={handleCancel} setOpen={setOpen} />
+      <div className="grid gap-4 grid-cols-8 pt-3">
+        <div
+          className="col-span-2"
+          style={{ minHeight: '100vh', backgroundColor: 'white' }}
+        >
+          <EntityListComponent />
+        </div>
+        <div className="col-span-6" style={{ minHeight: '100vh' }}>
+          <div
+            style={{
+              minHeight: '100vh',
+              backgroundColor: 'white',
+            }}
+          >
+            <EntityDataComponent />
+          </div>
+        </div>
+      </div>
     </>
   );
 };

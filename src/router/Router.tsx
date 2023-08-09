@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import { HomePage } from '../pages/home/HomePage';
 import { SettingPage } from '../pages/setting/SettingPage';
-import { TopicalAuthorityKeywordPage } from '../pages/keyword/TopicalAuthorityKeywordPage';
+import { EntityPage } from '../pages/keyword/EntityPage';
 import { DashboardPage } from '../pages/dashboard/DashboardPage';
 import { ContentOutlinePage } from '../pages/outline/ContentOutline';
 import { CreateAccountPage } from '../pages/auth/createAccount/CreateAccount';
@@ -16,7 +16,7 @@ export function SimpleRouter() {
       <Route path="/register" element={<CreateAccountPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/dashboard" element={<DashboardPage />} />
-      <Route path="/entity" element={<TopicalAuthorityKeywordPage />} />
+      <Route path="/entity" element={<EntityPage />} />
       <Route path="/outline" element={<ContentOutlinePage />} />
       <Route path="/writer" element={<WriterPage />} />
       <Route path="/scheduler" element={<SchedulerPage />} />
