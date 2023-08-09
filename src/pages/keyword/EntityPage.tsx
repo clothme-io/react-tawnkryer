@@ -19,7 +19,9 @@ export const EntityPage = () => {
   return (
     <>
       <Row>
-        <Col span={6} />
+        <Col span={6}>
+          <h2 className="text-3xl font-bold tracking-tight mb-0">Entity</h2>
+        </Col>
         <Col span={6} />
         <Col span={6} />
         <Col span={6} className="grid justify-end">
