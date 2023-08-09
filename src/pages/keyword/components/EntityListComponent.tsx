@@ -30,6 +30,10 @@ export function EntityListComponent() {
       });
   };
 
+  const onListClick = (key: string | string[]) => {
+    console.log(key);
+  };
+
   useEffect(() => {
     appendData();
   }, []);
@@ -44,7 +48,7 @@ export function EntityListComponent() {
   };
 
   return (
-    <List className="p-4 mt-8">
+    <List className="mt-12">
       <VirtualList
         data={data}
         height={ContainerHeight}
@@ -56,7 +60,7 @@ export function EntityListComponent() {
           <List.Item
             key={item.email}
             style={{ cursor: 'pointer' }}
-            className="border my-2 rounded-md"
+            onClick={() => onListClick(item.email)}
           >
             <List.Item.Meta title={item.email} className="px-3" />
           </List.Item>

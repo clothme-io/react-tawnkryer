@@ -54,8 +54,7 @@ export function AntSidebar() {
         </div> */}
         <Menu
           theme="dark"
-          // mode="inline"
-          defaultSelectedKeys={['1']}
+          defaultSelectedKeys={['/dashboard']}
           items={items}
           onClick={({ key }) => {
             if (key === 'signout') {
@@ -105,7 +104,6 @@ export function AntSidebar() {
             margin: '0px 6px',
             padding: 24,
             minHeight: '100vh',
-            // background: colorBgContainer,
           }}
         >
           <SimpleRouter />
