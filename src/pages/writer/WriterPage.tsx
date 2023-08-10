@@ -7,7 +7,7 @@ export function WriterPage() {
     <>
       <Row>
         <Col span={6}>
-          <h2 className="text-3xl font-bold tracking-tight mb-0">Outline</h2>
+          <h2 className="text-3xl font-bold tracking-tight mb-0">Writer</h2>
         </Col>
         <Col span={6} />
         <Col span={6} />

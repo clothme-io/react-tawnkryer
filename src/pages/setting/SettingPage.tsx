@@ -1,24 +1,19 @@
-/* eslint-disable consistent-return */
-/* eslint-disable react/jsx-no-bind */
-import { redirect } from 'react-router-dom';
-// import { useEffect } from 'react';
-import { Button } from '../../components';
+import { Tabs } from 'antd';
 
 export function SettingPage() {
-  const loggedInEmail = localStorage.getItem('tempUser');
-
-  if (!loggedInEmail) {
-    redirect('/login');
-  }
-
-  function onSubmit() {
-    window.location.href = `http://127.0.0.1:5000/authorize?email=${loggedInEmail}`;
-  }
-
   return (
-    <>
-      <div>Settings</div>
-      <Button onClick={onSubmit}>Connect Google Keyword</Button>
-    </>
+    <div>
+      <Tabs
+        tabPosition="left"
+        items={new Array(3).fill(null).map((_, i) => {
+          const id = String(i + 1);
+          return {
+            label: `Tab ${id}`,
+            key: id,
+            children: `Content of Tab ${id}`,
+          };
+        })}
+      />
+    </div>
   );
 }
