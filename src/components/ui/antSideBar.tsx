@@ -55,6 +55,7 @@ export function AntSidebar() {
         <Menu
           theme="dark"
           defaultSelectedKeys={['/dashboard']}
+          // activeKey=''
           items={items}
           onClick={({ key }) => {
             if (key === 'signout') {

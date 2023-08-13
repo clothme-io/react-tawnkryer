@@ -1,12 +1,14 @@
 /* eslint-disable react/function-component-definition */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Row, Col } from 'antd';
-import { EntityModel } from './components/EntityModel';
+import { EntityModal } from './components/EntityModal';
 import { EntityDataComponent } from './components/EntityDataComponent';
 import { EntityListComponent } from './components/EntityListComponent';
+import { readKeywordContent } from './api/readKeywordAPIs';
 
 export const EntityPage = () => {
   const [open, setOpen] = useState(false);
+  const [keywordData, setKeywordData] = useState({});
 
   const showModal = () => {
     setOpen(true);
@@ -15,6 +17,23 @@ export const EntityPage = () => {
   const handleCancel = () => {
     setOpen(false);
   };
+
+  const onListClick = (key: string) => {
+    // console.log(key);
+    console.log('The key ******', key);
+    readKeywordContent(key as unknown as string)
+      .then((item) => {
+        if (item.ok) {
+          setKeywordData(item.data);
+          console.log('The value of the single id ***', item.data);
+        }
+      })
+      .catch((error) => {
+        console.log('The value of the single id ***', error);
+      });
+  };
+
+  useEffect(() => {}, [keywordData]);
 
   return (
     <>
@@ -35,13 +54,13 @@ export const EntityPage = () => {
           </Button>
         </Col>
       </Row>
-      <EntityModel open={open} handleCancel={handleCancel} setOpen={setOpen} />
+      <EntityModal open={open} handleCancel={handleCancel} setOpen={setOpen} />
       <div className="grid gap-4 grid-cols-8 pt-3">
         <div
           className="col-span-2"
           style={{ minHeight: '100vh', backgroundColor: 'white' }}
         >
-          <EntityListComponent />
+          <EntityListComponent onListClick={onListClick} />
         </div>
         <div className="col-span-6" style={{ minHeight: '100vh' }}>
           <div
@@ -50,7 +69,7 @@ export const EntityPage = () => {
               backgroundColor: 'white',
             }}
           >
-            <EntityDataComponent />
+            <EntityDataComponent keywordData={keywordData} />
           </div>
         </div>
       </div>

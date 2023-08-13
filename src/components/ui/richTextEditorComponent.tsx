@@ -30,7 +30,7 @@ export function RichTextEditorComponent() {
   });
 
   return (
-    <RichTextEditor editor={editor}>
+    <RichTextEditor editor={editor} className="h-full border-0">
       <RichTextEditor.Toolbar sticky stickyOffset={60}>
         <RichTextEditor.ControlsGroup>
           <RichTextEditor.Bold />
