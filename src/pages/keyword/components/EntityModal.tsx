@@ -14,7 +14,7 @@ interface EntityProps {
   setOpen: any;
 }
 
-export function EntityModel({ open, handleCancel, setOpen }: EntityProps) {
+export function EntityModal({ open, handleCancel, setOpen }: EntityProps) {
   const [loading, setLoading] = React.useState(false);
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -25,6 +25,7 @@ export function EntityModel({ open, handleCancel, setOpen }: EntityProps) {
     onReset();
     console.log(values);
     const keywordId = nanoid();
+    const email = localStorage.getItem('tempUser');
     const date = Date.now() as unknown as string;
     const url = values.entityUrl === undefined ? '' : values.entityUrl;
     const keywordInput = {
@@ -32,10 +33,13 @@ export function EntityModel({ open, handleCancel, setOpen }: EntityProps) {
       data: {
         account_id: 'account.id',
         project_id: '',
-        type: 'topicalAuthorityKeyword',
         created_at: date,
+        updated_at: date,
+        status: 'entity',
+        processing: true,
+        contentType: values.contentType,
+        email,
         details: {
-          contentType: values.contentType,
           entity: values.entity,
           entityUrl: url,
         },

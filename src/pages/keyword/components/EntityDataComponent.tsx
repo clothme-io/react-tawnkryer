@@ -1,5 +1,5 @@
-import { Collapse, theme } from 'antd';
-import type { CSSProperties } from 'react';
+import { Collapse, Skeleton, theme } from 'antd';
+import { useEffect, type CSSProperties } from 'react';
 import type { CollapseProps } from 'antd';
 
 const text = `
@@ -8,11 +8,15 @@ const text = `
   it can be found as a welcome guest in many households across the world.
 `;
 
-export function EntityDataComponent() {
+interface DataProps {
+  keywordData: any;
+}
+
+export function EntityDataComponent({ keywordData }: DataProps) {
   const { token } = theme.useToken();
 
   const onChange = (key: string | string[]) => {
-    console.log(key);
+    console.log('Got herer', key);
   };
 
   const getItems: (panelStyle: CSSProperties) => CollapseProps['items'] = (
@@ -45,11 +49,13 @@ export function EntityDataComponent() {
     border: 'none',
   };
 
+  useEffect(() => {}, [keywordData]);
+
   return (
     <div className="pt-8 px-4" style={{ height: '100vh' }}>
       <div className="pb-10">
-        <p>Entity Name</p>
-        <p>EntityDetails</p>
+        <p>{keywordData.value ? keywordData.value.details.entity : ''}</p>
+        <p>{keywordData.id}</p>
       </div>
       <Collapse
         items={getItems(panelStyle)}
