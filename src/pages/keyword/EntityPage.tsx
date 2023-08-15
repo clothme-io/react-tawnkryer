@@ -1,11 +1,7 @@
 /* eslint-disable react/function-component-definition */
 import { useEffect, useState } from 'react';
 import { Button, Row, Col } from 'antd';
-<<<<<<< HEAD
 import { EntityModal } from './components/EntityModal';
-=======
-import { EntityModel } from './components/EntityModal';
->>>>>>> 2b5d09f (updated models)
 import { EntityDataComponent } from './components/EntityDataComponent';
 import { EntityListComponent } from './components/EntityListComponent';
 import { readKeywordContent } from './api/readKeywordAPIs';
