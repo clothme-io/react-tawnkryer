@@ -5,14 +5,16 @@ import { EntityModal } from './components/EntityModal';
 import { EntityDataComponent } from './components/EntityDataComponent';
 import { EntityListComponent } from './components/EntityListComponent';
 import { readKeywordContent } from './api/readKeywordAPIs';
-// Store
+// Store & Model
 import {useAppStore } from '../../store/store';
+import { transposeSingleEntityModel } from './model/entityModel';
 
 
 export const EntityPage = () => {
   const selectEntity = useAppStore((state) => state.selectEntity);
+  const entity = useAppStore((state) => state.selectedEntity);
+
   const [open, setOpen] = useState(false);
-  const [keywordData, setKeywordData] = useState({});
 
   const showModal = () => {
     setOpen(true);
@@ -23,15 +25,12 @@ export const EntityPage = () => {
   };
 
   const onListClick = (key: string) => {
-    // console.log(key);
-    console.log('The key ******', key);
     readKeywordContent(key as unknown as string)
       .then((item) => {
         if (item.ok) {
-          setKeywordData(item.data);
-          console.log('The value of the single id ***', item.data);
-          selectEntity(item.data);
-          
+          // console.log('The value of the single id ***', item.data);
+          const entityFromDB = transposeSingleEntityModel(item.data);
+          selectEntity(entityFromDB);
         }
       })
       .catch((error) => {
@@ -39,7 +38,7 @@ export const EntityPage = () => {
       });
   };
 
-  useEffect(() => {}, [keywordData]);
+  useEffect(() => {}, [entity]);
 
   return (
     <>
@@ -75,7 +74,7 @@ export const EntityPage = () => {
               backgroundColor: 'white',
             }}
           >
-            <EntityDataComponent keywordData={keywordData} />
+            <EntityDataComponent />
           </div>
         </div>
       </div>

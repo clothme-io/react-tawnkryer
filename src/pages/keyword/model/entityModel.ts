@@ -36,7 +36,6 @@ export interface EntityModel {
   }
 
   export function transposeToEntityModel(model: EntityResponseItem[]): EntityModel[] {
-    console.log('the model', model)
     const items = []
     for(let x = 0; x < model.length; x++) {
       const item = {
@@ -59,4 +58,24 @@ export interface EntityModel {
       items.push(item)
     }
     return items
+  }
+
+  export function transposeSingleEntityModel(model: EntityResponseItem): EntityModel {
+    return {
+      id: model.id,
+      url: model.value.details.entityUrl,
+      created_at: model.value.created_at,
+      updated_at: model.value.updated_at,
+      name: model.value.details.entity,
+      account_id: model.value.account_id,
+      project_id: model.value.project_id,
+      entity_number: 0,
+      type: model.value.contentType,
+      details: {
+        related_search: '',
+        suggestion: '',
+        related_queries: '',
+        keywords: ''
+      }
+    }
   }

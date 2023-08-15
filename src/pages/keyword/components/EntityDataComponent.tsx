@@ -10,16 +10,13 @@ const text = `
   it can be found as a welcome guest in many households across the world.
 `;
 
-interface DataProps {
-  keywordData: any;
-}
 
-export function EntityDataComponent({ keywordData }: DataProps) {
+export function EntityDataComponent() {
   const entity = useAppStore((state) => state.selectedEntity);
   const { token } = theme.useToken();
 
   const onChange = (key: string | string[]) => {
-    console.log('Got herer', key);
+    // console.log('Got herer', key);
   };
 
   const getItems: (panelStyle: CSSProperties) => CollapseProps['items'] = (
@@ -52,12 +49,12 @@ export function EntityDataComponent({ keywordData }: DataProps) {
     border: 'none',
   };
 
-  useEffect(() => {}, [keywordData]);
+  useEffect(() => { console.log('Got herer', entity); }, [entity]);
 
   return (
     <div className="pt-8 px-4" style={{ height: '100vh' }}>
       <div className="pb-10">
-        <p>{entity ? entity.name : ''}</p>
+        {/* <p>{entity ? entity.name : ''}</p> */}
         <p>{entity.name}</p>
         <p>{entity.id}</p>
       </div>
