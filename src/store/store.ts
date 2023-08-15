@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 import { AccountSlice, createAccountSlice } from './accountSlice';
 import { ProjectSlice, createProjectSlice } from './projectSlice';
-import { EntitySlice, createEntitySlice } from './EntitySlice';
+import { EntitySlice, createEntitySlice } from './entity';
 
 type StoreState = AccountSlice & ProjectSlice & EntitySlice;
 

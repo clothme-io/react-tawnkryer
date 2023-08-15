@@ -14,23 +14,8 @@ import { db } from '../../../lib/firebase/firebaseConfig';
 // Store
 import {useAppStore } from '../../../store/store';
 
-interface EntityItem {
-  id: string;
-  value: {
-    account_id: string;
-    contentType: string;
-    created_at: number;
-    email: string;
-    processing: boolean;
-    project_id: string;
-    status: string;
-    updated_at: number;
-    details: {
-      entity: string;
-      entityUrl: string;
-    };
-  };
-}
+// Models
+import { EntityResponseItem} from '../model/entityModel';
 
 interface ListProps {
   onListClick: any;
@@ -43,7 +28,7 @@ export function EntityListComponent({ onListClick }: ListProps) {
   const addEntities = useAppStore((state) => state.addEntities);
   const setEntity = useAppStore((state) => state.setEntity);
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<EntityItem | any>([]);
+  const [data, setData] = useState<EntityResponseItem | any>([]);
 
   const appendData = () => {
     setLoading(true);
@@ -53,14 +38,12 @@ export function EntityListComponent({ onListClick }: ListProps) {
       where('project_id', '==', 'B56F4d0RpQNoyX1GjELG')
     );
     onSnapshot(q, (querySnapshot) => {
-      const keywords: EntityItem | { id: string; value: DocumentData }[] = [];
+      const keywords: EntityResponseItem | { id: string; value: DocumentData }[] = [];
       querySnapshot.forEach((doc) => {
         keywords.push({ id: doc.id, value: doc.data() });
       });
       // console.log('The value of keywords *****************', keywords);
-      setData(keywords as unknown as EntityItem);
-      addEntities(keywords as unknown as EntityItem)
-      setEntity(keywords[0])
+      setData(keywords as unknown as EntityResponseItem);
     });
   };
 
@@ -89,7 +72,7 @@ export function EntityListComponent({ onListClick }: ListProps) {
         itemKey="email"
         onScroll={onScroll}
       >
-        {(item: any) => (
+        {(item: EntityResponseItem) => (
           <List.Item
             key={item.id}
             style={{ cursor: 'pointer' }}
