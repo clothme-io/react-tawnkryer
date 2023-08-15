@@ -15,7 +15,7 @@ interface DataProps {
 }
 
 export function EntityDataComponent({ keywordData }: DataProps) {
-  const entity = useAppStore((state) => state.entity);
+  const entity = useAppStore((state) => state.selectedEntity);
   const { token } = theme.useToken();
 
   const onChange = (key: string | string[]) => {
@@ -57,7 +57,7 @@ export function EntityDataComponent({ keywordData }: DataProps) {
   return (
     <div className="pt-8 px-4" style={{ height: '100vh' }}>
       <div className="pb-10">
-        <p>{keywordData.value ? keywordData.value.details.entity : ''}</p>
+        <p>{entity ? entity.name : ''}</p>
         <p>{entity.name}</p>
         <p>{entity.id}</p>
       </div>

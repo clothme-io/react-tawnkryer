@@ -1,69 +1,53 @@
 import { StateCreator } from 'zustand';
-
-export interface Entity {
-  id: string;
-  url: string;
-  created_at: string;
-  updated_at: string;
-  name: string;
-  created_by: string;
-  account_id: string
-  project_id: string;
-  entity_number: number;
-  type: string;
-  details: {
-    related_search: any,
-    suggestion: any
-    related_queries: any,
-    keywords: any
-  };
-
-}
+// Model
+import { EntityModel } from '../pages/keyword/model/entityModel';
 
 export interface EntitySlice {
-  entities: Entity[];
-  entity: any;
-  addEntities: (ents: any) => void;
-  setEntity: (ent: any) => void;
+  entities: EntityModel[];
+  selectedEntity: EntityModel;
+  selectEntity: (entity: EntityModel) => void;
+  addEntities: (entity: EntityModel[]) => void;
   removeEntity: (entityId: string) => void;
   updateUrl: (newUrl: string, entiyId: string) => void;
   // updateRelated_search: ();
   // UpdateSuggestion: ();
   // updateKeywords: ();
   // updateRelatedQueries: ();
-  selectEntity: (entityId: string) => void;
-  setDefaultEntity: (entityId: string) => void;
 }
 
 export const createEntitySlice: StateCreator<EntitySlice> = (set, get) => ({
   entities: [],
-  entity: {},
-  setEntity: (ent: any) => {
-    let { entity } = get();
-    entity = ent
-    set({ entity });
+  selectedEntity: {
+    id: '',
+    url: '',
+    created_at: 0,
+    updated_at: 0,
+    name: '',
+    created_by: '',
+    account_id: '',
+    project_id: '',
+    entity_number: 0,
+    type: '',
+    details: {
+      related_search: undefined,
+      suggestion: undefined,
+      related_queries: undefined,
+      keywords: undefined
+    }
   },
-  addEntities: (entity: any) => {
+  addEntities: (entity: EntityModel[]) => {
     let { entities } = get();
     entities = [...entities, ...entity];
     set({ entities });
   },
+  selectEntity: (inputEntity: EntityModel) => {
+    let { selectedEntity } = get();
+    selectedEntity = inputEntity;
+    set({ selectedEntity });
+  },
   removeEntity: (entityId: string) => {
     set({
       entities: get().entities.filter((entity) => entity.id !== entityId),
-    });
-  },
-  selectEntity: (entityId: string) => {
-    set({
-      entity: get().entities.filter((entity) => entity.id !== entityId),
-    });
-  },
-  setDefaultEntity(entityId: string) {
-    set({
-      entity: get().entities.filter((entity) => {
-        // use a background task to update the db
-        return entity.id !== entityId
-      })
     });
   },
   updateUrl(newUrl: string, entityId: string) {

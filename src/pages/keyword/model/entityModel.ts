@@ -35,22 +35,28 @@ export interface EntityModel {
     };
   }
 
-  export function transposeToEntityModel(model: EntityResponseItem): EntityModel {
-    return {
-      id: model.id,
-      url: model.value.details.entityUrl,
-      created_at: model.value.created_at,
-      updated_at: model.value.updated_at,
-      name: model.value.details.entity,
-      account_id: model.value.account_id,
-      project_id: model.value.project_id,
-      entity_number: 0,
-      type: model.value.contentType,
-      details: {
-        related_search: '',
-        suggestion: '',
-        related_queries: '',
-        keywords: ''
+  export function transposeToEntityModel(model: EntityResponseItem[]): EntityModel[] {
+    console.log('the model', model)
+    const items = []
+    for(let x = 0; x < model.length; x++) {
+      const item = {
+        id: model[x].id,
+        url: model[x].value.details.entityUrl,
+        created_at: model[x].value.created_at,
+        updated_at: model[x].value.updated_at,
+        name: model[x].value.details.entity,
+        account_id: model[x].value.account_id,
+        project_id: model[x].value.project_id,
+        entity_number: 0,
+        type: model[x].value.contentType,
+        details: {
+          related_search: '',
+          suggestion: '',
+          related_queries: '',
+          keywords: ''
+        }
       }
+      items.push(item)
     }
+    return items
   }

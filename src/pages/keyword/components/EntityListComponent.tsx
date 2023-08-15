@@ -15,7 +15,7 @@ import { db } from '../../../lib/firebase/firebaseConfig';
 import {useAppStore } from '../../../store/store';
 
 // Models
-import { EntityResponseItem} from '../model/entityModel';
+import { EntityResponseItem, EntityModel, transposeToEntityModel } from '../model/entityModel';
 
 interface ListProps {
   onListClick: any;
@@ -26,7 +26,7 @@ const ContainerHeight = '1000' as unknown as number;
 export function EntityListComponent({ onListClick }: ListProps) {
   const entities = useAppStore((state) => state.entities);
   const addEntities = useAppStore((state) => state.addEntities);
-  const setEntity = useAppStore((state) => state.setEntity);
+  const selectEntity = useAppStore((state) => state.selectEntity);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<EntityResponseItem | any>([]);
 
@@ -43,7 +43,10 @@ export function EntityListComponent({ onListClick }: ListProps) {
         keywords.push({ id: doc.id, value: doc.data() });
       });
       // console.log('The value of keywords *****************', keywords);
-      setData(keywords as unknown as EntityResponseItem);
+      const entitiesFromDB = transposeToEntityModel(keywords as unknown as EntityResponseItem[]);
+      setData(entitiesFromDB);
+      addEntities(entitiesFromDB);
+      selectEntity(entitiesFromDB[0])
     });
   };
 
@@ -72,7 +75,7 @@ export function EntityListComponent({ onListClick }: ListProps) {
         itemKey="email"
         onScroll={onScroll}
       >
-        {(item: EntityResponseItem) => (
+        {(item: EntityModel) => (
           <List.Item
             key={item.id}
             style={{ cursor: 'pointer' }}
@@ -80,13 +83,13 @@ export function EntityListComponent({ onListClick }: ListProps) {
           >
             <List.Item.Meta
               title={
-                item.value.details.entity ? (
-                  item.value.details.entity
+                item.name ? (
+                  item.name
                 ) : (
                   <Skeleton.Input active />
                 )
               }
-              description={`${item.value.contentType} ${item.value.updated_at}`}
+              description={`${item.type} ${item.updated_at}`}
               className="px-3"
               style={{ backgroundColor: `${item.id} gray` }}
             />

@@ -10,7 +10,7 @@ import {useAppStore } from '../../store/store';
 
 
 export const EntityPage = () => {
-  const setEntity = useAppStore((state) => state.setEntity);
+  const selectEntity = useAppStore((state) => state.selectEntity);
   const [open, setOpen] = useState(false);
   const [keywordData, setKeywordData] = useState({});
 
@@ -30,7 +30,7 @@ export const EntityPage = () => {
         if (item.ok) {
           setKeywordData(item.data);
           console.log('The value of the single id ***', item.data);
-          setEntity(item.data);
+          selectEntity(item.data);
           
         }
       })
