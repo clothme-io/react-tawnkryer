@@ -22,39 +22,45 @@ export interface Entity {
 
 export interface EntitySlice {
   entities: Entity[];
-  currentProject: any;
-  addProject: (project: Entity) => void;
-  removeProject: (projectId: string) => void;
+  entity: any;
+  addEntities: (ents: any) => void;
+  setEntity: (ent: any) => void;
+  removeEntity: (entityId: string) => void;
   updateUrl: (newUrl: string, entiyId: string) => void;
   // updateRelated_search: ();
   // UpdateSuggestion: ();
   // updateKeywords: ();
   // updateRelatedQueries: ();
-  selectProject: (projectId: string) => void;
-  setDefaultProject: (projectId: string) => void;
+  selectEntity: (entityId: string) => void;
+  setDefaultEntity: (entityId: string) => void;
 }
 
-export const createProjectSlice: StateCreator<EntitySlice> = (set, get) => ({
+export const createEntitySlice: StateCreator<EntitySlice> = (set, get) => ({
   entities: [],
-  currentProject: {},
-  addProject: (entity: Entity) => {
-    const { entities } = get();
-    entities.push(entity);
+  entity: {},
+  setEntity: (ent: any) => {
+    let { entity } = get();
+    entity = ent
+    set({ entity });
+  },
+  addEntities: (entity: any) => {
+    let { entities } = get();
+    entities = [...entities, ...entity];
     set({ entities });
   },
-  removeProject: (entityId: string) => {
+  removeEntity: (entityId: string) => {
     set({
       entities: get().entities.filter((entity) => entity.id !== entityId),
     });
   },
-  selectProject: (entityId: string) => {
+  selectEntity: (entityId: string) => {
     set({
-      currentProject: get().entities.filter((entity) => entity.id !== entityId),
+      entity: get().entities.filter((entity) => entity.id !== entityId),
     });
   },
-  setDefaultProject(entityId: string) {
+  setDefaultEntity(entityId: string) {
     set({
-      currentProject: get().entities.filter((entity) => {
+      entity: get().entities.filter((entity) => {
         // use a background task to update the db
         return entity.id !== entityId
       })

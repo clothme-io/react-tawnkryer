@@ -5,12 +5,14 @@ import {
   collection,
   query,
   where,
-  DocumentData,
+  // DocumentData,
 } from 'firebase/firestore';
 
 import { db } from '../../../lib/firebase/firebaseConfig';
 import { CustomError } from '../../../lib/util/customError';
 import { Result } from '../../../lib/util/resultType';
+// Store
+import { useAppStore } from '../../../store/store';
 
 export const readKeywordContents = async (
   account_id: string,
@@ -22,13 +24,14 @@ export const readKeywordContents = async (
       where('account_id', '==', account_id),
       where('project_id', '==', project_id)
     );
-    const keywords: DocumentData[] = [];
+    const keywords: any = [];
     const unSubscribe = onSnapshot(q, (querySnapshot) => {
       querySnapshot.forEach((doc) => {
         keywords.push({ id: doc.id, value: doc.data() });
       });
     });
     unSubscribe();
+    useAppStore.setState({ entities: keywords });
     console.log('Current keywords: ', keywords.values.length);
     return { ok: true, data: keywords };
   } catch (err) {

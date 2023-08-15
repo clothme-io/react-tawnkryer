@@ -11,6 +11,8 @@ import {
 } from 'firebase/firestore';
 import { nanoid } from 'nanoid';
 import { db } from '../../../lib/firebase/firebaseConfig';
+// Store
+import {useAppStore } from '../../../store/store';
 
 interface EntityItem {
   id: string;
@@ -37,6 +39,9 @@ interface ListProps {
 const ContainerHeight = '1000' as unknown as number;
 
 export function EntityListComponent({ onListClick }: ListProps) {
+  const entities = useAppStore((state) => state.entities);
+  const addEntities = useAppStore((state) => state.addEntities);
+  const setEntity = useAppStore((state) => state.setEntity);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<EntityItem | any>([]);
 
@@ -54,6 +59,8 @@ export function EntityListComponent({ onListClick }: ListProps) {
       });
       // console.log('The value of keywords *****************', keywords);
       setData(keywords as unknown as EntityItem);
+      addEntities(keywords as unknown as EntityItem)
+      setEntity(keywords[0])
     });
   };
 
@@ -76,13 +83,13 @@ export function EntityListComponent({ onListClick }: ListProps) {
     <List className="mt-12" key={nanoid()}>
       <VirtualList
         key={nanoid()}
-        data={data}
+        data={entities}
         height={ContainerHeight}
         itemHeight={47}
         itemKey="email"
         onScroll={onScroll}
       >
-        {(item: EntityItem) => (
+        {(item: any) => (
           <List.Item
             key={item.id}
             style={{ cursor: 'pointer' }}

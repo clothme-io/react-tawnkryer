@@ -5,8 +5,12 @@ import { EntityModal } from './components/EntityModal';
 import { EntityDataComponent } from './components/EntityDataComponent';
 import { EntityListComponent } from './components/EntityListComponent';
 import { readKeywordContent } from './api/readKeywordAPIs';
+// Store
+import {useAppStore } from '../../store/store';
+
 
 export const EntityPage = () => {
+  const setEntity = useAppStore((state) => state.setEntity);
   const [open, setOpen] = useState(false);
   const [keywordData, setKeywordData] = useState({});
 
@@ -26,6 +30,8 @@ export const EntityPage = () => {
         if (item.ok) {
           setKeywordData(item.data);
           console.log('The value of the single id ***', item.data);
+          setEntity(item.data);
+          
         }
       })
       .catch((error) => {

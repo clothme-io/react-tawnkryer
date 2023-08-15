@@ -1,6 +1,8 @@
 import { Collapse, Skeleton, theme } from 'antd';
 import { useEffect, type CSSProperties } from 'react';
 import type { CollapseProps } from 'antd';
+// Store
+import {useAppStore } from '../../../store/store';
 
 const text = `
   A dog is a type of domesticated animal.
@@ -13,6 +15,7 @@ interface DataProps {
 }
 
 export function EntityDataComponent({ keywordData }: DataProps) {
+  const entity = useAppStore((state) => state.entity);
   const { token } = theme.useToken();
 
   const onChange = (key: string | string[]) => {
@@ -55,7 +58,8 @@ export function EntityDataComponent({ keywordData }: DataProps) {
     <div className="pt-8 px-4" style={{ height: '100vh' }}>
       <div className="pb-10">
         <p>{keywordData.value ? keywordData.value.details.entity : ''}</p>
-        <p>{keywordData.id}</p>
+        <p>{entity.name}</p>
+        <p>{entity.id}</p>
       </div>
       <Collapse
         items={getItems(panelStyle)}
