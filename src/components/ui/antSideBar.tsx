@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import {
   DesktopOutlined,
   BookOutlined,
@@ -10,7 +10,6 @@ import {
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Button, Layout, Menu, theme } from 'antd';
-import { SimpleRouter } from '../../router/Router';
 
 const { Header, Content, Sider } = Layout;
 
@@ -107,7 +106,7 @@ export function AntSidebar() {
             minHeight: '100vh',
           }}
         >
-          <SimpleRouter />
+          <Outlet />
         </Content>
       </Layout>
     </Layout>

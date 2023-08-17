@@ -31,7 +31,7 @@ export const readKeywordContents = async (
       });
     });
     unSubscribe();
-    useAppStore.setState({ entities: keywords });
+    // useAppStore.setState({ entities: keywords });
     console.log('Current keywords: ', keywords.values.length);
     return { ok: true, data: keywords };
   } catch (err) {

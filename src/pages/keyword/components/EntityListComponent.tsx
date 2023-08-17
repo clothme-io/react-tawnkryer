@@ -38,6 +38,7 @@ export function EntityListComponent({ onListClick }: ListProps) {
       where('project_id', '==', 'B56F4d0RpQNoyX1GjELG')
     );
     onSnapshot(q, (querySnapshot) => {
+      addEntities([]);
       const keywords: EntityResponseItem | { id: string; value: DocumentData }[] = [];
       querySnapshot.forEach((doc) => {
         keywords.push({ id: doc.id, value: doc.data() });

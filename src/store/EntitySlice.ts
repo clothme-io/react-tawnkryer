@@ -37,7 +37,8 @@ export const createEntitySlice: StateCreator<EntitySlice> = (set, get) => ({
   },
   addEntities: (entity: EntityModel[]) => {
     let { entities } = get();
-    entities = [...entities, ...entity];
+    entities = []
+    entities = entity;
     set({ entities });
   },
   selectEntity: (inputEntity: EntityModel) => {

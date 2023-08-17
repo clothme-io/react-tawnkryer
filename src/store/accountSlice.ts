@@ -1,28 +1,15 @@
 import { StateCreator } from 'zustand';
-
-export interface Account {
-  //   category: {
-  //     id: number
-  //     image: string
-  //     name: string
-  //   }
-  //   description: string
-  id: string;
-  //   images: string[]
-  email: string;
-  //   title: string
-  //   quantity?: number
-}
+import { AccountModel } from './model/accountModel';
 
 export interface AccountSlice {
-  account: Account;
+  account: AccountModel;
   addAccount: (input: any) => void;
   signOut: () => void;
 }
 
 export const createAccountSlice: StateCreator<AccountSlice> = (set) => ({
   account: { id: '', email: '' },
-  addAccount: (input: any) => {
+  addAccount: (input: AccountModel) => {
     set({ account: input });
   },
   signOut() {

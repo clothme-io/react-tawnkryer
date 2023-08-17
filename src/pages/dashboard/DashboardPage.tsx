@@ -1,11 +1,33 @@
 /* eslint-disable react/jsx-no-bind */
+import { useEffect } from 'react';
 import { Button } from '../../components';
-// import { redirect } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
+// Store
+import { useAppStore } from '../../store/store';
 
 export function DashboardPage() {
+  const navigate = useNavigate();
+  const account = useAppStore((state) => state.account);
+
   function onSubmit() {
     window.location.href = 'http://127.0.0.1:5000/account/authorize?user=1';
   }
+
+  if (account.email !== '' || account.id !== '') {
+    console.log('Got here Also ')
+
+    navigate('login', { replace: true }); // <-- redirect
+  }
+
+  useEffect(() => {
+    console.log('Got here')
+    if (account.email !== '' || account.id !== '') {
+      console.log('Got here Also ')
+
+      navigate('login', { replace: true }); // <-- redirect
+    }
+  }, []);
 
   return (
     <>

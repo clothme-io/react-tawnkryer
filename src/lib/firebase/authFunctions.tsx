@@ -33,7 +33,7 @@ export async function signUp(
 export async function signIn(
   email: string,
   password: string
-): Promise<Result<UserCredential, CustomError>> {
+): Promise<Result<any, CustomError>> {
   try {
     const signInResult = await signInWithEmailAndPassword(
       auth,
@@ -44,13 +44,13 @@ export async function signIn(
       collection(db, 'project'),
       where('account_id', '==', signInResult.user.uid)
     );
+    const userAuthData: any = { auth: signInResult, project: [] }
     const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc: { id: unknown; data: () => unknown }) => {
-      // doc.data() is never undefined for query doc snapshots
+    querySnapshot.forEach((doc) => {
       console.log(doc.id, ' => ', doc.data());
+      userAuthData.project.push({id: doc.id, project: doc.data() })
     });
-    // console.log("The user after sign in ===", signInResult)
-    return { ok: true, data: signInResult };
+    return { ok: true, data: userAuthData };
   } catch (e) {
     const error = new CustomError(500, 'Error in catch block of sign up', e);
     return { ok: false, error };

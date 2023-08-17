@@ -1,19 +1,10 @@
 import { StateCreator } from 'zustand';
-
-export interface Project {
-  id: string;
-  created_at: string;
-  name: string;
-  created_by: string;
-  owner: string
-  project_number: number;
-  project_id: string;
-}
+import { ProjectModel } from './model/projectModel';
 
 export interface ProjectSlice {
-  projects: Project[];
+  projects: ProjectModel[];
   currentProject: any;
-  addProject: (project: Project) => void;
+  addProject: (project: ProjectModel) => void;
   removeProject: (projectId: string) => void;
   selectProject: (projectId: string) => void;
   setDefaultProject: (projectId: string) => void;
@@ -22,7 +13,7 @@ export interface ProjectSlice {
 export const createProjectSlice: StateCreator<ProjectSlice> = (set, get) => ({
   projects: [],
   currentProject: {},
-  addProject: (project: Project) => {
+  addProject: (project: ProjectModel) => {
     const { projects } = get();
     projects.push(project);
     set({ projects });

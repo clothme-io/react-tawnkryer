@@ -18,7 +18,8 @@ import { signIn } from '../../../../lib/firebase/authFunctions';
 export function LoginForm() {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const { addAccount } = useAppStore();
+  const addAccount = useAppStore((state) => state.addAccount);
+  const addProject = useAppStore((state) => state.addProject);
   const navigate = useNavigate();
 
   async function handleLogin(event: any) {
@@ -33,11 +34,11 @@ export function LoginForm() {
         id: result.data.user.uid,
         email: result.data.user.email,
       };
-      localStorage.setItem('tempUser', result.data.user.email as string);
-      localStorage.setItem('tempUserId', result.data.user.uid as string);
+      localStorage.setItem('tempEmail', result.data.auth.user.email as string);
+      localStorage.setItem('tempId', result.data.auth.user.uid as string);
       addAccount(account);
+      addProject(result.data.project)
       navigate('/dashboard');
-      // // addProject
     }
   }
 
