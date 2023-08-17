@@ -36,6 +36,7 @@ const items: MenuItem[] = [
   getItem('Writer', '/writer', <BookOutlined />),
   getItem('Scheduler', '/scheduler', <DesktopOutlined />),
   getItem('Setting', '/setting', <SettingOutlined />),
+  getItem('Sign Out', '/signout', <Button type='text' />),
 ];
 
 export function AntSidebar() {
@@ -54,12 +55,13 @@ export function AntSidebar() {
         <Menu
           theme="dark"
           defaultSelectedKeys={['/dashboard']}
-          // activeKey=''
+          // activeKey={}
           items={items}
           onClick={({ key }) => {
-            if (key === 'signout') {
-              localStorage.removeItem('tempUser');
-              navigate('/login');
+            if (key === '/signout') {
+              localStorage.removeItem('tempId');
+              localStorage.removeItem('tempEmail');
+              navigate('/login', { replace: true });
             } else {
               navigate(key);
             }
