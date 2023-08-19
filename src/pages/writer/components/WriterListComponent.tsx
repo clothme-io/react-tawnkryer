@@ -35,7 +35,7 @@ export function WriterListComponent() {
   };
 
   useEffect(() => {
-    appendData();
+    // appendData();
   }, []);
 
   const onScroll = (e: React.UIEvent<HTMLElement, UIEvent>) => {

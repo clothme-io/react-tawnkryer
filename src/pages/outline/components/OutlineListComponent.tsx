@@ -35,7 +35,7 @@ export function OutlineListComponent() {
   };
 
   useEffect(() => {
-    appendData();
+    // appendData();
   }, []);
 
   const onScroll = (e: React.UIEvent<HTMLElement, UIEvent>) => {

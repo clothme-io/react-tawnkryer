@@ -18,13 +18,13 @@ const AuthContext = createContext<ContextType>({
 
 export const AuthProvider = ({ children }: any) => {
   const [userId, setUser] = useLocalStorage("tempUserId", null);
-  const [email, setEmail] = useLocalStorage("temEmail", null);
+  const [email, setEmail] = useLocalStorage("tempEmail", null);
   const navigate = useNavigate();
 
   // call this function when you want to authenticate the user
-  const login = async (data: any) => {
-    setUser(data);
-    setEmail(data);
+  const login = (userId: string, email: string) => {
+    setUser(userId);
+    setEmail(email);
     navigate("/dashboard");
   };
 

@@ -52,7 +52,7 @@ export function EntityListComponent({ onListClick }: ListProps) {
   };
 
   useEffect(() => {
-    appendData();
+    // appendData();
   }, []);
 
   useEffect(() => {}, [data]);

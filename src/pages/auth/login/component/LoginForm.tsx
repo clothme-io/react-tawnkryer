@@ -1,5 +1,4 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
   Button,
   Card,
@@ -14,13 +13,14 @@ import {
 
 import { useAppStore } from '../../../../store/store';
 import { signIn } from '../../../../lib/firebase/authFunctions';
+import { useAuth } from '../../../../hooks/useAuth';
 
 export function LoginForm() {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const addAccount = useAppStore((state) => state.addAccount);
   const addProject = useAppStore((state) => state.addProject);
-  const navigate = useNavigate();
+  const { login } = useAuth();
 
   async function handleLogin(event: any) {
     event.preventDefault();
@@ -31,14 +31,12 @@ export function LoginForm() {
       console.log(result);
     } else {
       const account = {
-        id: result.data.user.uid,
-        email: result.data.user.email,
+        id: result.data.auth.user.uid,
+        email: result.data.auth.user.email,
       };
-      localStorage.setItem('tempEmail', result.data.auth.user.email as string);
-      localStorage.setItem('tempId', result.data.auth.user.uid as string);
       addAccount(account);
       addProject(result.data.project)
-      navigate('/dashboard');
+      login(result.data.auth.user.uid as string, result.data.auth.user.email as string)
     }
   }
 

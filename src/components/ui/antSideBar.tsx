@@ -42,13 +42,13 @@ const items: MenuItem[] = [
 
 export function AntSidebar() {
   const [collapsed, setCollapsed] = useState(false);
-  const { userId, email } = useAuth();
+  const { userId, email, logout } = useAuth();
   const navigate = useNavigate();
   const {
     token: { colorBgContainer },
   } = theme.useToken();
   
-  if (!userId || email) {
+  if (!userId || !email) {
     // user is not authenticated
     return <Navigate to="/login" />;
   }
@@ -66,9 +66,7 @@ export function AntSidebar() {
           items={items}
           onClick={({ key }) => {
             if (key === '/signout') {
-              localStorage.removeItem('tempId');
-              localStorage.removeItem('tempEmail');
-              navigate('/login', { replace: true });
+              logout()
             } else {
               navigate(key);
             }
