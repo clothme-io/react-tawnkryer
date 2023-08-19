@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Navigate, Outlet, useNavigate } from 'react-router-dom';
+import { useAuth } from "../../hooks/useAuth";
 import {
   DesktopOutlined,
   BookOutlined,
@@ -41,10 +42,16 @@ const items: MenuItem[] = [
 
 export function AntSidebar() {
   const [collapsed, setCollapsed] = useState(false);
+  const { userId, email } = useAuth();
   const navigate = useNavigate();
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+  
+  if (!userId || email) {
+    // user is not authenticated
+    return <Navigate to="/login" />;
+  }
 
   return (
     <Layout>

@@ -1,4 +1,4 @@
-import { Routes, Route, Outlet } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { HomePage } from '../pages/home/HomePage';
 import { SettingPage } from '../pages/setting/SettingPage';
 import { EntityPage } from '../pages/keyword/EntityPage';
@@ -9,6 +9,7 @@ import { LoginPage } from '../pages/auth/login/LoginPage';
 import { WriterPage } from '../pages/writer/WriterPage';
 import { SchedulerPage } from '../pages/scheduler/SettingPage';
 import { AntSidebar } from '../components/ui/antSideBar';
+import { HomeLayout } from '../components/ui/HomeLayout';
 
 export function SimpleRouter() {
   return (
@@ -22,8 +23,8 @@ export function SimpleRouter() {
         <Route path="/setting" element={<SettingPage />} />
       </Route>
       
-      <Route element={<div> <Outlet /> </div>}>
-        <Route path="/register" element={<CreateAccountPage />} />
+      <Route element={<HomeLayout />}>
+        <Route path="/create-account" element={<CreateAccountPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/" element={<HomePage />} />
       </Route>
