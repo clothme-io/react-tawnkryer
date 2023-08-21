@@ -2,14 +2,13 @@ import { Collapse, Skeleton, theme } from 'antd';
 import { useEffect, type CSSProperties } from 'react';
 import type { CollapseProps } from 'antd';
 // Store
-import {useAppStore } from '../../../store/store';
+import { useAppStore } from '../../../store/store';
 
 const text = `
   A dog is a type of domesticated animal.
   Known for its loyalty and faithfulness,
   it can be found as a welcome guest in many households across the world.
 `;
-
 
 export function EntityDataComponent() {
   const entity = useAppStore((state) => state.selectedEntity);
@@ -49,7 +48,9 @@ export function EntityDataComponent() {
     border: 'none',
   };
 
-  useEffect(() => { console.log('Got herer', entity); }, [entity]);
+  useEffect(() => {
+    console.log('Got herer', entity);
+  }, [entity]);
 
   return (
     <div className="pt-8 px-4" style={{ height: '100vh' }}>

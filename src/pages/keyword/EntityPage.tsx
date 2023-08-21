@@ -6,9 +6,8 @@ import { EntityDataComponent } from './components/EntityDataComponent';
 import { EntityListComponent } from './components/EntityListComponent';
 import { readKeywordContent } from './api/readKeywordAPIs';
 // Store & Model
-import {useAppStore } from '../../store/store';
+import { useAppStore } from '../../store/store';
 import { transposeSingleEntityModel } from './model/entityModel';
-
 
 export const EntityPage = () => {
   const selectEntity = useAppStore((state) => state.selectEntity);

@@ -12,10 +12,14 @@ import {
 import { nanoid } from 'nanoid';
 import { db } from '../../../lib/firebase/firebaseConfig';
 // Store
-import {useAppStore } from '../../../store/store';
+import { useAppStore } from '../../../store/store';
 
 // Models
-import { EntityResponseItem, EntityModel, transposeToEntityModel } from '../model/entityModel';
+import {
+  EntityResponseItem,
+  EntityModel,
+  transposeToEntityModel,
+} from '../model/entityModel';
 
 interface ListProps {
   onListClick: any;
@@ -39,15 +43,19 @@ export function EntityListComponent({ onListClick }: ListProps) {
     );
     onSnapshot(q, (querySnapshot) => {
       addEntities([]);
-      const keywords: EntityResponseItem | { id: string; value: DocumentData }[] = [];
+      const keywords:
+        | EntityResponseItem
+        | { id: string; value: DocumentData }[] = [];
       querySnapshot.forEach((doc) => {
         keywords.push({ id: doc.id, value: doc.data() });
       });
       // console.log('The value of keywords *****************', keywords);
-      const entitiesFromDB = transposeToEntityModel(keywords as unknown as EntityResponseItem[]);
+      const entitiesFromDB = transposeToEntityModel(
+        keywords as unknown as EntityResponseItem[]
+      );
       setData(entitiesFromDB);
       addEntities(entitiesFromDB);
-      selectEntity(entitiesFromDB[0])
+      selectEntity(entitiesFromDB[0]);
     });
   };
 
@@ -83,13 +91,7 @@ export function EntityListComponent({ onListClick }: ListProps) {
             onClick={() => onListClick(item.id)}
           >
             <List.Item.Meta
-              title={
-                item.name ? (
-                  item.name
-                ) : (
-                  <Skeleton.Input active />
-                )
-              }
+              title={item.name ? item.name : <Skeleton.Input active />}
               description={`${item.type} ${item.updated_at}`}
               className="px-3"
               style={{ backgroundColor: `${item.id} gray` }}
