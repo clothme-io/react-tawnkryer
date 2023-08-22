@@ -3,16 +3,19 @@ import { ProjectModel } from './model/projectModel';
 
 export interface ProjectSlice {
   projects: ProjectModel[];
-  currentProject: any;
+  currentProject: ProjectModel;
   addProject: (project: ProjectModel) => void;
   removeProject: (projectId: string) => void;
   selectProject: (projectId: string) => void;
-  setDefaultProject: (projectId: string) => void;
+  setDefaultProject: (project: ProjectModel) => void;
 }
 
 export const createProjectSlice: StateCreator<ProjectSlice> = (set, get) => ({
   projects: [],
-  currentProject: {},
+  currentProject: {
+    id: '',
+    name: ''
+  },
   addProject: (project: ProjectModel) => {
     const { projects } = get();
     projects.push(project);
@@ -25,12 +28,12 @@ export const createProjectSlice: StateCreator<ProjectSlice> = (set, get) => ({
   },
   selectProject: (projectId: string) => {
     set({
-      currentProject: get().projects.filter((project) => project.id !== projectId),
+      projects: get().projects.filter((project) => project.id !== projectId),
     });
   },
-  setDefaultProject(projectId: string) {
+  setDefaultProject(project: ProjectModel) {
     set({
-      currentProject: get().projects.filter((project) => project.id !== projectId),
+      currentProject: project
     });
   },
 });

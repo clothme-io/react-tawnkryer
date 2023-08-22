@@ -19,7 +19,7 @@ interface EntityProps {
 
 export function EntityModal({ open, handleCancel, setOpen }: EntityProps) {
   const accountId = useAppStore((state) => state.account.id);
-  const project = useAppStore((state) => state.projects);
+  const projectId = useAppStore((state) => state.currentProject.id);
   const [loading, setLoading] = React.useState(false);
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -36,8 +36,8 @@ export function EntityModal({ open, handleCancel, setOpen }: EntityProps) {
     const keywordInput = {
       id: keywordId,
       data: {
-        account_id: 'account.id',
-        project_id: '',
+        account_id: accountId,
+        project_id: projectId,
         created_at: date,
         updated_at: date,
         status: 'entity',
