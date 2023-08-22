@@ -1,5 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import { Col, Row, Tabs } from 'antd';
+import { ProjectAccountPage } from './components/project/ProjectComponent';
 
 export function SettingPage() {
   return (
@@ -22,7 +23,14 @@ export function SettingPage() {
                 id === '1' ? 'Account' : id === '2' ? 'Project' : 'Notification'
               }`,
               key: id,
-              children: <p>WE are here</p>,
+              children:
+                id === '1' ? (
+                  'Account'
+                ) : id === '2' ? (
+                  <ProjectAccountPage />
+                ) : (
+                  'Notification'
+                ),
             };
           })}
         />
