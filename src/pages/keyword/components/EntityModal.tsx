@@ -19,13 +19,14 @@ interface EntityProps {
 
 export function EntityModal({ open, handleCancel, setOpen }: EntityProps) {
   const accountId = useAppStore((state) => state.account.id);
-  const projectId = useAppStore((state) => state.currentProject.id);
+  const project = useAppStore((state) => state.currentProject);
   const [loading, setLoading] = React.useState(false);
   const [messageApi, contextHolder] = message.useMessage();
 
   const formRef = React.useRef<FormInstance>(null);
 
   const onFinish = async (values: any) => {
+    console.log('The value of the default project**********', project);
     setLoading(true);
     onReset();
     console.log(values);
@@ -37,7 +38,7 @@ export function EntityModal({ open, handleCancel, setOpen }: EntityProps) {
       id: keywordId,
       data: {
         account_id: accountId,
-        project_id: projectId,
+        project_id: project.id,
         created_at: date,
         updated_at: date,
         status: 'entity',

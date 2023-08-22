@@ -27,6 +27,7 @@ export function LoginForm() {
     event.preventDefault();
 
     const result = await signIn(email, password);
+    console.log('This is the login in User*********', result);
 
     if (!result.ok) {
       console.log(result);
@@ -36,10 +37,18 @@ export function LoginForm() {
         email: result.data.auth.user.email,
       };
       addAccount(account);
-      addProject(result.data.project) // todo: get projects from db
-      const defaultProject = result.data.project.filter((item: { default: any; }) => item.default)
-      setDefaultProject(defaultProject) // todo: set the current project from the project data
-      login(result.data.auth.user.uid as string, result.data.auth.user.email as string)
+      addProject(result.data.project); // todo: get projects from db
+      const defaultProject = result.data.project.filter(
+        (item: { project: { default: any } }) => {
+          console.log('This is individual item****************', item);
+          return item.project.default === true;
+        }
+      );
+      setDefaultProject(defaultProject[0]); // todo: set the current project from the project data
+      login(
+        result.data.auth.user.uid as string,
+        result.data.auth.user.email as string
+      );
     }
   }
 

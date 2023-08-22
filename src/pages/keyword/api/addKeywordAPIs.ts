@@ -8,6 +8,7 @@ import { Result } from '../../../lib/util/resultType';
 export const addKeywordData = async (
   keywordData: any
 ): Promise<Result<any, CustomError>> => {
+  console.log('The input for the addKey *****************', keywordData);
   try {
     await setDoc(doc(db, 'keyword', keywordData.id), keywordData.data, {
       merge: true,

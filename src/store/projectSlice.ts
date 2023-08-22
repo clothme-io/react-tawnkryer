@@ -14,7 +14,7 @@ export const createProjectSlice: StateCreator<ProjectSlice> = (set, get) => ({
   projects: [],
   currentProject: {
     id: '',
-    name: ''
+    name: '',
   },
   addProject: (project: ProjectModel) => {
     const { projects } = get();
@@ -33,7 +33,7 @@ export const createProjectSlice: StateCreator<ProjectSlice> = (set, get) => ({
   },
   setDefaultProject(project: ProjectModel) {
     set({
-      currentProject: project
+      currentProject: project,
     });
   },
 });

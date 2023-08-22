@@ -32,6 +32,8 @@ export function EntityListComponent({ onListClick }: ListProps) {
   // const entities = useAppStore((state) => state.entities);
   const addEntities = useAppStore((state) => state.addEntities);
   const selectEntity = useAppStore((state) => state.selectEntity);
+  const accountId = useAppStore((state) => state.account.id);
+  const project = useAppStore((state) => state.currentProject);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<EntityResponseItem | any>([]);
 
@@ -41,8 +43,8 @@ export function EntityListComponent({ onListClick }: ListProps) {
     setLoading(true);
     const q = query(
       collection(db, 'keyword'),
-      where('account_id', '==', 'oTCL6Iy0wNWuFqWYuaX1xbHT1Jm2'),
-      where('project_id', '==', 'B56F4d0RpQNoyX1GjELG')
+      where('account_id', '==', accountId),
+      where('project_id', '==', project.id)
     );
     const unSubscribe = onSnapshot(q, (querySnapshot) => {
       addEntities([]);
@@ -106,7 +108,7 @@ export function EntityListComponent({ onListClick }: ListProps) {
         height={ContainerHeight}
         itemHeight={47}
         itemKey={nanoid()}
-      onScroll={onScroll}
+        onScroll={onScroll}
       >
         {(item: EntityModel) => (
           <List.Item
