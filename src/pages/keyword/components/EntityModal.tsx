@@ -6,6 +6,9 @@ import type { FormInstance } from 'antd/es/form';
 import React from 'react';
 import { addKeywordData } from '../api/addKeywordAPIs';
 
+// Store
+import { useAppStore } from '../../../store/store';
+
 const { Option } = Select;
 
 interface EntityProps {
@@ -15,6 +18,8 @@ interface EntityProps {
 }
 
 export function EntityModal({ open, handleCancel, setOpen }: EntityProps) {
+  const accountId = useAppStore((state) => state.account.id);
+  const project = useAppStore((state) => state.projects);
   const [loading, setLoading] = React.useState(false);
   const [messageApi, contextHolder] = message.useMessage();
 

@@ -20,6 +20,7 @@ export function LoginForm() {
   const [password, setPassword] = React.useState('');
   const addAccount = useAppStore((state) => state.addAccount);
   const addProject = useAppStore((state) => state.addProject);
+  const setDefaultProject = useAppStore((state) => state.setDefaultProject);
   const { login } = useAuth();
 
   async function handleLogin(event: any) {
@@ -35,7 +36,9 @@ export function LoginForm() {
         email: result.data.auth.user.email,
       };
       addAccount(account);
-      addProject(result.data.project)
+      addProject(result.data.project) // todo: get projects from db
+      const defaultProject = result.data.project.filter((item: { default: any; }) => item.default)
+      setDefaultProject(defaultProject) // todo: set the current project from the project data
       login(result.data.auth.user.uid as string, result.data.auth.user.email as string)
     }
   }

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import VirtualList from 'rc-virtual-list';
 import { List, Skeleton, message } from 'antd';
 import {
@@ -11,6 +11,7 @@ import {
 } from 'firebase/firestore';
 import { nanoid } from 'nanoid';
 import { db } from '../../../lib/firebase/firebaseConfig';
+
 // Store
 import { useAppStore } from '../../../store/store';
 
@@ -28,11 +29,13 @@ interface ListProps {
 const ContainerHeight = '1000' as unknown as number;
 
 export function EntityListComponent({ onListClick }: ListProps) {
-  const entities = useAppStore((state) => state.entities);
+  // const entities = useAppStore((state) => state.entities);
   const addEntities = useAppStore((state) => state.addEntities);
   const selectEntity = useAppStore((state) => state.selectEntity);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<EntityResponseItem | any>([]);
+
+  // const keywordRef = collection(db, 'keyword')
 
   const appendData = () => {
     setLoading(true);
@@ -41,7 +44,7 @@ export function EntityListComponent({ onListClick }: ListProps) {
       where('account_id', '==', 'oTCL6Iy0wNWuFqWYuaX1xbHT1Jm2'),
       where('project_id', '==', 'B56F4d0RpQNoyX1GjELG')
     );
-    onSnapshot(q, (querySnapshot) => {
+    const unSubscribe = onSnapshot(q, (querySnapshot) => {
       addEntities([]);
       const keywords:
         | EntityResponseItem
@@ -57,13 +60,34 @@ export function EntityListComponent({ onListClick }: ListProps) {
       addEntities(entitiesFromDB);
       selectEntity(entitiesFromDB[0]);
     });
+    return () => unSubscribe();
   };
 
   useEffect(() => {
     appendData();
-  }, []);
+    // const queryMessage = query(
+    //   keywordRef,
+    //   where('account_id', '==', 'oTCL6Iy0wNWuFqWYuaX1xbHT1Jm2'),
+    //   where('project_id', '==', 'B56F4d0RpQNoyX1GjELG')
+    // );
+    // const unSubscribe = onSnapshot(queryMessage, (querySnapshot) => {
+    //   addEntities([]);
+    //   const keywords:
+    //     | EntityResponseItem
+    //     | { id: string; value: DocumentData }[] = [];
+    //   querySnapshot.forEach((doc: { id: any; data: () => any; }) => {
+    //     keywords.push({ id: doc.id, value: doc.data() });
+    //   });
+    //   const entitiesFromDB = transposeToEntityModel(
+    //     keywords as unknown as EntityResponseItem[]
+    //   );
+    //   setData(entitiesFromDB);
+    //   addEntities(entitiesFromDB);
+    //   selectEntity(entitiesFromDB[0]);
+    // });
 
-  useEffect(() => {}, [data]);
+    // return () => unSubscribe();
+  }, []);
 
   const onScroll = (e: React.UIEvent<HTMLElement, UIEvent>) => {
     if (
@@ -78,11 +102,11 @@ export function EntityListComponent({ onListClick }: ListProps) {
     <List className="mt-8" key={nanoid()}>
       <VirtualList
         key={nanoid()}
-        data={entities}
+        data={data}
         height={ContainerHeight}
         itemHeight={47}
-        itemKey="email"
-        onScroll={onScroll}
+        itemKey={nanoid()}
+      onScroll={onScroll}
       >
         {(item: EntityModel) => (
           <List.Item
