@@ -1,6 +1,8 @@
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable no-plusplus */
-import React, { useState } from 'react';
-import { Button, Popconfirm, Space, Table } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Button, Popconfirm, Space, Table, Empty } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import type { TableRowSelection } from 'antd/es/table/interface';
 
@@ -47,7 +49,7 @@ for (let i = 0; i < 7; i++) {
   });
 }
 
-export function EntityDataTable() {
+export function EntityDataTable(props: any) {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
@@ -93,7 +95,24 @@ export function EntityDataTable() {
     ],
   };
 
+  useEffect(() => {
+    console.log(
+      'this is data for entity===============',
+      props.entity.details.keywords
+    );
+  }, [props.entity.details.keywords]);
+
   return (
-    <Table rowSelection={rowSelection} columns={columns} dataSource={data} />
+    <>
+      {props.entity.details.keywords === '' ? (
+        <Empty />
+      ) : (
+        <Table
+          rowSelection={rowSelection}
+          columns={columns}
+          dataSource={data}
+        />
+      )}
+    </>
   );
 }

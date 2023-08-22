@@ -2,7 +2,7 @@ import { Collapse } from 'antd';
 import { useEffect } from 'react';
 // Store
 import { useAppStore } from '../../../store/store';
-import { DataTableComponent } from './DataTableCOmponent';
+import { DataTableComponent } from './DataTableComponent';
 import { EntityDataTable } from './EntityDataTable';
 
 const text = `
@@ -19,7 +19,7 @@ export function EntityDataComponent() {
   // };
 
   useEffect(() => {
-    // console.log('Got herer', entity);
+    console.log('Got herer', entity);
   }, [entity]);
 
   return (
@@ -31,9 +31,9 @@ export function EntityDataComponent() {
       }}
     >
       <div className="p-10 bg-white">
-        {/* <p>{entity ? entity.name : ''}</p> */}
-        <p>{entity.name}</p>
-        <p>{entity.id}</p>
+        <p>{entity ? entity.name : ''}</p>
+        {/* <p>{entity.name}</p> */}
+        {/* <p>{entity.id}</p> */}
       </div>
       <br />
       <Collapse
@@ -43,7 +43,7 @@ export function EntityDataComponent() {
           {
             key: '1',
             label: 'Related Entities',
-            children: <EntityDataTable />,
+            children: <EntityDataTable entity={entity} />,
           },
         ]}
       />

@@ -31,11 +31,12 @@ const ContainerHeight = '1000' as unknown as number;
 export function EntityListComponent({ onListClick }: ListProps) {
   // const entities = useAppStore((state) => state.entities);
   const addEntities = useAppStore((state) => state.addEntities);
+  const entities = useAppStore((state) => state.entities);
   const selectEntity = useAppStore((state) => state.selectEntity);
   const accountId = useAppStore((state) => state.account.id);
   const project = useAppStore((state) => state.currentProject);
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<EntityResponseItem | any>([]);
+  const [data, setData] = useState<EntityResponseItem | any>(null);
 
   // const keywordRef = collection(db, 'keyword')
 
@@ -47,7 +48,7 @@ export function EntityListComponent({ onListClick }: ListProps) {
       where('project_id', '==', project.id)
     );
     const unSubscribe = onSnapshot(q, (querySnapshot) => {
-      addEntities([]);
+      // addEntities([]);
       const keywords:
         | EntityResponseItem
         | { id: string; value: DocumentData }[] = [];
@@ -58,9 +59,12 @@ export function EntityListComponent({ onListClick }: ListProps) {
       const entitiesFromDB = transposeToEntityModel(
         keywords as unknown as EntityResponseItem[]
       );
+      console.log('Document form DB', entitiesFromDB);
+
       setData(entitiesFromDB);
       addEntities(entitiesFromDB);
       selectEntity(entitiesFromDB[0]);
+      setLoading(false);
     });
     return () => unSubscribe();
   };
@@ -91,6 +95,10 @@ export function EntityListComponent({ onListClick }: ListProps) {
     // return () => unSubscribe();
   }, []);
 
+  useEffect(() => {
+    console.log('Document form DB', data);
+  }, [data]);
+
   const onScroll = (e: React.UIEvent<HTMLElement, UIEvent>) => {
     if (
       e.currentTarget.scrollHeight - e.currentTarget.scrollTop ===
@@ -104,6 +112,7 @@ export function EntityListComponent({ onListClick }: ListProps) {
     <List className="mt-8" key={nanoid()}>
       <VirtualList
         key={nanoid()}
+        // data={data !== null ? data : entities}
         data={data}
         height={ContainerHeight}
         itemHeight={47}
@@ -121,8 +130,8 @@ export function EntityListComponent({ onListClick }: ListProps) {
             onClick={() => onListClick(item.id)}
           >
             <List.Item.Meta
-              title={item.name ? item.name : <Skeleton.Input active />}
-              description={`${item.type} ${item.updated_at}`}
+              title={loading && <Skeleton.Input active />}
+              description={`${item.name} ${item.type} ${item.updated_at}`}
               className="px-3"
               style={{ backgroundColor: `${item.id} gray` }}
             />
