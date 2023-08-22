@@ -60,7 +60,7 @@ export function EntityListComponent({ onListClick }: ListProps) {
   };
 
   useEffect(() => {
-    // appendData();
+    appendData();
   }, []);
 
   useEffect(() => {}, [data]);
@@ -75,7 +75,7 @@ export function EntityListComponent({ onListClick }: ListProps) {
   };
 
   return (
-    <List className="mt-12" key={nanoid()}>
+    <List className="mt-8" key={nanoid()}>
       <VirtualList
         key={nanoid()}
         data={entities}
@@ -87,7 +87,11 @@ export function EntityListComponent({ onListClick }: ListProps) {
         {(item: EntityModel) => (
           <List.Item
             key={item.id}
-            style={{ cursor: 'pointer' }}
+            style={{
+              cursor: 'pointer',
+              backgroundColor: 'white',
+              marginBottom: 6,
+            }}
             onClick={() => onListClick(item.id)}
           >
             <List.Item.Meta

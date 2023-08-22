@@ -62,16 +62,30 @@ export const EntityPage = () => {
       <div className="grid gap-4 grid-cols-8 pt-3">
         <div
           className="col-span-2"
-          style={{ minHeight: '100vh', backgroundColor: 'white' }}
+          style={
+            {
+              // minHeight: '100vh',
+              // backgroundColor: 'white',
+            }
+          }
         >
           <EntityListComponent onListClick={onListClick} />
         </div>
-        <div className="col-span-6" style={{ minHeight: '100vh' }}>
+        <div
+          className="col-span-6"
+          style={
+            {
+              // minHeight: '100vh'
+            }
+          }
+        >
           <div
-            style={{
-              minHeight: '100vh',
-              backgroundColor: 'white',
-            }}
+            style={
+              {
+                // minHeight: '100vh',
+                // backgroundColor: 'white',
+              }
+            }
           >
             <EntityDataComponent />
           </div>
