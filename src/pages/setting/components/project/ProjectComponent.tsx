@@ -1,10 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-plusplus */
 import { useEffect, useState } from 'react';
 import { Select } from 'antd';
+import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { Separator } from '../../../../components';
 import { ProjectCreationForm } from './ProjectCreationForm';
 import { useAppStore } from '../../../../store/store';
-import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { db } from '../../../../lib/firebase/firebaseConfig';
 import { ProjectResponseItem } from '../../../keyword/model/entityModel';
 import { useAuth } from '../../../../hooks/useAuth';
@@ -17,44 +18,45 @@ interface ProjectSelectType {
 export function ProjectAccountPage() {
   const [projectData, setProjectData] = useState<ProjectSelectType[]>([]);
   const [allProjectData, setAllProjectData] = useState<ProjectSelectType[]>([]);
-  const [defaultProjectValue, setDefaultProjectValue] = useState({ label: '', value: ''});
+  const [defaultProjectValue, setDefaultProjectValue] = useState({
+    label: '',
+    value: '',
+  });
   const accountId = useAppStore((state) => state.account.id);
   const { addProjectId } = useAuth();
   // const [loading, setLoading] = useState(false);
 
-  const projectId = JSON.parse(localStorage.getItem("tempProjectId") as string);
+  const projectId = JSON.parse(localStorage.getItem('tempProjectId') as string);
 
   const handleChange = (value: string) => {
     console.log(`selected ${value}`);
     addProjectId(value);
-    setProjectData(allProjectData.filter(item => item.value !== value));
-    allProjectData.forEach(item => {
+    setProjectData(allProjectData.filter((item) => item.value !== value));
+    allProjectData.forEach((item) => {
       if (item.value === value) {
-        setDefaultProjectValue({ label: item.label, value: item.value});
+        setDefaultProjectValue({ label: item.label, value: item.value });
       }
-    })
+    });
   };
 
   const appendData = () => {
     // setLoading(true);
     const q = query(
       collection(db, 'project'),
-      where('account_id', '==', accountId),
+      where('account_id', '==', accountId)
     );
     const unSubscribe = onSnapshot(q, (querySnapshot) => {
-      const projects:
-        | ProjectResponseItem
-        | { value: any; label: any }[] = [];
+      const projects: ProjectResponseItem | { value: any; label: any }[] = [];
       querySnapshot.forEach((doc) => {
         projects.push({ value: doc.id, label: doc.data().name });
       });
       setAllProjectData(projects);
-      setProjectData(projects.filter(item => item.value !== projectId));
-      projects.forEach(item => {
+      setProjectData(projects.filter((item) => item.value !== projectId));
+      projects.forEach((item) => {
         if (item.value === projectId) {
-          setDefaultProjectValue({ label: item.label, value: item.value});
+          setDefaultProjectValue({ label: item.label, value: item.value });
         }
-      })
+      });
     });
     return () => unSubscribe();
   };
@@ -63,8 +65,7 @@ export function ProjectAccountPage() {
     appendData();
   }, []);
 
-  useEffect(() => {
-  }, [defaultProjectValue]);
+  useEffect(() => {}, [defaultProjectValue]);
 
   return (
     <div className="space-y-6 px-32">
