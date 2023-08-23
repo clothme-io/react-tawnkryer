@@ -5,20 +5,25 @@ import { useLocalStorage } from "./useLocalStorage";
 interface ContextType {
   userId: any;
   email: any;
+  projectId: any;
   login: any;
   logout: any;
+  updateLocalStorage: any;
 }
 
 const AuthContext = createContext<ContextType>({
   userId: undefined,
   email: undefined,
+  projectId: undefined,
   login: undefined,
-  logout: undefined
+  logout: undefined,
+  updateLocalStorage: undefined,
 });
 
 export const AuthProvider = ({ children }: any) => {
   const [userId, setUser] = useLocalStorage("tempUserId", null);
   const [email, setEmail] = useLocalStorage("tempEmail", null);
+  const [projectId, setProjectId] = useLocalStorage("tempProjectId", null);
   const navigate = useNavigate();
 
   // call this function when you want to authenticate the user
@@ -28,10 +33,15 @@ export const AuthProvider = ({ children }: any) => {
     navigate("/dashboard");
   };
 
+  const updateLocalStorage = (projectId: string) => {
+    setProjectId(projectId);
+  };
+
   // call this function to sign out logged in user
   const logout = () => {
     setUser(null);
     setEmail(null);
+    setProjectId(null);
     navigate("/login", { replace: true });
   };
 
@@ -39,10 +49,12 @@ export const AuthProvider = ({ children }: any) => {
     () => ({
       userId,
       email,
+      projectId,
       login,
-      logout
+      logout,
+      updateLocalStorage
     }),
-    [userId, email]
+    [userId, email, projectId]
   );
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

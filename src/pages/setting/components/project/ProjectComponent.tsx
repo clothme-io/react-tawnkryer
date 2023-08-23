@@ -7,6 +7,7 @@ import { useAppStore } from '../../../../store/store';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { db } from '../../../../lib/firebase/firebaseConfig';
 import { ProjectResponseItem } from '../../../keyword/model/entityModel';
+import { useAuth } from '../../../../hooks/useAuth';
 
 interface ProjectSelectType {
   value: any;
@@ -16,10 +17,12 @@ interface ProjectSelectType {
 export function ProjectAccountPage() {
   const [projectData, setProjectData] = useState<ProjectSelectType[]>([]);
   const accountId = useAppStore((state) => state.account.id);
+  const { updateLocalStorage } = useAuth();
   // const [loading, setLoading] = useState(false);
 
   const handleChange = (value: string) => {
     console.log(`selected ${value}`);
+    updateLocalStorage(value);
   };
 
   const appendData = () => {
