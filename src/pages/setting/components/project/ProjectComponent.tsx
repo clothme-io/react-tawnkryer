@@ -4,34 +4,46 @@ import { Select } from 'antd';
 import { Separator } from '../../../../components';
 import { ProjectCreationForm } from './ProjectCreationForm';
 import { useAppStore } from '../../../../store/store';
+import { collection, onSnapshot, query, where } from 'firebase/firestore';
+import { db } from '../../../../lib/firebase/firebaseConfig';
+import { ProjectResponseItem } from '../../../keyword/model/entityModel';
 
 interface ProjectSelectType {
-  value: string;
-  label: string;
+  value: any;
+  label: any;
 }
 
 export function ProjectAccountPage() {
   const [projectData, setProjectData] = useState<ProjectSelectType[]>([]);
-  const projects = useAppStore((state) => state.projects);
+  const accountId = useAppStore((state) => state.account.id);
+  // const [loading, setLoading] = useState(false);
 
   const handleChange = (value: string) => {
     console.log(`selected ${value}`);
   };
 
-  const formatProjectData = () => {
-    console.log('The data for projects in settings***********', projects);
-    const items: ProjectSelectType[] = [];
-    const item: ProjectSelectType = { value: '', label: '' };
-    for (let i = 0; i < projects.length; i++) {
-      item.value = projects[i].id;
-      item.label = projects[i].project.name;
-      items.push(item);
-    }
-    setProjectData(items);
+  const appendData = () => {
+    // setLoading(true);
+    const q = query(
+      collection(db, 'project'),
+      where('account_id', '==', accountId),
+    );
+    const unSubscribe = onSnapshot(q, (querySnapshot) => {
+      const projects:
+        | ProjectResponseItem
+        | { value: any; label: any }[] = [];
+      querySnapshot.forEach((doc) => {
+        // console.log('Values of projects doc.id =====', doc.id);
+        // console.log('Values of projects doc.data().name =====', doc.data().name);
+        projects.push({ value: doc.id, label: doc.data().name });
+      });
+      setProjectData(projects);
+    });
+    return () => unSubscribe();
   };
 
   useEffect(() => {
-    formatProjectData();
+    appendData();
   }, []);
 
   return (
@@ -48,14 +60,10 @@ export function ProjectAccountPage() {
           Switch Project
         </div>
         <Select
-          defaultValue="lucy"
+          defaultValue="select a project"
           style={{ width: '100%' }}
           onChange={handleChange}
-          options={[
-            { value: 'jack', label: 'Jack' },
-            { value: 'lucy', label: 'Lucy' },
-            { value: 'Yiminghe', label: 'yiminghe' },
-          ]}
+          options={projectData}
         />
       </div>
       <Separator />

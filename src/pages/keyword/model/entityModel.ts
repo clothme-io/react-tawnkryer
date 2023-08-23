@@ -83,3 +83,15 @@ export function transposeSingleEntityModel(
     },
   };
 }
+
+
+export interface ProjectResponseItem {
+  id: string;
+  value: {
+    account_id: string;
+    // created_at: number;
+    updated_at: number;
+    name: string;
+    default: boolean;
+  }
+}

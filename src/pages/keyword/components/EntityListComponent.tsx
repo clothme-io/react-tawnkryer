@@ -31,14 +31,11 @@ const ContainerHeight = '1000' as unknown as number;
 export function EntityListComponent({ onListClick }: ListProps) {
   // const entities = useAppStore((state) => state.entities);
   const addEntities = useAppStore((state) => state.addEntities);
-  const entities = useAppStore((state) => state.entities);
   const selectEntity = useAppStore((state) => state.selectEntity);
   const accountId = useAppStore((state) => state.account.id);
   const project = useAppStore((state) => state.currentProject);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<EntityResponseItem | any>(null);
-
-  // const keywordRef = collection(db, 'keyword')
 
   const appendData = () => {
     setLoading(true);
@@ -48,14 +45,12 @@ export function EntityListComponent({ onListClick }: ListProps) {
       where('project_id', '==', project.id)
     );
     const unSubscribe = onSnapshot(q, (querySnapshot) => {
-      // addEntities([]);
       const keywords:
         | EntityResponseItem
         | { id: string; value: DocumentData }[] = [];
       querySnapshot.forEach((doc) => {
         keywords.push({ id: doc.id, value: doc.data() });
       });
-      // console.log('The value of keywords *****************', keywords);
       const entitiesFromDB = transposeToEntityModel(
         keywords as unknown as EntityResponseItem[]
       );
@@ -71,32 +66,9 @@ export function EntityListComponent({ onListClick }: ListProps) {
 
   useEffect(() => {
     appendData();
-    // const queryMessage = query(
-    //   keywordRef,
-    //   where('account_id', '==', 'oTCL6Iy0wNWuFqWYuaX1xbHT1Jm2'),
-    //   where('project_id', '==', 'B56F4d0RpQNoyX1GjELG')
-    // );
-    // const unSubscribe = onSnapshot(queryMessage, (querySnapshot) => {
-    //   addEntities([]);
-    //   const keywords:
-    //     | EntityResponseItem
-    //     | { id: string; value: DocumentData }[] = [];
-    //   querySnapshot.forEach((doc: { id: any; data: () => any; }) => {
-    //     keywords.push({ id: doc.id, value: doc.data() });
-    //   });
-    //   const entitiesFromDB = transposeToEntityModel(
-    //     keywords as unknown as EntityResponseItem[]
-    //   );
-    //   setData(entitiesFromDB);
-    //   addEntities(entitiesFromDB);
-    //   selectEntity(entitiesFromDB[0]);
-    // });
-
-    // return () => unSubscribe();
   }, []);
 
   useEffect(() => {
-    console.log('Document form DB', data);
   }, [data]);
 
   const onScroll = (e: React.UIEvent<HTMLElement, UIEvent>) => {
@@ -112,7 +84,6 @@ export function EntityListComponent({ onListClick }: ListProps) {
     <List className="mt-8" key={nanoid()}>
       <VirtualList
         key={nanoid()}
-        // data={data !== null ? data : entities}
         data={data}
         height={ContainerHeight}
         itemHeight={47}

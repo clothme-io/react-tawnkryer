@@ -37,6 +37,11 @@ export function LoginForm() {
         email: result.data.auth.user.email,
       };
       addAccount(account);
+      console.log('This is individual result.data.project ****************', result.data.project);
+      result.data.project.forEach((element: any) => {
+        console.log('The i login ============', element)
+        
+      });
       addProject(result.data.project); // todo: get projects from db
       const defaultProject = result.data.project.filter(
         (item: { project: { default: any } }) => {
