@@ -29,8 +29,8 @@ export function ProjectAccountPage() {
   const { addProjectId } = useAuth();
   // const [loading, setLoading] = useState(false);
 
-  const projectId = JSON.parse(localStorage.getItem("tempProjectId") as string);
-  const UserAccount = JSON.parse(localStorage.getItem("tempUserId") as string);
+  const projectId = JSON.parse(localStorage.getItem('tempProjectId') as string);
+  const UserAccount = JSON.parse(localStorage.getItem('tempUserId') as string);
 
   const handleChange = (value: string) => {
     console.log(`selected ${value}`);
@@ -48,17 +48,21 @@ export function ProjectAccountPage() {
     if (projectResponse.ok) {
       console.log('The response from project DB ======', projectResponse.data);
       setAllProjectData(projectResponse.data);
-      setProjectData(projectResponse.data.filter((item: { value: any; }) => item.value !== projectId));
-      projectResponse.data.forEach((item: { value: any; label: any; }) => {
-      // console.log('The response from item ======', item);
+      setProjectData(
+        projectResponse.data.filter(
+          (item: { value: any }) => item.value !== projectId
+        )
+      );
+      projectResponse.data.forEach((item: { value: any; label: any }) => {
+        // console.log('The response from item ======', item);
         if (item.value === projectId) {
           console.log('The response from item ======', item);
 
-          setDefaultProjectValue({ label: item.label, value: item.value});
+          setDefaultProjectValue({ label: item.label, value: item.value });
         }
-      })
+      });
     }
-  }
+  };
 
   const appendData = () => {
     // setLoading(true);

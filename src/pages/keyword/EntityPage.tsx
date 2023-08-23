@@ -28,7 +28,10 @@ export const EntityPage = () => {
       .then((item) => {
         if (item.ok) {
           const entityFromDB = transposeSingleEntityModel(item.data);
-          console.log('This is the entity from the Entity Page ====== ', item.data)
+          console.log(
+            'This is the entity from the Entity Page ====== ',
+            item.data
+          );
           selectEntity(entityFromDB);
         }
       })
