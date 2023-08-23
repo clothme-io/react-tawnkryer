@@ -42,6 +42,9 @@ export const AuthProvider = ({ children }: any) => {
     setUser(null);
     setEmail(null);
     setProjectId(null);
+    localStorage.removeItem("tempUserId")
+    localStorage.removeItem("tempEmail")
+    localStorage.removeItem("tempProjectId")
     navigate("/login", { replace: true });
   };
 

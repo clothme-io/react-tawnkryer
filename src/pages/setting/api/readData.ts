@@ -1,6 +1,5 @@
 import {
-    doc,
-    getDoc,
+  collection, query, where, getDocs, DocumentData
     // DocumentData,
   } from 'firebase/firestore';
   
@@ -12,17 +11,14 @@ import {
     account_id: string,
   ): Promise<Result<any, CustomError>> => {
     try {
-        const docRef = doc(db, 'project', account_id);
-        const docSnap = await getDoc(docRef);
-        const projectData = { id: '', value: {} };
-        if (docSnap.exists()) {
-          console.log('Document data:', docSnap.data());
-          projectData.id = docSnap.id;
-          projectData.value = docSnap.data() as unknown as object;
-        } else {
-          // docSnap.data() will be undefined in this case
-          console.log('No such document!');
-        }
+        const projectQuery = query(collection(db, "project"), where("account_id", "==", account_id));
+        const querySnapshot = await getDocs(projectQuery)
+        const projectData: { id: string; value: DocumentData; }[] = [];
+        querySnapshot.forEach((doc) => {
+          // doc.data() is never undefined for query doc snapshots
+          console.log(doc.id, " => ", doc.data());
+          projectData.push({ id: doc.id, value: doc.data()})
+        });
         return { ok: true, data: projectData };
       } catch (err) {
         const error = new CustomError(500, '', err);
