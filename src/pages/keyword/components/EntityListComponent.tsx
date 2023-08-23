@@ -29,16 +29,14 @@ interface ListProps {
 const ContainerHeight = '1000' as unknown as number;
 
 export function EntityListComponent({ onListClick }: ListProps) {
-  // const entities = useAppStore((state) => state.entities);
   const addEntities = useAppStore((state) => state.addEntities);
   const selectEntity = useAppStore((state) => state.selectEntity);
   const accountId = useAppStore((state) => state.account.id);
-  // const pId = useAppStore((state) => state.currentProject.id);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<EntityResponseItem | any>(null);
 
-  const projectId = JSON.parse(localStorage.getItem("tempProjectId") as string);
-  
+  const projectId = JSON.parse(localStorage.getItem('tempProjectId') as string);
+
   const appendData = (projectId: string) => {
     setLoading(true);
 
@@ -70,11 +68,9 @@ export function EntityListComponent({ onListClick }: ListProps) {
     if (projectId) {
       appendData(projectId);
     }
-
   }, []);
 
-  useEffect(() => {
-  }, [data]);
+  useEffect(() => {}, [data]);
 
   const onScroll = (e: React.UIEvent<HTMLElement, UIEvent>) => {
     if (
@@ -106,10 +102,11 @@ export function EntityListComponent({ onListClick }: ListProps) {
             onClick={() => onListClick(item.id)}
           >
             <List.Item.Meta
-              title={loading && <Skeleton.Input active />}
+              title={loading && <Skeleton.Input active key={item.id} />}
               description={`${item.name} ${item.type} ${item.updated_at}`}
               className="px-3"
               style={{ backgroundColor: `${item.id} gray` }}
+              key={item.id}
             />
           </List.Item>
         )}
