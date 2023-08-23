@@ -33,16 +33,19 @@ export function EntityListComponent({ onListClick }: ListProps) {
   const addEntities = useAppStore((state) => state.addEntities);
   const selectEntity = useAppStore((state) => state.selectEntity);
   const accountId = useAppStore((state) => state.account.id);
-  const project = useAppStore((state) => state.currentProject);
+  // const pId = useAppStore((state) => state.currentProject.id);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<EntityResponseItem | any>(null);
 
-  const appendData = () => {
+  const projectId = JSON.parse(localStorage.getItem("tempProjectId") as string);
+  
+  const appendData = (projectId: string) => {
     setLoading(true);
+
     const q = query(
       collection(db, 'keyword'),
       where('account_id', '==', accountId),
-      where('project_id', '==', project.id)
+      where('project_id', '==', projectId as string)
     );
     const unSubscribe = onSnapshot(q, (querySnapshot) => {
       const keywords:
@@ -54,7 +57,6 @@ export function EntityListComponent({ onListClick }: ListProps) {
       const entitiesFromDB = transposeToEntityModel(
         keywords as unknown as EntityResponseItem[]
       );
-      console.log('Document form DB', entitiesFromDB);
 
       setData(entitiesFromDB);
       addEntities(entitiesFromDB);
@@ -65,7 +67,10 @@ export function EntityListComponent({ onListClick }: ListProps) {
   };
 
   useEffect(() => {
-    appendData();
+    if (projectId) {
+      appendData(projectId);
+    }
+
   }, []);
 
   useEffect(() => {
@@ -76,7 +81,7 @@ export function EntityListComponent({ onListClick }: ListProps) {
       e.currentTarget.scrollHeight - e.currentTarget.scrollTop ===
       ContainerHeight
     ) {
-      appendData();
+      appendData(projectId as string);
     }
   };
 

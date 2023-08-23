@@ -21,7 +21,7 @@ export function LoginForm() {
   const addAccount = useAppStore((state) => state.addAccount);
   const addProject = useAppStore((state) => state.addProject);
   const setDefaultProject = useAppStore((state) => state.setDefaultProject);
-  const { login } = useAuth();
+  const { login, addProjectId } = useAuth();
 
   async function handleLogin(event: any) {
     event.preventDefault();
@@ -47,6 +47,7 @@ export function LoginForm() {
         result.data.auth.user.uid as string,
         result.data.auth.user.email as string
       );
+      addProjectId(defaultProject[0].id);
     }
   }
 

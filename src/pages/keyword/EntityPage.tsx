@@ -27,13 +27,12 @@ export const EntityPage = () => {
     readKeywordContent(key as unknown as string)
       .then((item) => {
         if (item.ok) {
-          // console.log('The value of the single id ***', item.data);
           const entityFromDB = transposeSingleEntityModel(item.data);
           selectEntity(entityFromDB);
         }
       })
       .catch((error) => {
-        console.log('The value of the single id ***', error);
+        // console.log('The value of the single id ***', error);
       });
   };
 

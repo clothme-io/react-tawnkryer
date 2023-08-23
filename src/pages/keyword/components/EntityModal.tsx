@@ -26,7 +26,6 @@ export function EntityModal({ open, handleCancel, setOpen }: EntityProps) {
   const formRef = React.useRef<FormInstance>(null);
 
   const onFinish = async (values: any) => {
-    console.log('The value of the default project**********', project);
     setLoading(true);
     onReset();
     console.log(values);

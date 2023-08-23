@@ -47,7 +47,7 @@ export async function signIn(
     const userAuthData: any = { auth: signInResult, project: [] }
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      console.log(doc.id, ' => ', doc.data());
+      // console.log(doc.id, ' => ', doc.data());
       userAuthData.project.push({id: doc.id, project: doc.data() })
     });
     return { ok: true, data: userAuthData };

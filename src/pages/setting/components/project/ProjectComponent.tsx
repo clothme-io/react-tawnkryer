@@ -16,13 +16,23 @@ interface ProjectSelectType {
 
 export function ProjectAccountPage() {
   const [projectData, setProjectData] = useState<ProjectSelectType[]>([]);
+  const [allProjectData, setAllProjectData] = useState<ProjectSelectType[]>([]);
+  const [defaultProjectValue, setDefaultProjectValue] = useState({ label: '', value: ''});
   const accountId = useAppStore((state) => state.account.id);
-  const { updateLocalStorage } = useAuth();
+  const { addProjectId } = useAuth();
   // const [loading, setLoading] = useState(false);
+
+  const projectId = JSON.parse(localStorage.getItem("tempProjectId") as string);
 
   const handleChange = (value: string) => {
     console.log(`selected ${value}`);
-    updateLocalStorage(value);
+    addProjectId(value);
+    setProjectData(allProjectData.filter(item => item.value !== value));
+    allProjectData.forEach(item => {
+      if (item.value === value) {
+        setDefaultProjectValue({ label: item.label, value: item.value});
+      }
+    })
   };
 
   const appendData = () => {
@@ -36,11 +46,15 @@ export function ProjectAccountPage() {
         | ProjectResponseItem
         | { value: any; label: any }[] = [];
       querySnapshot.forEach((doc) => {
-        // console.log('Values of projects doc.id =====', doc.id);
-        // console.log('Values of projects doc.data().name =====', doc.data().name);
         projects.push({ value: doc.id, label: doc.data().name });
       });
-      setProjectData(projects);
+      setAllProjectData(projects);
+      setProjectData(projects.filter(item => item.value !== projectId));
+      projects.forEach(item => {
+        if (item.value === projectId) {
+          setDefaultProjectValue({ label: item.label, value: item.value});
+        }
+      })
     });
     return () => unSubscribe();
   };
@@ -48,6 +62,9 @@ export function ProjectAccountPage() {
   useEffect(() => {
     appendData();
   }, []);
+
+  useEffect(() => {
+  }, [defaultProjectValue]);
 
   return (
     <div className="space-y-6 px-32">
@@ -62,12 +79,14 @@ export function ProjectAccountPage() {
         <div className="pb-8 text-lg font-semibold text-zinc-950">
           Switch Project
         </div>
+        {/* { defaultProjectName && */}
         <Select
-          defaultValue="select a project"
-          style={{ width: '100%' }}
+          value={defaultProjectValue.label}
+          style={{ width: '100%', color: 'black' }}
           onChange={handleChange}
           options={projectData}
         />
+        {/* } */}
       </div>
       <Separator />
       <ProjectCreationForm />

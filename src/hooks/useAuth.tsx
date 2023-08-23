@@ -8,7 +8,7 @@ interface ContextType {
   projectId: any;
   login: any;
   logout: any;
-  updateLocalStorage: any;
+  addProjectId: any;
 }
 
 const AuthContext = createContext<ContextType>({
@@ -17,7 +17,7 @@ const AuthContext = createContext<ContextType>({
   projectId: undefined,
   login: undefined,
   logout: undefined,
-  updateLocalStorage: undefined,
+  addProjectId: undefined,
 });
 
 export const AuthProvider = ({ children }: any) => {
@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }: any) => {
     navigate("/dashboard");
   };
 
-  const updateLocalStorage = (projectId: string) => {
+  const addProjectId = (projectId: string) => {
     setProjectId(projectId);
   };
 
@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }: any) => {
       projectId,
       login,
       logout,
-      updateLocalStorage
+      addProjectId
     }),
     [userId, email, projectId]
   );
