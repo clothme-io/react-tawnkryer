@@ -1,9 +1,13 @@
-import { Collapse } from 'antd';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Collapse, message } from 'antd';
 import { useEffect } from 'react';
 // Store
 import { useAppStore } from '../../../store/store';
 import { DataTableComponent } from './DataTableComponent';
 import { EntityDataTable } from './EntityDataTable';
+
+// API
+import { readEntities } from '../api/readKeywordAPIs';
 
 const text = `
   A dog is a type of domesticated animal.
@@ -12,13 +16,22 @@ const text = `
 `;
 
 export function EntityDataComponent() {
-  const entity = useAppStore((state) => state.selectedEntity);
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const accountId = JSON.parse(localStorage.getItem('tempUserId') as string);
+  const projectId = JSON.parse(localStorage.getItem('tempProjectId') as string);
 
   // const onChange = (key: string | string[]) => {
   // console.log('Got herer', key);
   // };
 
-  useEffect(() => {}, [entity]);
+  const getEntities = async () => {
+    const response = await readEntities(accountId, projectId);
+  };
+
+  useEffect(() => {
+    getEntities();
+  }, []);
 
   return (
     <div
@@ -29,12 +42,13 @@ export function EntityDataComponent() {
       }}
     >
       <div className="p-10 bg-white">
-        <p>{entity ? entity.name : ''}</p>
+        {contextHolder}
+        {/* <p>{entity ? entity.name : ''}</p> */}
         {/* <p>{entity.name}</p> */}
         {/* <p>{entity.id}</p> */}
       </div>
       <br />
-      <Collapse
+      {/* <Collapse
         size="small"
         style={{ backgroundColor: 'white' }}
         items={[
@@ -44,7 +58,7 @@ export function EntityDataComponent() {
             children: <EntityDataTable entity={entity} />,
           },
         ]}
-      />
+      /> */}
       <br />
       <Collapse
         size="small"

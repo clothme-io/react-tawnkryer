@@ -1,6 +1,6 @@
 /* eslint-disable react/function-component-definition */
 import { useEffect, useState } from 'react';
-import { Button, Row, Col } from 'antd';
+import { Button, Row, Col, message } from 'antd';
 import { EntityModal } from './components/EntityModal';
 import { EntityDataComponent } from './components/EntityDataComponent';
 import { EntityListComponent } from './components/EntityListComponent';
@@ -12,7 +12,7 @@ import { transposeSingleEntityModel } from './model/entityModel';
 export const EntityPage = () => {
   const selectEntity = useAppStore((state) => state.selectEntity);
   const entity = useAppStore((state) => state.selectedEntity);
-
+  const [messageApi, contextHolder] = message.useMessage();
   const [open, setOpen] = useState(false);
 
   const showModal = () => {
@@ -28,11 +28,16 @@ export const EntityPage = () => {
       .then((item) => {
         if (item.ok) {
           const entityFromDB = transposeSingleEntityModel(item.data);
+          console.log('This is the entity from the Entity Page ====== ', item.data)
           selectEntity(entityFromDB);
         }
       })
       .catch((error) => {
         // console.log('The value of the single id ***', error);
+        messageApi.open({
+          type: 'error',
+          content: error,
+        });
       });
   };
 
@@ -40,6 +45,7 @@ export const EntityPage = () => {
 
   return (
     <>
+      {contextHolder}
       <Row>
         <Col span={6}>
           <h2 className="text-3xl font-bold tracking-tight mb-0">Entity</h2>

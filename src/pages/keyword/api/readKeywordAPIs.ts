@@ -1,18 +1,16 @@
 import {
-  doc,
-  getDoc,
   onSnapshot,
   collection,
   query,
   where,
-  // DocumentData,
+  getDocs,
+  doc,
+  getDoc,
 } from 'firebase/firestore';
 
 import { db } from '../../../lib/firebase/firebaseConfig';
 import { CustomError } from '../../../lib/util/customError';
 import { Result } from '../../../lib/util/resultType';
-// Store
-import { useAppStore } from '../../../store/store';
 
 export const readKeywordContents = async (
   account_id: string,
@@ -40,24 +38,6 @@ export const readKeywordContents = async (
   }
 };
 
-export const listernKeywordContent = async (
-  docId: string
-): Promise<Result<any, CustomError>> => {
-  try {
-    const keywordData = { id: '', value: {} };
-    const unSubscribe = onSnapshot(doc(db, 'keyword', docId), (doc) => {
-      console.log('Current data: ', doc.data());
-      keywordData.id = doc.id;
-      keywordData.value = doc.data() as unknown as object;
-    });
-    unSubscribe();
-    return { ok: true, data: keywordData };
-  } catch (err) {
-    const error = new CustomError(500, '', err);
-    return { ok: false, error };
-  }
-};
-
 export const readKeywordContent = async (
   docId: string
 ): Promise<Result<any, CustomError>> => {
@@ -73,6 +53,31 @@ export const readKeywordContent = async (
       // docSnap.data() will be undefined in this case
       console.log('No such document!');
     }
+    return { ok: true, data: keywordData };
+  } catch (err) {
+    const error = new CustomError(500, '', err);
+    return { ok: false, error };
+  }
+};
+
+export const readEntities = async (
+  accountId: string,
+  projectId: string
+): Promise<Result<any, CustomError>> => {
+  try {
+    const entityQuery = query(
+      collection(db, 'keyword'),
+      where('account_id', '==', accountId),
+      where('project_id', '==', projectId)
+    );
+
+    const querySnapshot = await getDocs(entityQuery);
+    const keywordData = { id: '', value: {} };
+
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      console.log(doc.id, ' => ', doc.data());
+    });
     return { ok: true, data: keywordData };
   } catch (err) {
     const error = new CustomError(500, '', err);
