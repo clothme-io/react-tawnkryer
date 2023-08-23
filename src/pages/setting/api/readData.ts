@@ -23,7 +23,6 @@ export const readProjects = async (
     const projectData: { id: string; value: DocumentData }[] = [];
     querySnapshot.forEach((doc) => {
       // doc.data() is never undefined for query doc snapshots
-      console.log(doc.id, ' => ', doc.data());
       projectData.push({ id: doc.id, value: doc.data() });
     });
     return { ok: true, data: projectData };

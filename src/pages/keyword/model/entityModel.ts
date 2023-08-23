@@ -84,7 +84,6 @@ export function transposeSingleEntityModel(
   };
 }
 
-
 export interface ProjectResponseItem {
   id: string;
   value: {
@@ -93,5 +92,5 @@ export interface ProjectResponseItem {
     updated_at: number;
     name: string;
     default: boolean;
-  }
+  };
 }
