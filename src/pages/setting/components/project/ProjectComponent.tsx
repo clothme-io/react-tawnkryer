@@ -10,6 +10,9 @@ import { db } from '../../../../lib/firebase/firebaseConfig';
 import { ProjectResponseItem } from '../../../keyword/model/entityModel';
 import { useAuth } from '../../../../hooks/useAuth';
 
+// API
+import { readProjects } from '../../api/readData';
+
 interface ProjectSelectType {
   value: any;
   label: any;
@@ -26,7 +29,8 @@ export function ProjectAccountPage() {
   const { addProjectId } = useAuth();
   // const [loading, setLoading] = useState(false);
 
-  const projectId = JSON.parse(localStorage.getItem('tempProjectId') as string);
+  const projectId = JSON.parse(localStorage.getItem("tempProjectId") as string);
+  const UserAccount = JSON.parse(localStorage.getItem("tempUserId") as string);
 
   const handleChange = (value: string) => {
     console.log(`selected ${value}`);
@@ -38,6 +42,23 @@ export function ProjectAccountPage() {
       }
     });
   };
+
+  const getProjectFromDB = async () => {
+    const projectResponse = await readProjects(UserAccount);
+    if (projectResponse.ok) {
+      console.log('The response from project DB ======', projectResponse.data);
+      setAllProjectData(projectResponse.data);
+      setProjectData(projectResponse.data.filter((item: { value: any; }) => item.value !== projectId));
+      projectResponse.data.forEach((item: { value: any; label: any; }) => {
+      // console.log('The response from item ======', item);
+        if (item.value === projectId) {
+          console.log('The response from item ======', item);
+
+          setDefaultProjectValue({ label: item.label, value: item.value});
+        }
+      })
+    }
+  }
 
   const appendData = () => {
     // setLoading(true);
@@ -62,10 +83,13 @@ export function ProjectAccountPage() {
   };
 
   useEffect(() => {
-    appendData();
+    // appendData();
+    getProjectFromDB();
   }, []);
 
-  useEffect(() => {}, [defaultProjectValue]);
+  useEffect(() => {
+    console.log('The response from project DB ======', defaultProjectValue);
+  }, [defaultProjectValue]);
 
   return (
     <div className="space-y-6 px-32">
@@ -81,12 +105,12 @@ export function ProjectAccountPage() {
           Switch Project
         </div>
         {/* { defaultProjectName && */}
-        <Select
+        {/* <Select
           value={defaultProjectValue.label}
           style={{ width: '100%', color: 'black' }}
           onChange={handleChange}
           options={projectData}
-        />
+        /> */}
         {/* } */}
       </div>
       <Separator />
