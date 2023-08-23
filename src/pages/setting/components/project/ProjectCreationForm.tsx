@@ -69,6 +69,9 @@ export function ProjectCreationForm() {
   return (
     <div className="py-6">
       {contextHolder}
+      <div className="pb-8 text-lg font-semibold text-zinc-950">
+        Add New Project
+      </div>
       <Form
         ref={formRef}
         name="control-ref"

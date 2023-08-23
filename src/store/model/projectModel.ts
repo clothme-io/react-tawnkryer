@@ -6,4 +6,11 @@ export interface ProjectModel {
   // owner: string
   // project_number: number;
   // project_id: string;
+  project: ProjectDetails;
+}
+
+export interface ProjectDetails {
+  account_id: string;
+  default: boolean;
+  name: string;
 }

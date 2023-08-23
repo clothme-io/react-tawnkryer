@@ -15,6 +15,11 @@ export const createProjectSlice: StateCreator<ProjectSlice> = (set, get) => ({
   currentProject: {
     id: '',
     name: '',
+    project: {
+      account_id: '',
+      default: false,
+      name: '',
+    },
   },
   addProject: (project: ProjectModel) => {
     const { projects } = get();
