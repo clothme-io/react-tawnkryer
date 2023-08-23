@@ -18,8 +18,7 @@ export function EntityDataComponent() {
   // console.log('Got herer', key);
   // };
 
-  useEffect(() => {
-  }, [entity]);
+  useEffect(() => {}, [entity]);
 
   return (
     <div

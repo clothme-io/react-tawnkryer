@@ -29,12 +29,16 @@ export const createProjectSlice: StateCreator<ProjectSlice> = (set, get) => ({
   },
   removeProject: (projectId: string) => {
     set({
-      projects: get().projects.filter((project: { id: string; }) => project.id !== projectId),
+      projects: get().projects.filter(
+        (project: { id: string }) => project.id !== projectId
+      ),
     });
   },
   selectProject: (projectId: string) => {
     set({
-      projects: get().projects.filter((project: { id: string; }) => project.id !== projectId),
+      projects: get().projects.filter(
+        (project: { id: string }) => project.id !== projectId
+      ),
     });
   },
   setDefaultProject(project: ProjectModel) {

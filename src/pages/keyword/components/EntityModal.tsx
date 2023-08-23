@@ -19,16 +19,16 @@ interface EntityProps {
 
 export function EntityModal({ open, handleCancel, setOpen }: EntityProps) {
   const accountId = useAppStore((state) => state.account.id);
-  const project = useAppStore((state) => state.currentProject);
   const [loading, setLoading] = React.useState(false);
   const [messageApi, contextHolder] = message.useMessage();
 
+  const projectId = JSON.parse(localStorage.getItem('tempProjectId') as string);
   const formRef = React.useRef<FormInstance>(null);
 
   const onFinish = async (values: any) => {
     setLoading(true);
     onReset();
-    console.log(values);
+    // console.log(values);
     const keywordId = nanoid();
     const email = localStorage.getItem('tempUser');
     const date = Date.now() as unknown as string;
@@ -37,7 +37,7 @@ export function EntityModal({ open, handleCancel, setOpen }: EntityProps) {
       id: keywordId,
       data: {
         account_id: accountId,
-        project_id: project.id,
+        project_id: projectId,
         created_at: date,
         updated_at: date,
         status: 'entity',
