@@ -34,9 +34,14 @@ export function EntityDataComponent(props: any) {
       props.id
     );
     const response = await readKeywordContent(entityId);
+    console.log(
+      'Data from DB ====== ',
+      response
+    );
     if (response.ok) {
       setEntityData(response.data);
-    } else {
+    }
+    if (!response.ok && response !== undefined) {
       messageApi.open({
         type: 'error',
         content: response.error.message,
@@ -48,9 +53,9 @@ export function EntityDataComponent(props: any) {
     getEntities();
   }, [entityId]);
 
-  useEffect(() => {
-    getEntities();
-  }, []);
+  // useEffect(() => {
+  //   getEntities();
+  // }, []);
 
   // useEffect(() => {}, [entityData, entityId]);
 
@@ -86,32 +91,8 @@ export function EntityDataComponent(props: any) {
         style={{ backgroundColor: 'white' }}
         items={[
           {
-            key: '2',
-            label: 'Related Search',
-            children: <p>{text}</p>,
-          },
-        ]}
-      />
-      <br />
-      <Collapse
-        size="small"
-        style={{ backgroundColor: 'white' }}
-        items={[
-          {
-            key: '3',
-            label: 'Related Queries',
-            children: <p>{text}</p>,
-          },
-        ]}
-      />
-      <br />
-      <Collapse
-        size="small"
-        style={{ backgroundColor: 'white' }}
-        items={[
-          {
             key: '4',
-            label: 'Keywords',
+            label: 'Related Keywords',
             children: <DataTableComponent />,
           },
         ]}

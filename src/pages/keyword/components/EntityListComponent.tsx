@@ -55,7 +55,6 @@ export function EntityListComponent({ onListClick }: ListProps) {
       const entitiesFromDB = transposeToEntityModel(
         keywords as unknown as EntityResponseItem[]
       );
-
       setData(entitiesFromDB);
       addEntities(entitiesFromDB);
       selectEntity(entitiesFromDB[0]);
