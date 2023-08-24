@@ -1,13 +1,14 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Collapse, message } from 'antd';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 // Store
 import { useAppStore } from '../../../store/store';
 import { DataTableComponent } from './DataTableComponent';
 import { EntityDataTable } from './EntityDataTable';
 
 // API
-import { readEntities } from '../api/readKeywordAPIs';
+import { readKeywordContent } from '../api/readKeywordAPIs';
 
 const text = `
   A dog is a type of domesticated animal.
@@ -15,23 +16,43 @@ const text = `
   it can be found as a welcome guest in many households across the world.
 `;
 
-export function EntityDataComponent() {
+export function EntityDataComponent(props: any) {
+  const [entityData, setEntityData] = useState<any>(null);
   const [messageApi, contextHolder] = message.useMessage();
 
   const accountId = JSON.parse(localStorage.getItem('tempUserId') as string);
   const projectId = JSON.parse(localStorage.getItem('tempProjectId') as string);
+  const entityId = JSON.parse(localStorage.getItem('tempEntityId') as string);
 
   // const onChange = (key: string | string[]) => {
   // console.log('Got herer', key);
   // };
 
   const getEntities = async () => {
-    const response = await readEntities(accountId, projectId);
+    console.log(
+      'This is the id that comes from parent component ====== ',
+      props.id
+    );
+    const response = await readKeywordContent(entityId);
+    if (response.ok) {
+      setEntityData(response.data);
+    } else {
+      messageApi.open({
+        type: 'error',
+        content: response.error.message,
+      });
+    }
   };
 
   useEffect(() => {
     getEntities();
+  }, [entityId]);
+
+  useEffect(() => {
+    getEntities();
   }, []);
+
+  // useEffect(() => {}, [entityData, entityId]);
 
   return (
     <div
@@ -43,22 +64,22 @@ export function EntityDataComponent() {
     >
       <div className="p-10 bg-white">
         {contextHolder}
-        {/* <p>{entity ? entity.name : ''}</p> */}
-        {/* <p>{entity.name}</p> */}
-        {/* <p>{entity.id}</p> */}
+        <p>{entityData ? entityData.value.contentType : ''}</p>
+        <p>{entityData ? entityData.value.details.entity : ''}</p>
+        <p>{entityData ? entityData.value.details.entityUrl : ''}</p>
       </div>
       <br />
-      {/* <Collapse
+      <Collapse
         size="small"
         style={{ backgroundColor: 'white' }}
         items={[
           {
             key: '1',
             label: 'Related Entities',
-            children: <EntityDataTable entity={entity} />,
+            children: <EntityDataTable entity={entityData} />,
           },
         ]}
-      /> */}
+      />
       <br />
       <Collapse
         size="small"

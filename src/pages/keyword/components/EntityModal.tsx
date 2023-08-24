@@ -89,8 +89,8 @@ export function EntityModal({ open, handleCancel, setOpen }: EntityProps) {
             rules={[{ required: true }]}
           >
             <Select placeholder="Select a content type" allowClear>
-              <Option value="topicalAuthority">Topical Authority</Option>
-              <Option value="topicalGap">Topical Gap</Option>
+              <Option value="Topical Authority">Topical Authority</Option>
+              <Option value="Topical Gap">Topical Gap</Option>
             </Select>
           </Form.Item>
           <Form.Item

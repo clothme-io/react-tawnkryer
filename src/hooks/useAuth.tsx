@@ -1,6 +1,7 @@
-import { createContext, useContext, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
-import { useLocalStorage } from "./useLocalStorage";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { createContext, useContext, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useLocalStorage } from './useLocalStorage';
 
 interface ContextType {
   userId: any;
@@ -9,6 +10,7 @@ interface ContextType {
   login: any;
   logout: any;
   addProjectId: any;
+  addCurrentEntityId: any;
 }
 
 const AuthContext = createContext<ContextType>({
@@ -18,23 +20,29 @@ const AuthContext = createContext<ContextType>({
   login: undefined,
   logout: undefined,
   addProjectId: undefined,
+  addCurrentEntityId: undefined,
 });
 
-export const AuthProvider = ({ children }: any) => {
-  const [userId, setUser] = useLocalStorage("tempUserId", null);
-  const [email, setEmail] = useLocalStorage("tempEmail", null);
-  const [projectId, setProjectId] = useLocalStorage("tempProjectId", null);
+export function AuthProvider({ children }: any) {
+  const [userId, setUser] = useLocalStorage('tempUserId', null);
+  const [email, setEmail] = useLocalStorage('tempEmail', null);
+  const [projectId, setProjectId] = useLocalStorage('tempProjectId', null);
+  const [entityId, setEntityId] = useLocalStorage('tempEntityId', null);
   const navigate = useNavigate();
 
   // call this function when you want to authenticate the user
   const login = (userId: string, email: string) => {
     setUser(userId);
     setEmail(email);
-    navigate("/dashboard");
+    navigate('/dashboard');
   };
 
   const addProjectId = (projectId: string) => {
     setProjectId(projectId);
+  };
+
+  const addCurrentEntityId = (entityId: string) => {
+    setEntityId(entityId);
   };
 
   // call this function to sign out logged in user
@@ -42,10 +50,12 @@ export const AuthProvider = ({ children }: any) => {
     setUser(null);
     setEmail(null);
     setProjectId(null);
-    localStorage.removeItem("tempUserId")
-    localStorage.removeItem("tempEmail")
-    localStorage.removeItem("tempProjectId")
-    navigate("/login", { replace: true });
+    setEntityId(null);
+    localStorage.removeItem('tempUserId');
+    localStorage.removeItem('tempEmail');
+    localStorage.removeItem('tempProjectId');
+    localStorage.removeItem('tempEntityId');
+    navigate('/login', { replace: true });
   };
 
   const value = useMemo(
@@ -53,14 +63,16 @@ export const AuthProvider = ({ children }: any) => {
       userId,
       email,
       projectId,
+      entityId,
       login,
       logout,
-      addProjectId
+      addProjectId,
+      addCurrentEntityId,
     }),
-    [userId, email, projectId]
+    [userId, email, projectId, entityId]
   );
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-};
+}
 
 export const useAuth = () => {
   return useContext(AuthContext);

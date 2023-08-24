@@ -5,6 +5,7 @@ import { EntityModal } from './components/EntityModal';
 import { EntityDataComponent } from './components/EntityDataComponent';
 import { EntityListComponent } from './components/EntityListComponent';
 import { readKeywordContent } from './api/readKeywordAPIs';
+import { useAuth } from '../../hooks/useAuth';
 // Store & Model
 import { useAppStore } from '../../store/store';
 import { transposeSingleEntityModel } from './model/entityModel';
@@ -14,6 +15,8 @@ export const EntityPage = () => {
   const entity = useAppStore((state) => state.selectedEntity);
   const [messageApi, contextHolder] = message.useMessage();
   const [open, setOpen] = useState(false);
+  const [stateEntityId, setStateEntityId] = useState('');
+  const { addCurrentEntityId } = useAuth();
 
   const showModal = () => {
     setOpen(true);
@@ -24,14 +27,13 @@ export const EntityPage = () => {
   };
 
   const onListClick = (key: string) => {
+    addCurrentEntityId(key);
+    console.log('The value of the single entity id ***', key);
+    setStateEntityId(key);
     readKeywordContent(key as unknown as string)
       .then((item) => {
         if (item.ok) {
           const entityFromDB = transposeSingleEntityModel(item.data);
-          console.log(
-            'This is the entity from the Entity Page ====== ',
-            item.data
-          );
           selectEntity(entityFromDB);
         }
       })
@@ -44,7 +46,7 @@ export const EntityPage = () => {
       });
   };
 
-  useEffect(() => {}, [entity]);
+  useEffect(() => {}, [entity, stateEntityId]);
 
   return (
     <>
@@ -95,7 +97,7 @@ export const EntityPage = () => {
               }
             }
           >
-            <EntityDataComponent />
+            <EntityDataComponent stateEntityId={stateEntityId} />
           </div>
         </div>
       </div>

@@ -46,7 +46,7 @@ export const readKeywordContent = async (
     const docSnap = await getDoc(docRef);
     const keywordData = { id: '', value: {} };
     if (docSnap.exists()) {
-      console.log('Document data:', docSnap.data());
+      // console.log('Document data:', docSnap.data());
       keywordData.id = docSnap.id;
       keywordData.value = docSnap.data() as unknown as object;
     } else {

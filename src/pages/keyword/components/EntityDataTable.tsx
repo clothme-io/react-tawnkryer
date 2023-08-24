@@ -96,15 +96,12 @@ export function EntityDataTable(props: any) {
   };
 
   useEffect(() => {
-    console.log(
-      'this is data for entity===============',
-      props.entity.details.keywords
-    );
-  }, [props.entity.details.keywords]);
+    console.log('this is data for entity===============', props.entity);
+  }, [props.entity]);
 
   return (
     <>
-      {props.entity.details.keywords === '' ? (
+      {props.entity === '' ? (
         <Empty />
       ) : (
         <Table
