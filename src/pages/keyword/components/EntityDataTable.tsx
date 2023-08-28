@@ -5,41 +5,12 @@ import React, { useEffect, useState } from 'react';
 import { Button, Popconfirm, Space, Table, Empty } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import type { TableRowSelection } from 'antd/es/table/interface';
+import { ClusterDrawer } from './ClusterDrawer';
 
 interface DataType {
   key: React.Key;
   name: string;
 }
-
-const columns: ColumnsType<DataType> = [
-  {
-    title: 'Name',
-    dataIndex: 'name',
-  },
-  {
-    title: 'Action',
-    dataIndex: 'operation',
-    key: 'operation',
-    render: (_, record: { key: React.Key }) => (
-      <Space size="middle">
-        <Button
-          className="text-blue-500 cursor-pointer pr-4"
-          onClick={() => console.log('I was clicked')}
-          type="text"
-          block
-        >
-          Do Research
-        </Button>
-        <Popconfirm
-          title="Sure to delete?"
-          // onConfirm={() => handleDelete(record.key)}
-        >
-          <p className="text-red-500 cursor-pointer">Delete Entity</p>
-        </Popconfirm>
-      </Space>
-    ),
-  },
-];
 
 const data: DataType[] = [];
 for (let i = 0; i < 7; i++) {
@@ -51,11 +22,61 @@ for (let i = 0; i < 7; i++) {
 
 export function EntityDataTable(props: any) {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const [open, setOpen] = useState(false);
+  const [selectedDrawerRecord, setSelectedDrawerRecord] = useState(null);
+
+  const showDrawer = (record: any) => {
+    // console.log('The record for drawer ====', record);
+    setSelectedDrawerRecord(record);
+    setOpen(true);
+  };
+
+  const onClose = () => {
+    setOpen(false);
+  };
 
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-    console.log('selectedRowKeys changed: ', newSelectedRowKeys);
+    // console.log('selectedRowKeys changed: ', newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
   };
+
+  const columns: ColumnsType<DataType> = [
+    {
+      title: 'Name',
+      dataIndex: 'name',
+    },
+    {
+      title: 'Action',
+      dataIndex: 'operation',
+      key: 'operation',
+      render: (_, record: { key: React.Key }) => (
+        <Space size="middle">
+          <Button
+            className="text-blue-500 cursor-pointer pr-4"
+            onClick={showDrawer}
+            type="text"
+            block
+          >
+            Do Research
+          </Button>
+          <Button
+            className="text-blue-500 cursor-pointer pr-4"
+            onClick={() => showDrawer(record)}
+            type="text"
+            block
+          >
+            Cluster
+          </Button>
+          <Popconfirm
+            title="Sure to delete?"
+            // onConfirm={() => handleDelete(record.key)}
+          >
+            <p className="text-red-500 cursor-pointer">Delete Entity</p>
+          </Popconfirm>
+        </Space>
+      ),
+    },
+  ];
 
   const rowSelection: TableRowSelection<DataType> = {
     selectedRowKeys,
@@ -96,7 +117,7 @@ export function EntityDataTable(props: any) {
   };
 
   useEffect(() => {
-    console.log('this is data for entity===============', props.entity);
+    // console.log('this is data for entity===============', props.entity);
   }, [props.entity]);
 
   return (
@@ -110,6 +131,11 @@ export function EntityDataTable(props: any) {
           dataSource={data}
         />
       )}
+      <ClusterDrawer
+        onClose={onClose}
+        open={open}
+        selectedDrawerRecord={selectedDrawerRecord}
+      />
     </>
   );
 }

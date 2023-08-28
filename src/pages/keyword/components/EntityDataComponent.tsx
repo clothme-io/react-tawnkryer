@@ -3,25 +3,19 @@
 import { Collapse, message } from 'antd';
 import { useEffect, useState } from 'react';
 // Store
-import { useAppStore } from '../../../store/store';
+// import { useAppStore } from '../../../store/store';
 import { DataTableComponent } from './DataTableComponent';
 import { EntityDataTable } from './EntityDataTable';
 
 // API
 import { readKeywordContent } from '../api/readKeywordAPIs';
 
-const text = `
-  A dog is a type of domesticated animal.
-  Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world.
-`;
-
 export function EntityDataComponent(props: any) {
   const [entityData, setEntityData] = useState<any>(null);
   const [messageApi, contextHolder] = message.useMessage();
 
-  const accountId = JSON.parse(localStorage.getItem('tempUserId') as string);
-  const projectId = JSON.parse(localStorage.getItem('tempProjectId') as string);
+  // const accountId = JSON.parse(localStorage.getItem('tempUserId') as string);
+  // const projectId = JSON.parse(localStorage.getItem('tempProjectId') as string);
   const entityId = JSON.parse(localStorage.getItem('tempEntityId') as string);
 
   // const onChange = (key: string | string[]) => {
@@ -34,10 +28,7 @@ export function EntityDataComponent(props: any) {
       props.id
     );
     const response = await readKeywordContent(entityId);
-    console.log(
-      'Data from DB ====== ',
-      response
-    );
+    // console.log('Data from DB ====== ', response);
     if (response.ok) {
       setEntityData(response.data);
     }
