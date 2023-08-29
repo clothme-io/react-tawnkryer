@@ -1,7 +1,10 @@
 /* eslint-disable react/destructuring-assignment */
 import { Divider, Drawer, Row } from 'antd';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { ClusterPage } from '../ClusterPage';
+
+// API
+import { readClusterContents } from '../api/readClusterAPIs';
 
 interface DescriptionItemProps {
   title: string;
@@ -18,8 +21,19 @@ function DescriptionItem({ title, content }: DescriptionItemProps) {
 }
 
 export function ClusterDrawer(props: any) {
+
+  const [clusterDBData, setClusterDBData] = useState(null);
+
+  const accountId = JSON.parse(localStorage.getItem('tempUserId') as string);
+  const projectId = JSON.parse(localStorage.getItem('tempProjectId') as string);
+
+  const getClusterData = async () => {
+    const response = await readClusterContents(accountId, projectId);
+    console.log('the response in cluster drawer', response);
+  }
+
   useEffect(() => {
-    // console.log('The object record', props.selectedDrawerRecord.name);
+    getClusterData()
   }, [props.selectedDrawerRecord]);
 
   return (
