@@ -10,11 +10,33 @@ export interface EntityModel {
   entity_number: number;
   type: string;
   details: {
-    related_search: any;
-    suggestion: any;
-    related_queries: any;
-    keywords: any;
+    entity: string;
+    entityUrl: string;
   };
+  google_adwords: {
+    keywords: string[];
+  };
+  google_autosuggest: {
+    organic_result: string[];
+  };
+  google_pytrends: {
+    related_queries_top: string[];
+    related_queries_rising: string[];
+    related_topic_rising_title: string[];
+    related_topic_top_title: string[];
+  };
+  people_ask_data: string[];
+  wiki_entity: {
+    search: string[];
+    title: string;
+    url: string;
+  };
+  openAI: OpenAIResponse[];
+}
+
+export interface OpenAIResponse {
+  entity: string;
+  topics: string[];
 }
 
 export interface EntityResponseItem {
@@ -27,11 +49,31 @@ export interface EntityResponseItem {
     processing: boolean;
     project_id: string;
     status: string;
+    entity_number: number;
     updated_at: number;
     details: {
       entity: string;
       entityUrl: string;
     };
+    google_adwords: {
+      keywords: string[];
+    };
+    google_autosuggest: {
+      organic_result: string[];
+    };
+    google_pytrends: {
+      related_queries_top: string[];
+      related_queries_rising: string[];
+      related_topic_rising_title: string[];
+      related_topic_top_title: string[];
+    };
+    people_ask_data: string[];
+    wiki_entity: {
+      search: string[];
+      title: string;
+      url: string;
+    };
+    openAI: OpenAIResponse[];
   };
 }
 
@@ -48,14 +90,34 @@ export function transposeToEntityModel(
       name: model[x].value.details.entity,
       account_id: model[x].value.account_id,
       project_id: model[x].value.project_id,
-      entity_number: 0,
       type: model[x].value.contentType,
+      entity_number: model[x].value.entity_number,
       details: {
-        related_search: '',
-        suggestion: '',
-        related_queries: '',
-        keywords: '',
+        entity: model[x].value.details.entity,
+        entityUrl: model[x].value.details.entityUrl,
       },
+      google_adwords: {
+        keywords: model[x].value.google_adwords.keywords,
+      },
+      google_autosuggest: {
+        organic_result: model[x].value.google_autosuggest.organic_result,
+      },
+      google_pytrends: {
+        related_queries_top: model[x].value.google_pytrends.related_queries_top,
+        related_queries_rising:
+          model[x].value.google_pytrends.related_queries_rising,
+        related_topic_rising_title:
+          model[x].value.google_pytrends.related_topic_rising_title,
+        related_topic_top_title:
+          model[x].value.google_pytrends.related_topic_top_title,
+      },
+      people_ask_data: model[x].value.people_ask_data,
+      wiki_entity: {
+        search: model[x].value.wiki_entity.search,
+        title: model[x].value.wiki_entity.title,
+        url: model[x].value.wiki_entity.url,
+      },
+      openAI: model[x].value.openAI,
     };
     items.push(item);
   }
@@ -73,14 +135,34 @@ export function transposeSingleEntityModel(
     name: model.value.details.entity,
     account_id: model.value.account_id,
     project_id: model.value.project_id,
-    entity_number: 0,
+    entity_number: model.value.entity_number,
     type: model.value.contentType,
     details: {
-      related_search: '',
-      suggestion: '',
-      related_queries: '',
-      keywords: '',
+      entity: model.value.details.entity,
+      entityUrl: model.value.details.entityUrl,
     },
+    google_adwords: {
+      keywords: model.value.google_adwords.keywords,
+    },
+    google_autosuggest: {
+      organic_result: model.value.google_autosuggest.organic_result,
+    },
+    google_pytrends: {
+      related_queries_top: model.value.google_pytrends.related_queries_top,
+      related_queries_rising:
+        model.value.google_pytrends.related_queries_rising,
+      related_topic_rising_title:
+        model.value.google_pytrends.related_topic_rising_title,
+      related_topic_top_title:
+        model.value.google_pytrends.related_topic_top_title,
+    },
+    people_ask_data: model.value.people_ask_data,
+    wiki_entity: {
+      search: model.value.wiki_entity.search,
+      title: model.value.wiki_entity.title,
+      url: model.value.wiki_entity.url,
+    },
+    openAI: model.value.openAI,
   };
 }
 

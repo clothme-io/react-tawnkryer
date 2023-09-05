@@ -1,54 +1,22 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Collapse, message } from 'antd';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 // Store
-// import { useAppStore } from '../../../store/store';
 import { DataTableComponent } from './DataTableComponent';
 import { EntityDataTable } from './EntityDataTable';
 
-// API
-import { readKeywordContent } from '../api/readKeywordAPIs';
+interface DataProps {
+  entityData: any;
+  data: any;
+}
 
-export function EntityDataComponent(props: any) {
-  const [entityData, setEntityData] = useState<any>(null);
+export function EntityDataComponent({ entityData, data }: DataProps) {
   const [messageApi, contextHolder] = message.useMessage();
 
-  // const accountId = JSON.parse(localStorage.getItem('tempUserId') as string);
-  // const projectId = JSON.parse(localStorage.getItem('tempProjectId') as string);
-  const entityId = JSON.parse(localStorage.getItem('tempEntityId') as string);
-
-  // const onChange = (key: string | string[]) => {
-  // console.log('Got herer', key);
-  // };
-
-  const getEntities = async () => {
-    console.log(
-      'This is the id that comes from parent component ====== ',
-      props.id
-    );
-    const response = await readKeywordContent(entityId);
-    // console.log('Data from DB ====== ', response);
-    if (response.ok) {
-      setEntityData(response.data);
-    }
-    if (!response.ok && response !== undefined) {
-      messageApi.open({
-        type: 'error',
-        content: response.error.message,
-      });
-    }
-  };
-
   useEffect(() => {
-    getEntities();
-  }, [entityId]);
-
-  // useEffect(() => {
-  //   getEntities();
-  // }, []);
-
-  // useEffect(() => {}, [entityData, entityId]);
+    console.log('The data in dataCompoenet', data);
+  }, [entityData, data]);
 
   return (
     <div
@@ -60,9 +28,9 @@ export function EntityDataComponent(props: any) {
     >
       <div className="p-10 bg-white">
         {contextHolder}
-        <p>{entityData ? entityData.value.contentType : ''}</p>
-        <p>{entityData ? entityData.value.details.entity : ''}</p>
-        <p>{entityData ? entityData.value.details.entityUrl : ''}</p>
+        <p>{data ? data.name : ''}</p>
+        <p>{data ? data.type : ''}</p>
+        <p>{data ? data.url : ''}</p>
       </div>
       <br />
       <Collapse
