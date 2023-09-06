@@ -6,47 +6,47 @@ import type { TableRowSelection } from 'antd/es/table/interface';
 
 interface DataType {
   key: React.Key;
-  name: string;
-  age: number;
-  address: string;
+  keyword: string;
+  volume: number;
 }
 
-const columns: ColumnsType<DataType> = [
-  {
-    title: 'Name',
-    dataIndex: 'name',
-  },
-  {
-    title: 'Age',
-    dataIndex: 'age',
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-  },
-];
-
-const data: DataType[] = [];
-for (let i = 0; i < 10; i++) {
-  data.push({
-    key: i,
-    name: `Edward King ${i}`,
-    age: 32,
-    address: `London, Park Lane no. ${i}`,
-  });
+interface GoogleAutoSuggestDataTableProps {
+  google_autosuggest: any;
 }
 
-export function DataTableComponent() {
+export function GoogleAutoSuggestDataTableComponent({
+  google_autosuggest,
+}: GoogleAutoSuggestDataTableProps) {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
-  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-    console.log('selectedRowKeys changed: ', newSelectedRowKeys);
-    setSelectedRowKeys(newSelectedRowKeys);
-  };
+  const columns: ColumnsType<DataType> = [
+    {
+      title: 'Keyword',
+      dataIndex: 'keyword',
+    },
+    {
+      title: 'Volume',
+      dataIndex: 'volume',
+    },
+  ];
+
+  const data: DataType[] = [];
+  for (let i = 0; i < google_autosuggest.organic_result.length; i++) {
+    data.push({
+      key: i,
+      keyword: google_autosuggest.organic_result[i],
+      volume: 32,
+    });
+  }
+
+  // const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+  //   console.log('selectedRowKeys changed: ', newSelectedRowKeys);
+  //   setSelectedRowKeys(newSelectedRowKeys);
+  // };
 
   const rowSelection: TableRowSelection<DataType> = {
     selectedRowKeys,
-    onChange: onSelectChange,
+    // onChange: onSelectChange,
     selections: [
       Table.SELECTION_ALL,
       Table.SELECTION_INVERT,

@@ -10,7 +10,7 @@ import {
   where,
 } from 'firebase/firestore';
 import { EntityModal } from './components/EntityModal';
-import { EntityDataComponent } from './components/EntityDataComponent';
+import { EntityDataComponent } from './components/tables/EntityDataComponent';
 import { EntityListComponent } from './components/EntityListComponent';
 import { readKeywordContent } from './api/readKeywordAPIs';
 import { useAuth } from '../../hooks/useAuth';

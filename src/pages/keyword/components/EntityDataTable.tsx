@@ -35,10 +35,10 @@ export function EntityDataTable(props: any) {
     setOpen(false);
   };
 
-  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-    // console.log('selectedRowKeys changed: ', newSelectedRowKeys);
-    setSelectedRowKeys(newSelectedRowKeys);
-  };
+  // const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+  //   // console.log('selectedRowKeys changed: ', newSelectedRowKeys);
+  //   setSelectedRowKeys(newSelectedRowKeys);
+  // };
 
   const columns: ColumnsType<DataType> = [
     {
@@ -80,7 +80,7 @@ export function EntityDataTable(props: any) {
 
   const rowSelection: TableRowSelection<DataType> = {
     selectedRowKeys,
-    onChange: onSelectChange,
+    // onChange: onSelectChange,
     selections: [
       Table.SELECTION_ALL,
       Table.SELECTION_INVERT,
