@@ -1,8 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
 import VirtualList from 'rc-virtual-list';
-import { List, Skeleton, message } from 'antd';
-import { nanoid } from 'nanoid';
+import { List, Skeleton } from 'antd';
 
 // Models
 import { EntityModel } from '../model/entityModel';
@@ -36,18 +35,17 @@ export function EntityListComponent({
   };
 
   return (
-    <List className="mt-8" key={nanoid()}>
+    <List className="mt-8">
       <VirtualList
-        key={nanoid()}
         data={data}
         height={ContainerHeight}
         itemHeight={47}
-        itemKey={nanoid()}
+        itemKey="keywordList"
         onScroll={onScroll}
       >
         {(item: EntityModel) => (
           <List.Item
-            key={item.id}
+            key={item ? item.updated_at : Math.random()}
             style={{
               cursor: 'pointer',
               backgroundColor: 'white',
@@ -56,11 +54,18 @@ export function EntityListComponent({
             onClick={() => onListClick(item.id)}
           >
             <List.Item.Meta
-              title={loading && <Skeleton.Input active key={item.id} />}
-              description={`${item.name} ${item.type} ${item.updated_at}`}
+              key={item ? item.updated_at : Math.random()}
+              title={
+                loading && (
+                  <Skeleton.Input
+                    active
+                    key={item ? item.updated_at : Math.random()}
+                  />
+                )
+              }
+              description={`${item.name} ${item.updated_at}`}
               className="px-3"
               style={{ backgroundColor: `${item.id} gray` }}
-              key={item.id}
             />
           </List.Item>
         )}

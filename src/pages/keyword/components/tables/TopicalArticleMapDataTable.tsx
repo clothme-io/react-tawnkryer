@@ -93,10 +93,10 @@ export function TopicalArticleMapDataTableComponent({
         paddingBottom: 20,
       }}
     >
-      {openAI.map((item: any) => {
+      {openAI.map((item: any, index: number) => {
         return (
           <Collapse
-            key={item}
+            key={index}
             size="small"
             style={{ backgroundColor: 'white', marginBottom: 10 }}
             items={[

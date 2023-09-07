@@ -27,13 +27,13 @@ export const getOutLineForMultiKeyword = async (
 };
 
 export const adWordAuth = async () => {
-  const header = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': '*',
-    'Access-Control-Allow-Headers': '*',
-    'Content-Type': 'application/json'
-    // 'Access-Control-Allow-Credentials': 'true',
-  };
+  // const header = {
+  //   'Access-Control-Allow-Origin': '*',
+  //   'Access-Control-Allow-Methods': '*',
+  //   'Access-Control-Allow-Headers': '*',
+  //   'Content-Type': 'application/json'
+  //   'Access-Control-Allow-Credentials': 'true',
+  // };
   const response = await axios.get('http://127.0.0.1:5000/authorize', {
     // withCredentials: true,
     // headers: header,

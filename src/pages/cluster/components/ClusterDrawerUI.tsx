@@ -1,3 +1,6 @@
+/* eslint-disable consistent-return */
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-plusplus */
 import React, { useState } from 'react';
 import { Tree } from 'antd';
 import type { DataNode, TreeProps } from 'antd/es/tree';
@@ -7,7 +10,11 @@ const y = 2;
 const z = 1;
 const defaultData: DataNode[] = [];
 
-const generateData = (_level: number, _preKey?: React.Key, _tns?: DataNode[]) => {
+export function generateData(
+  _level: number,
+  _preKey?: React.Key,
+  _tns?: DataNode[]
+): DataNode[] {
   const preKey = _preKey || '0';
   const tns = _tns || defaultData;
 
@@ -27,10 +34,11 @@ const generateData = (_level: number, _preKey?: React.Key, _tns?: DataNode[]) =>
     tns[index].children = [];
     return generateData(level, key, tns[index].children);
   });
-};
+  return _tns as DataNode[];
+}
 generateData(z);
 
-export const ClusterPage: React.FC = () => {
+export function ClusterDrawerUI() {
   const [gData, setGData] = useState(defaultData);
   const [expandedKeys] = useState(['0-0', '0-0-0', '0-0-0-0']);
 
@@ -45,12 +53,13 @@ export const ClusterPage: React.FC = () => {
     const dropKey = info.node.key;
     const dragKey = info.dragNode.key;
     const dropPos = info.node.pos.split('-');
-    const dropPosition = info.dropPosition - Number(dropPos[dropPos.length - 1]);
+    const dropPosition =
+      info.dropPosition - Number(dropPos[dropPos.length - 1]);
 
     const loop = (
       data: DataNode[],
       key: React.Key,
-      callback: (node: DataNode, i: number, data: DataNode[]) => void,
+      callback: (node: DataNode, i: number, data: DataNode[]) => void
     ) => {
       for (let i = 0; i < data.length; i++) {
         if (data[i].key === key) {
@@ -61,6 +70,7 @@ export const ClusterPage: React.FC = () => {
         }
       }
     };
+
     const data = [...gData];
 
     // Find dragObject
@@ -105,15 +115,24 @@ export const ClusterPage: React.FC = () => {
     setGData(data);
   };
 
+  const selectedItem: TreeProps['onSelect'] = (info) => {
+    console.log(info);
+    // expandedKeys, set it when controlled is needed
+    // setExpandedKeys(info.expandedKeys)
+  };
+
   return (
     <Tree
       className="draggable-tree"
       defaultExpandedKeys={expandedKeys}
       draggable
       blockNode
+      showLine
+      selectable
       onDragEnter={onDragEnter}
       onDrop={onDrop}
       treeData={gData}
+      onSelect={selectedItem}
     />
   );
-};
+}

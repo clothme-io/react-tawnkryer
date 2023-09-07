@@ -124,7 +124,7 @@ export const EntityPage = () => {
 
   return (
     <>
-      {/* {contextHolder} */}
+      {contextHolder}
       <Row>
         <Col span={6}>
           <h2 className="text-3xl font-bold tracking-tight mb-0">Entity</h2>

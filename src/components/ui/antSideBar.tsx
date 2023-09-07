@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Navigate, Outlet, useNavigate } from 'react-router-dom';
-import { useAuth } from "../../hooks/useAuth";
 import {
   DesktopOutlined,
   BookOutlined,
@@ -8,9 +7,11 @@ import {
   SettingOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
+  PoweroffOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Button, Layout, Menu, theme } from 'antd';
+import { useAuth } from '../../hooks/useAuth';
 
 const { Header, Content, Sider } = Layout;
 
@@ -37,17 +38,18 @@ const items: MenuItem[] = [
   getItem('Writer', '/writer', <BookOutlined />),
   getItem('Scheduler', '/scheduler', <DesktopOutlined />),
   getItem('Setting', '/setting', <SettingOutlined />),
-  getItem('Sign Out', '/signout', <Button type='text' />),
+  getItem('Sign Out', '/signout', <PoweroffOutlined />),
 ];
 
 export function AntSidebar() {
   const [collapsed, setCollapsed] = useState(false);
+  const [selectedMenu, setSelectedMen] = useState('');
   const { userId, email, logout } = useAuth();
   const navigate = useNavigate();
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-  
+
   if (!userId || !email) {
     // user is not authenticated
     return <Navigate to="/login" />;
@@ -62,13 +64,14 @@ export function AntSidebar() {
         <Menu
           theme="dark"
           defaultSelectedKeys={['/dashboard']}
-          // activeKey={}
+          activeKey={selectedMenu}
           items={items}
           onClick={({ key }) => {
             if (key === '/signout') {
-              logout()
+              logout();
             } else {
               navigate(key);
+              setSelectedMen(key);
             }
           }}
           style={{
@@ -79,6 +82,7 @@ export function AntSidebar() {
             left: 0,
             top: 0,
             bottom: 0,
+            maxWidth: (collapsed as unknown as number) ? 40 : 200,
           }}
         />
       </Sider>

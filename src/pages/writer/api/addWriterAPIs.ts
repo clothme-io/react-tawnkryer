@@ -13,7 +13,7 @@ export const addKeywordData = async (
       merge: true,
     });
     console.log('Got here =====', keywordData);
-    return { ok: true, value: 'Successfully Added' };
+    return { ok: true, data: 'Successfully Added' };
   } catch (err) {
     const error = new CustomError(500, '', err);
     return { ok: false, error };
@@ -29,7 +29,7 @@ export const saveMultiKeywordData = async (
       merge: true,
     });
 
-    return { ok: true, value: 'Successfully Added' };
+    return { ok: true, data: 'Successfully Added' };
   } catch (err) {
     const error = new CustomError(500, '', err);
     return { ok: false, error };
@@ -70,7 +70,7 @@ export const addMultiKeywordData = async (
       return { ok: false, error };
     }
     console.log('this is the keyword data ====', keywordData);
-    return { ok: true, value: 'Successfully Added' };
+    return { ok: true, data: 'Successfully Added' };
   } catch (err) {
     const error = new CustomError(500, '', err);
     return { ok: false, error };

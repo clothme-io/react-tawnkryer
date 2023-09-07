@@ -1,6 +1,6 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Collapse, message } from 'antd';
+import { Collapse } from 'antd';
 import { useEffect } from 'react';
 // Store
 import { KeywordDataTableComponent } from './KeywordDataTableComponent';
@@ -15,7 +15,7 @@ interface DataProps {
 }
 
 export function EntityDataComponent({ entityData, data }: DataProps) {
-  const [messageApi, contextHolder] = message.useMessage();
+  // const [messageApi, contextHolder] = message.useMessage();
 
   useEffect(() => {
     console.log('The data in dataCompoenet', data);
@@ -30,7 +30,7 @@ export function EntityDataComponent({ entityData, data }: DataProps) {
       }}
     >
       <div className="p-10 bg-white">
-        {contextHolder}
+        {/* {contextHolder} */}
         <p>{data ? data.name : ''}</p>
         <p>{data ? data.type : ''}</p>
         <p>{data ? data.url : ''}</p>

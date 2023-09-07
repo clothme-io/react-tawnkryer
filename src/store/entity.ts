@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { StateCreator } from 'zustand';
 // Model
 import { EntityModel } from '../pages/keyword/model/entityModel';
@@ -23,17 +24,33 @@ export const createEntitySlice: StateCreator<EntitySlice> = (set, get) => ({
     created_at: 0,
     updated_at: 0,
     name: '',
-    created_by: '',
     account_id: '',
     project_id: '',
     entity_number: 0,
     type: '',
     details: {
-      related_search: undefined,
-      suggestion: undefined,
-      related_queries: undefined,
-      keywords: undefined
-    }
+      entity: '',
+      entityUrl: '',
+    },
+    google_adwords: {
+      keywords: [],
+    },
+    google_autosuggest: {
+      organic_result: [],
+    },
+    google_pytrends: {
+      related_queries_rising: [],
+      related_queries_top: [],
+      related_topic_rising_title: [],
+      related_topic_top_title: [],
+    },
+    wiki_entity: {
+      search: [],
+      title: '',
+      url: '',
+    },
+    openAI: [],
+    people_ask_data: [],
   },
   addEntities: (entity: EntityModel[]) => {
     let { entities } = get();
@@ -55,9 +72,10 @@ export const createEntitySlice: StateCreator<EntitySlice> = (set, get) => ({
       entities: get().entities.filter((entity) => {
         if (entity.id !== entityId) {
           // use a background task to update the db
-          return entity.url = newUrl
+          entity.url = newUrl;
         }
-      })
-    })
+        return entity;
+      }),
+    });
   },
 });

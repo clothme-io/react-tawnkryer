@@ -46,17 +46,21 @@ export const readClusterContents = async (
     );
 
     const querySnapshot = await getDocs(cluterQuery);
-    const clusterData: { id: string; data: DocumentData; }[] = [];
+    const clusterData: { id: string; data: DocumentData }[] = [];
 
     querySnapshot.forEach((doc) => {
       // doc.data() is never undefined for query doc snapshots
-      console.log('The value from DB',doc.id, ' => ', doc.data());
-      const cluster = {id: doc.id, data: doc.data()};
+      console.log('The value from DB', doc.id, ' => ', doc.data());
+      const cluster = { id: doc.id, data: doc.data() };
       clusterData.push(cluster);
     });
     return { ok: true, data: clusterData };
   } catch (err) {
-    const error = new CustomError(500, 'Server Unresoponsive at this time', err);
+    const error = new CustomError(
+      500,
+      'Server Unresoponsive at this time',
+      err
+    );
     return { ok: false, error };
   }
 };

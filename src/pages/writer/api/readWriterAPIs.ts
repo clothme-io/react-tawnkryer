@@ -28,7 +28,7 @@ export const readSingleKeywordContents = async (
       });
       console.log('Current cities in CA: ', keywords.join(', '));
     });
-    return { ok: true, value: keywords };
+    return { ok: true, data: keywords };
   } catch (err) {
     const error = new CustomError(500, '', err);
     return { ok: false, error };
@@ -44,7 +44,7 @@ export const readSingleKeywordContent = async (
       return doc.data();
     });
     console.log('Got here =====', unsub);
-    return { ok: true, value: unsub };
+    return { ok: true, data: unsub };
   } catch (err) {
     const error = new CustomError(500, '', err);
     return { ok: false, error };

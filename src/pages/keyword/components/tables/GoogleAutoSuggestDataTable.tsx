@@ -1,8 +1,9 @@
 /* eslint-disable no-plusplus */
-import React, { useState } from 'react';
-import { Table } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Button, Empty, Popconfirm, Space, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import type { TableRowSelection } from 'antd/es/table/interface';
+import { ClusterDrawerPage } from '../../../cluster/ClusterDrawerPage';
 
 interface DataType {
   key: React.Key;
@@ -18,6 +19,21 @@ export function GoogleAutoSuggestDataTableComponent({
   google_autosuggest,
 }: GoogleAutoSuggestDataTableProps) {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const [open, setOpen] = useState(false);
+  const [selectedDrawerRecord, setSelectedDrawerRecord] = useState(null);
+
+  const showDrawer = (record: any) => {
+    setSelectedDrawerRecord(record);
+    setOpen(true);
+  };
+
+  const handleDelete = (record: any) => {
+    console.log('The record for drawer ====', record);
+  };
+
+  const onClose = () => {
+    setOpen(false);
+  };
 
   const columns: ColumnsType<DataType> = [
     {
@@ -28,15 +44,48 @@ export function GoogleAutoSuggestDataTableComponent({
       title: 'Volume',
       dataIndex: 'volume',
     },
+    {
+      title: 'Action',
+      dataIndex: 'operation',
+      key: 'operation',
+      render: (_, record: { key: React.Key }) => (
+        <Space size="middle">
+          <Button
+            className="text-blue-500 cursor-pointer pr-4"
+            onClick={showDrawer}
+            type="text"
+            block
+          >
+            Do Research
+          </Button>
+          <Button
+            className="text-blue-500 cursor-pointer pr-4"
+            onClick={() => showDrawer(record)}
+            type="text"
+            block
+          >
+            Cluster
+          </Button>
+          <Popconfirm
+            title="Sure to delete?"
+            onConfirm={() => handleDelete(record.key)}
+          >
+            <p className="text-red-500 cursor-pointer">Delete Entity</p>
+          </Popconfirm>
+        </Space>
+      ),
+    },
   ];
 
   const data: DataType[] = [];
-  for (let i = 0; i < google_autosuggest.organic_result.length; i++) {
-    data.push({
-      key: i,
-      keyword: google_autosuggest.organic_result[i],
-      volume: 32,
-    });
+  if (google_autosuggest.organic_result) {
+    for (let i = 0; i < google_autosuggest.organic_result.length; i++) {
+      data.push({
+        key: i,
+        keyword: google_autosuggest.organic_result[i],
+        volume: 32,
+      });
+    }
   }
 
   // const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
@@ -82,7 +131,26 @@ export function GoogleAutoSuggestDataTableComponent({
     ],
   };
 
+  useEffect(() => {
+    // console.log('this is data for entity===============', props.entity);
+  }, [google_autosuggest]);
+
   return (
-    <Table rowSelection={rowSelection} columns={columns} dataSource={data} />
+    <>
+      {google_autosuggest.ok ? (
+        <Empty />
+      ) : (
+        <Table
+          rowSelection={rowSelection}
+          columns={columns}
+          dataSource={data}
+        />
+      )}
+      <ClusterDrawerPage
+        onClose={onClose}
+        open={open}
+        selectedDrawerRecord={selectedDrawerRecord}
+      />
+    </>
   );
 }
