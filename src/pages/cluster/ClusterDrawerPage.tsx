@@ -1,36 +1,60 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/destructuring-assignment */
 import { Button, Divider, Drawer, Row } from 'antd';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { DataNode } from 'antd/es/tree';
 import { ClusterDrawerUI } from './components/ClusterDrawerUI';
 
 // API
-import { readClusterContents } from './api/readClusterAPIs';
-
-// interface DescriptionItemProps {
-//   title: string;
-//   content: React.ReactNode;
-// }
-
-// function DescriptionItem({ title, content }: DescriptionItemProps) {
-//   return (
-//     <div className="site-description-item-profile-wrapper">
-//       <p className="site-description-item-profile-p-label">{title}:</p>
-//       {content}
-//     </div>
-//   );
-// }
+import { readClusterContentsForEntity } from './api/readClusterAPIs';
+import { addClusteriiData } from './api/addClusterAPIs';
 
 export function ClusterDrawerPage(props: any) {
-  // const [clusterDBData, setClusterDBData] = useState(null);
+  const [clusterDBData, setClusterDBData] = useState(null);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [selectedClusterItem, setSelectedClusterItem] = useState<any>([]);
+  const [treeData, setTreeData] = useState<DataNode[]>();
 
   const accountId = JSON.parse(localStorage.getItem('tempUserId') as string);
   const projectId = JSON.parse(localStorage.getItem('tempProjectId') as string);
+  const entityId = JSON.parse(localStorage.getItem('tempEntityId') as string);
 
   const getClusterData = async () => {
-    const response = await readClusterContents(accountId, projectId);
-    console.log('the response in cluster drawer', response);
+    const response = await readClusterContentsForEntity(
+      accountId,
+      projectId,
+      entityId
+    );
+
+    console.log('Value of getClusterData 2', response);
+
+    if (response.ok) setClusterDBData(response.data);
   };
+
+  const updateTreeData = async () => {
+    console.log('Value of info', selectedClusterItem);
+    console.log('Value of treeData', treeData);
+    console.log(
+      'Value of selectedRecord.keyword',
+      props.selectedDrawerRecord.keyword
+    );
+    if (treeData && treeData.length) {
+      console.log('Value of treeData', treeData[0].key);
+
+      const response = await addClusteriiData(
+        treeData[0].key as string,
+        treeData[0].title as string,
+        props.selectedDrawerRecord.keyword
+      );
+
+      if (response.ok) {
+        await getClusterData();
+      }
+      console.log('Value of response', response);
+    }
+  };
+
+  useEffect(() => {}, [clusterDBData, isButtonDisabled]);
 
   useEffect(() => {
     getClusterData();
@@ -56,27 +80,26 @@ export function ClusterDrawerPage(props: any) {
         <div className="justify-end">
           <Button
             type="default"
-            size="large"
-            // onClick={showModal}
+            size="middle"
+            disabled={isButtonDisabled}
+            onClick={updateTreeData}
             className="bg-black text-white hover:text-white"
           >
-            Add New Cluster
+            Include In A Cluster
           </Button>
         </div>
       </div>
       <Divider />
       <Row>
-        <ClusterDrawerUI />
-      </Row>
-      <Row>
-        <Button
-          type="default"
-          size="middle"
-          // onClick={showModal}
-          className="bg-black text-white hover:text-white"
-        >
-          Include In A Cluster
-        </Button>
+        <ClusterDrawerUI
+          UIData={clusterDBData}
+          // selectedRecord={props.selectedDrawerRecord}
+          isButtonDisabled={isButtonDisabled}
+          setIsButtonDisabled={setIsButtonDisabled}
+          treeData={treeData}
+          setTreeData={setTreeData}
+          setSelectedClusterItem={setSelectedClusterItem}
+        />
       </Row>
     </Drawer>
   );

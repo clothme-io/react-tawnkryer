@@ -102,6 +102,7 @@ export const EntityPage = () => {
         keywords as unknown as EntityResponseItem[]
       );
       setData(entitiesFromDB);
+      addCurrentEntityId(entitiesFromDB[0].id);
       setFirstData(entitiesFromDB[0]);
       addEntities(entitiesFromDB);
       selectEntity(entitiesFromDB[0]);

@@ -44,11 +44,11 @@ export async function signIn(
       collection(db, 'project'),
       where('account_id', '==', signInResult.user.uid)
     );
-    const userAuthData: any = { auth: signInResult, project: [] }
+    const userAuthData: any = { auth: signInResult, project: [] };
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       // console.log(doc.id, ' => ', doc.data());
-      userAuthData.project.push({id: doc.id, project: doc.data() })
+      userAuthData.project.push({ id: doc.id, project: doc.data() });
     });
     return { ok: true, data: userAuthData };
   } catch (e) {

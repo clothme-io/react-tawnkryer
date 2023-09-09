@@ -1,9 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable consistent-return */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-plusplus */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Tree } from 'antd';
 import type { DataNode, TreeProps } from 'antd/es/tree';
+import { CarryOutOutlined } from '@ant-design/icons';
 
 const x = 3;
 const y = 2;
@@ -38,9 +40,27 @@ export function generateData(
 }
 generateData(z);
 
-export function ClusterDrawerUI() {
+interface ClusterDrawerUIProps {
+  UIData: any;
+  // selectedRecord: any;
+  isButtonDisabled: boolean;
+  setIsButtonDisabled: any;
+  treeData: any;
+  setTreeData: any;
+  setSelectedClusterItem: any;
+}
+
+export function ClusterDrawerUI({
+  UIData,
+  // selectedRecord,
+  isButtonDisabled,
+  setIsButtonDisabled,
+  treeData,
+  setTreeData,
+  setSelectedClusterItem,
+}: ClusterDrawerUIProps) {
   const [gData, setGData] = useState(defaultData);
-  const [expandedKeys] = useState(['0-0', '0-0-0', '0-0-0-0']);
+  // const [expandedKeys] = useState(['0-0', '0-0-0', '0-0-0-0']);
 
   const onDragEnter: TreeProps['onDragEnter'] = (info) => {
     console.log(info);
@@ -116,22 +136,50 @@ export function ClusterDrawerUI() {
   };
 
   const selectedItem: TreeProps['onSelect'] = (info) => {
-    console.log(info);
+    // console.log(info);
+    toggleIsButtonDisabled();
+    setSelectedClusterItem(info);
     // expandedKeys, set it when controlled is needed
     // setExpandedKeys(info.expandedKeys)
   };
 
+  const getTreeData = () => {
+    if (UIData.length > 0) {
+      const initialTreeData = {
+        title: UIData[0].data.title,
+        key: UIData[0].id,
+        icon: <CarryOutOutlined />,
+        children: [],
+      };
+      setTreeData([initialTreeData]);
+    }
+  };
+
+  const toggleIsButtonDisabled = () => {
+    if (isButtonDisabled) {
+      setIsButtonDisabled(false);
+    } else {
+      setIsButtonDisabled(true);
+    }
+  };
+
+  useEffect(() => {
+    // console.log('The selected record ====', selectedRecord.keyword);
+    getTreeData();
+  }, []);
+
+  useEffect(() => {}, [treeData]);
+
   return (
     <Tree
       className="draggable-tree"
-      defaultExpandedKeys={expandedKeys}
       draggable
       blockNode
       showLine
       selectable
       onDragEnter={onDragEnter}
       onDrop={onDrop}
-      treeData={gData}
+      treeData={treeData}
       onSelect={selectedItem}
     />
   );

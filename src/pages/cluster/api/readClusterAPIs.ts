@@ -16,7 +16,7 @@ export const readClusterContent = async (
   docId: string
 ): Promise<Result<any, CustomError>> => {
   try {
-    const docRef = doc(db, 'keyword', docId);
+    const docRef = doc(db, 'cluster', docId);
     const docSnap = await getDoc(docRef);
     const keywordData = { id: '', value: {} };
     if (docSnap.exists()) {
@@ -36,13 +36,15 @@ export const readClusterContent = async (
 
 export const readClusterContents = async (
   accountId: string,
-  projectId: string
+  projectId: string,
+  entityId: string
 ): Promise<Result<any, CustomError>> => {
   try {
     const cluterQuery = query(
       collection(db, 'cluster'),
       where('account_id', '==', accountId),
-      where('project_id', '==', projectId)
+      where('project_id', '==', projectId),
+      where('entity_id', '==', entityId)
     );
 
     const querySnapshot = await getDocs(cluterQuery);
@@ -51,6 +53,37 @@ export const readClusterContents = async (
     querySnapshot.forEach((doc) => {
       // doc.data() is never undefined for query doc snapshots
       console.log('The value from DB', doc.id, ' => ', doc.data());
+      const cluster = { id: doc.id, data: doc.data() };
+      clusterData.push(cluster);
+    });
+    return { ok: true, data: clusterData };
+  } catch (err) {
+    const error = new CustomError(
+      500,
+      'Server Unresoponsive at this time',
+      err
+    );
+    return { ok: false, error };
+  }
+};
+
+export const readClusterContentsForEntity = async (
+  accountId: string,
+  projectId: string,
+  entityId: string
+): Promise<Result<any, CustomError>> => {
+  try {
+    const cluterQuery = query(
+      collection(db, 'clusterii'),
+      where('account_id', '==', accountId),
+      where('project_id', '==', projectId),
+      where('entity_id', '==', entityId)
+    );
+
+    const querySnapshot = await getDocs(cluterQuery);
+    const clusterData: { id: string; data: DocumentData }[] = [];
+
+    querySnapshot.forEach((doc) => {
       const cluster = { id: doc.id, data: doc.data() };
       clusterData.push(cluster);
     });
