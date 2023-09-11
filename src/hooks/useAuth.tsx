@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { createContext, useContext, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -56,6 +57,7 @@ export function AuthProvider({ children }: any) {
     localStorage.removeItem('tempProjectId');
     localStorage.removeItem('tempEntityId');
     navigate('/login', { replace: true });
+    // location.reload();
   };
 
   const value = useMemo(

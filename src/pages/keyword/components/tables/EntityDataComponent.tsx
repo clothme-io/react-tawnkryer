@@ -18,7 +18,7 @@ export function EntityDataComponent({ entityData, data }: DataProps) {
   // const [messageApi, contextHolder] = message.useMessage();
 
   useEffect(() => {
-    console.log('The data in dataCompoenet', data);
+    // console.log('The data in dataComponent', data);
   }, [entityData, data]);
 
   return (

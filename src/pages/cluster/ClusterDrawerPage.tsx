@@ -3,10 +3,14 @@
 import { Button, Divider, Drawer, Row } from 'antd';
 import { useEffect, useState } from 'react';
 import { DataNode } from 'antd/es/tree';
+import { nanoid } from 'nanoid';
 import { ClusterDrawerUI } from './components/ClusterDrawerUI';
 
 // API
-import { readClusterContentsForEntity } from './api/readClusterAPIs';
+import {
+  readFromSubCollectionForEntity,
+  // readClusterContentsForEntity,
+} from './api/readClusterAPIs';
 import { addClusteriiData } from './api/addClusterAPIs';
 
 export function ClusterDrawerPage(props: any) {
@@ -20,37 +24,69 @@ export function ClusterDrawerPage(props: any) {
   const entityId = JSON.parse(localStorage.getItem('tempEntityId') as string);
 
   const getClusterData = async () => {
-    const response = await readClusterContentsForEntity(
+    const response = await readFromSubCollectionForEntity(
       accountId,
       projectId,
       entityId
     );
-
-    console.log('Value of getClusterData 2', response);
-
     if (response.ok) setClusterDBData(response.data);
   };
 
   const updateTreeData = async () => {
-    console.log('Value of info', selectedClusterItem);
-    console.log('Value of treeData', treeData);
-    console.log(
-      'Value of selectedRecord.keyword',
-      props.selectedDrawerRecord.keyword
-    );
+    let selectedItem: any = null;
     if (treeData && treeData.length) {
-      console.log('Value of treeData', treeData[0].key);
+      selectedItem = {
+        id: selectedClusterItem.checked[0].id,
+        title: selectedClusterItem.checked[0].value.title,
+        level: selectedClusterItem.checked[0].value.level,
+        has_child: selectedClusterItem.checked[0].value.has_child,
+      };
+    }
 
+    if (selectedItem && selectedItem.level === '0') {
+      const level1_id = nanoid();
       const response = await addClusteriiData(
-        treeData[0].key as string,
-        treeData[0].title as string,
+        selectedItem.level,
+        selectedItem.id,
+        selectedItem.title,
+        projectId,
+        accountId,
+        entityId,
+        false,
+        level1_id,
         props.selectedDrawerRecord.keyword
       );
 
       if (response.ok) {
+        toggleIsButtonDisabled();
         await getClusterData();
       }
-      console.log('Value of response', response);
+    } else {
+      const response = await addClusteriiData(
+        selectedItem.level,
+        selectedItem.level_0_id,
+        selectedItem.level_0_collection_name,
+        projectId,
+        accountId,
+        entityId,
+        false,
+        selectedItem.id,
+        selectedItem.title,
+        props.selectedDrawerRecord.keyword
+      );
+
+      if (response.ok) {
+        toggleIsButtonDisabled();
+        await getClusterData();
+      }
+    }
+  };
+
+  const toggleIsButtonDisabled = () => {
+    if (isButtonDisabled) {
+      setIsButtonDisabled(false);
+    } else {
+      setIsButtonDisabled(true);
     }
   };
 
@@ -93,12 +129,10 @@ export function ClusterDrawerPage(props: any) {
       <Row>
         <ClusterDrawerUI
           UIData={clusterDBData}
-          // selectedRecord={props.selectedDrawerRecord}
-          isButtonDisabled={isButtonDisabled}
-          setIsButtonDisabled={setIsButtonDisabled}
           treeData={treeData}
           setTreeData={setTreeData}
           setSelectedClusterItem={setSelectedClusterItem}
+          toggleIsButtonDisabled={toggleIsButtonDisabled}
         />
       </Row>
     </Drawer>

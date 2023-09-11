@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-boolean-value */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable consistent-return */
 /* eslint-disable no-param-reassign */
@@ -42,25 +43,20 @@ generateData(z);
 
 interface ClusterDrawerUIProps {
   UIData: any;
-  // selectedRecord: any;
-  isButtonDisabled: boolean;
-  setIsButtonDisabled: any;
   treeData: any;
   setTreeData: any;
   setSelectedClusterItem: any;
+  toggleIsButtonDisabled: any;
 }
 
 export function ClusterDrawerUI({
   UIData,
-  // selectedRecord,
-  isButtonDisabled,
-  setIsButtonDisabled,
   treeData,
   setTreeData,
   setSelectedClusterItem,
+  toggleIsButtonDisabled,
 }: ClusterDrawerUIProps) {
   const [gData, setGData] = useState(defaultData);
-  // const [expandedKeys] = useState(['0-0', '0-0-0', '0-0-0-0']);
 
   const onDragEnter: TreeProps['onDragEnter'] = (info) => {
     console.log(info);
@@ -135,8 +131,8 @@ export function ClusterDrawerUI({
     setGData(data);
   };
 
-  const selectedItem: TreeProps['onSelect'] = (info) => {
-    // console.log(info);
+  const checkedItem = (info: any) => {
+    console.log(info);
     toggleIsButtonDisabled();
     setSelectedClusterItem(info);
     // expandedKeys, set it when controlled is needed
@@ -144,29 +140,29 @@ export function ClusterDrawerUI({
   };
 
   const getTreeData = () => {
-    if (UIData.length > 0) {
+    const level1Children: any = [];
+    if (UIData) {
+      for (let x = 0; x < UIData.level1.length; x++) {
+        const child = {
+          key: `${UIData.level1[x].id}||${UIData.level1[x].data.has_child}||${UIData.level1[x].data.level}||${UIData.level1[x].data.level_0_collection_name}||${UIData.level1[x].data.level_0_id}||${UIData.level1[x].data.root_entity_id}`,
+          title: UIData.level1[x].data.title,
+          children: [],
+        };
+        level1Children.push(child);
+      }
       const initialTreeData = {
-        title: UIData[0].data.title,
-        key: UIData[0].id,
+        title: UIData.entity.value.title,
+        key: UIData.entity,
         icon: <CarryOutOutlined />,
-        children: [],
+        children: level1Children,
       };
       setTreeData([initialTreeData]);
     }
   };
 
-  const toggleIsButtonDisabled = () => {
-    if (isButtonDisabled) {
-      setIsButtonDisabled(false);
-    } else {
-      setIsButtonDisabled(true);
-    }
-  };
-
   useEffect(() => {
-    // console.log('The selected record ====', selectedRecord.keyword);
     getTreeData();
-  }, []);
+  }, [UIData]);
 
   useEffect(() => {}, [treeData]);
 
@@ -176,11 +172,13 @@ export function ClusterDrawerUI({
       draggable
       blockNode
       showLine
-      selectable
+      selectable={false}
+      checkable={true}
+      checkStrictly={true}
       onDragEnter={onDragEnter}
       onDrop={onDrop}
       treeData={treeData}
-      onSelect={selectedItem}
+      onCheck={checkedItem}
     />
   );
 }
