@@ -33,7 +33,7 @@ export function PeopleAlsoAskDataTableComponent({
   const data: DataType[] = [];
   for (let i = 0; i < people_ask_data.length; i++) {
     data.push({
-      key: i,
+      key: `${i}||people_also_ask||${people_ask_data[i]}`,
       keyword: people_ask_data[i],
       volume: 32,
     });

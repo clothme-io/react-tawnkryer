@@ -81,7 +81,7 @@ export function GoogleAutoSuggestDataTableComponent({
   if (google_autosuggest.organic_result) {
     for (let i = 0; i < google_autosuggest.organic_result.length; i++) {
       data.push({
-        key: i,
+        key: `${i}||google_autosuggest||organic_result||${google_autosuggest.organic_result[i]}`,
         keyword: google_autosuggest.organic_result[i],
         volume: 32,
       });
@@ -131,9 +131,7 @@ export function GoogleAutoSuggestDataTableComponent({
     ],
   };
 
-  useEffect(() => {
-    // console.log('this is data for entity===============', props.entity);
-  }, [google_autosuggest]);
+  useEffect(() => {}, [google_autosuggest]);
 
   return (
     <>

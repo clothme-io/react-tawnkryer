@@ -4,6 +4,7 @@ import { addDoc, collection, doc, setDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../../lib/firebase/firebaseConfig';
 import { CustomError } from '../../../lib/util/customError';
 import { Result } from '../../../lib/util/resultType';
+import { performDelete } from './deleteAPI';
 
 export const addClusterData = async (
   clsuterData: any
@@ -22,6 +23,16 @@ export const addClusterData = async (
   }
 };
 
+const keywordDelectType = (input: any) => {
+  const db_path: any = {
+    google_autosuggest: 'google_autosuggest',
+    openAI: 'OpenAI',
+    people_also_ask: 'people_also_ask',
+    related_queries_top: 'related_queries_top',
+  };
+  return db_path[input] ?? 'id not found';
+};
+
 export const addClusteriiData = async (
   level: number,
   level0_id: string,
@@ -31,15 +42,28 @@ export const addClusteriiData = async (
   root_entity_id: string,
   has_child: boolean,
   level1_id: string,
-  level1_title: string,
+  level1_title: any,
   level2_title?: string
 ): Promise<Result<any, CustomError>> => {
+  const level_1_title = level1_title.keyword;
+  const levelTitleSpit = level1_title.key.split('||');
+
   try {
-    if (Number(level) === 0) {
+    const db_identifier = keywordDelectType(levelTitleSpit[1]);
+    if (db_identifier === 'id not found')
+      return { ok: false, error: db_identifier };
+
+    const response = await performDelete(
+      db_identifier,
+      root_entity_id,
+      level_1_title
+    );
+
+    if (Number(level) === 0 && response) {
       await addClusterLevel1Data(
         level0_id,
         level0_title,
-        level1_title,
+        level_1_title,
         project_id,
         account_id,
         root_entity_id,
@@ -47,7 +71,9 @@ export const addClusteriiData = async (
       );
 
       await UpdateClusteriiData({ id: level0_id, has_child: true });
-    } else {
+    }
+
+    if (Number(level) === 1 && response) {
       await addClusterLevel2Data(
         level0_id,
         level0_title,

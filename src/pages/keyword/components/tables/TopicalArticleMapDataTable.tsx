@@ -34,7 +34,7 @@ export function TopicalArticleMapDataTableComponent({
     const data: DataType[] = [];
     for (let i = 0; i < dataInput.length; i++) {
       data.push({
-        key: i,
+        key: `${i}||openAI||entity||${dataInput[i].entity}`,
         keyword: dataInput[i],
         volume: 32,
       });
@@ -101,7 +101,7 @@ export function TopicalArticleMapDataTableComponent({
             style={{ backgroundColor: 'white', marginBottom: 10 }}
             items={[
               {
-                key: '1',
+                key: `${item.entity}`,
                 label: `${item.entity}`,
                 children: (
                   <Table

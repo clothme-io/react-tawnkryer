@@ -51,7 +51,6 @@ export const EntityPage = () => {
 
   const onListClick = (key: string) => {
     addCurrentEntityId(key);
-    console.log('The value of the single entity id ***', key);
     setStateEntityId(key);
     readKeywordContent(key as unknown as string)
       .then((item) => {
@@ -71,7 +70,6 @@ export const EntityPage = () => {
 
   const getEntities = async () => {
     const response = await readKeywordContent(stateEntityId);
-    // console.log('Data from DB ====== ', response);
     if (response.ok) {
       setEntityData(response.data);
     }

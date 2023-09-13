@@ -54,7 +54,7 @@ export function ClusterDrawerPage(props: any) {
         entityId,
         false,
         level1_id,
-        props.selectedDrawerRecord.keyword
+        props.selectedDrawerRecord
       );
 
       if (response.ok) {
@@ -90,7 +90,9 @@ export function ClusterDrawerPage(props: any) {
     }
   };
 
-  useEffect(() => {}, [clusterDBData, isButtonDisabled]);
+  useEffect(() => {
+    console.log('Value of the selected row', props.selectedDrawerRecord);
+  }, [clusterDBData, isButtonDisabled]);
 
   useEffect(() => {
     getClusterData();
