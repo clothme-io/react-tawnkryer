@@ -1,3 +1,6 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-plusplus */
+/* eslint-disable consistent-return */
 import React, { useState } from 'react';
 import { Tree } from 'antd';
 import type { DataNode, TreeProps } from 'antd/es/tree';
@@ -7,7 +10,11 @@ const y = 2;
 const z = 1;
 const defaultData: DataNode[] = [];
 
-const generateData = (_level: number, _preKey?: React.Key, _tns?: DataNode[]) => {
+const generateData = (
+  _level: number,
+  _preKey?: React.Key,
+  _tns?: DataNode[]
+) => {
   const preKey = _preKey || '0';
   const tns = _tns || defaultData;
 
@@ -30,7 +37,7 @@ const generateData = (_level: number, _preKey?: React.Key, _tns?: DataNode[]) =>
 };
 generateData(z);
 
-export const ClusterTreeComponent: React.FC = () => {
+export function ClusterTreeComponent() {
   const [gData, setGData] = useState(defaultData);
   const [expandedKeys] = useState(['0-0', '0-0-0', '0-0-0-0']);
 
@@ -45,12 +52,13 @@ export const ClusterTreeComponent: React.FC = () => {
     const dropKey = info.node.key;
     const dragKey = info.dragNode.key;
     const dropPos = info.node.pos.split('-');
-    const dropPosition = info.dropPosition - Number(dropPos[dropPos.length - 1]);
+    const dropPosition =
+      info.dropPosition - Number(dropPos[dropPos.length - 1]);
 
     const loop = (
       data: DataNode[],
       key: React.Key,
-      callback: (node: DataNode, i: number, data: DataNode[]) => void,
+      callback: (node: DataNode, i: number, data: DataNode[]) => void
     ) => {
       for (let i = 0; i < data.length; i++) {
         if (data[i].key === key) {
@@ -116,4 +124,4 @@ export const ClusterTreeComponent: React.FC = () => {
       treeData={gData}
     />
   );
-};
+}

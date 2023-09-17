@@ -2,24 +2,24 @@
 import { useEffect } from 'react';
 import VirtualList from 'rc-virtual-list';
 import { List, Skeleton } from 'antd';
+import { ClusterModel } from '../model/clusterModel';
 
 // Models
-import { EntityModel } from '../model/entityModel';
 
 interface ListProps {
   loading: boolean;
   onListClick: any;
   data: any;
-  appendData: any;
+  getCollectionData: any;
 }
 
 const ContainerHeight = '1000' as unknown as number;
 
-export function EntityListComponent({
+export function ClusterListComponent({
   loading,
   onListClick,
   data,
-  appendData,
+  getCollectionData,
 }: ListProps) {
   const projectId = JSON.parse(localStorage.getItem('tempProjectId') as string);
 
@@ -30,7 +30,7 @@ export function EntityListComponent({
       e.currentTarget.scrollHeight - e.currentTarget.scrollTop ===
       ContainerHeight
     ) {
-      appendData(projectId as string);
+      getCollectionData(projectId as string);
     }
   };
 
@@ -40,12 +40,12 @@ export function EntityListComponent({
         data={data}
         height={ContainerHeight}
         itemHeight={47}
-        itemKey="keywordList"
+        itemKey="clusterList"
         onScroll={onScroll}
       >
-        {(item: EntityModel) => (
+        {(item: ClusterModel) => (
           <List.Item
-            // key={item ? item.updated_at : Math.random()}
+            key={item ? item.id : Math.random()}
             style={{
               cursor: 'pointer',
               backgroundColor: 'white',
@@ -55,7 +55,7 @@ export function EntityListComponent({
           >
             <List.Item.Meta
               title={loading && <Skeleton.Input active />}
-              description={`${item.name} ${item.updated_at}`}
+              description={`${item.title}`}
               className="px-3"
               style={{ backgroundColor: `${item.id} gray` }}
             />

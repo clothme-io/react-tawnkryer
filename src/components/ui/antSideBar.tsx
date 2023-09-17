@@ -34,6 +34,7 @@ function getItem(
 const items: MenuItem[] = [
   getItem('Dashboard', '/dashboard', <PieChartOutlined />),
   getItem('Entity', '/entity', <DesktopOutlined />),
+  getItem('Cluster', '/cluster', <DesktopOutlined />),
   getItem('Outline', '/outline', <DesktopOutlined />),
   getItem('Writer', '/writer', <BookOutlined />),
   getItem('Scheduler', '/scheduler', <DesktopOutlined />),

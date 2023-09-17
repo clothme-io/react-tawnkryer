@@ -8,38 +8,38 @@ import { Tree } from 'antd';
 import type { DataNode, TreeProps } from 'antd/es/tree';
 import { CarryOutOutlined } from '@ant-design/icons';
 
-const x = 3;
-const y = 2;
-const z = 1;
-const defaultData: DataNode[] = [];
+// const x = 3;
+// const y = 2;
+// const z = 1;
+// const defaultData: DataNode[] = [];
 
-export function generateData(
-  _level: number,
-  _preKey?: React.Key,
-  _tns?: DataNode[]
-): DataNode[] {
-  const preKey = _preKey || '0';
-  const tns = _tns || defaultData;
+// export function generateData(
+//   _level: number,
+//   _preKey?: React.Key,
+//   _tns?: DataNode[]
+// ): DataNode[] {
+//   const preKey = _preKey || '0';
+//   const tns = _tns || defaultData;
 
-  const children: React.Key[] = [];
-  for (let i = 0; i < x; i++) {
-    const key = `${preKey}-${i}`;
-    tns.push({ title: key, key });
-    if (i < y) {
-      children.push(key);
-    }
-  }
-  if (_level < 0) {
-    return tns;
-  }
-  const level = _level - 1;
-  children.forEach((key, index) => {
-    tns[index].children = [];
-    return generateData(level, key, tns[index].children);
-  });
-  return _tns as DataNode[];
-}
-generateData(z);
+//   const children: React.Key[] = [];
+//   for (let i = 0; i < x; i++) {
+//     const key = `${preKey}-${i}`;
+//     tns.push({ title: key, key });
+//     if (i < y) {
+//       children.push(key);
+//     }
+//   }
+//   if (_level < 0) {
+//     return tns;
+//   }
+//   const level = _level - 1;
+//   children.forEach((key, index) => {
+//     tns[index].children = [];
+//     return generateData(level, key, tns[index].children);
+//   });
+//   return _tns as DataNode[];
+// }
+// generateData(z);
 
 interface ClusterDrawerUIProps {
   UIData: any;
@@ -56,7 +56,7 @@ export function ClusterDrawerUI({
   setSelectedClusterItem,
   toggleIsButtonDisabled,
 }: ClusterDrawerUIProps) {
-  const [gData, setGData] = useState(defaultData);
+  const [gData, setGData] = useState<DataNode[]>([]);
 
   const onDragEnter: TreeProps['onDragEnter'] = (info) => {
     console.log(info);

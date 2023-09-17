@@ -12,7 +12,10 @@ import {
 import { EntityModal } from './components/EntityModal';
 import { EntityDataComponent } from './components/tables/EntityDataComponent';
 import { EntityListComponent } from './components/EntityListComponent';
-import { readKeywordContent } from './api/readKeywordAPIs';
+import {
+  readAllKeywordContentsForProject,
+  readKeywordContent,
+} from './api/readKeywordAPIs';
 import { useAuth } from '../../hooks/useAuth';
 // Store & Model
 import { useAppStore } from '../../store/store';
@@ -81,39 +84,64 @@ export const EntityPage = () => {
     }
   };
 
-  const appendData = (projectId: string) => {
+  const getKeywordData = async () => {
     setLoading(true);
-
-    const q = query(
-      collection(db, 'keyword'),
-      where('account_id', '==', accountId),
-      where('project_id', '==', projectId as string)
+    const keywordAPIResponse = await readAllKeywordContentsForProject(
+      accountId,
+      projectId
     );
-    const unSubscribe = onSnapshot(q, (querySnapshot) => {
-      const keywords:
-        | EntityResponseItem
-        | { id: string; value: DocumentData }[] = [];
-      querySnapshot.forEach((doc) => {
-        keywords.push({ id: doc.id, value: doc.data() });
-      });
-      const entitiesFromDB = transposeToEntityModel(
-        keywords as unknown as EntityResponseItem[]
-      );
-      setData(entitiesFromDB);
-      addCurrentEntityId(entitiesFromDB[0].id);
-      setFirstData(entitiesFromDB[0]);
-      addEntities(entitiesFromDB);
-      selectEntity(entitiesFromDB[0]);
+    if (keywordAPIResponse.ok) {
+      console.log('The entity data ===', keywordAPIResponse.data);
+      const keywordData = transposeToEntityModel(keywordAPIResponse.data);
+      setData(keywordData);
+      addCurrentEntityId(keywordData[0].id);
+      setFirstData(keywordData[0]);
+      addEntities(keywordData);
+      selectEntity(keywordData[0]);
       setLoading(false);
-    });
-    return () => unSubscribe();
+    }
+    setLoading(false);
   };
 
+  // const appendData = (projectId: string) => {
+  //   setLoading(true);
+
+  //   const q = query(
+  //     collection(db, 'keyword'),
+  //     where('account_id', '==', accountId),
+  //     where('project_id', '==', projectId as string)
+  //   );
+  //   const unSubscribe = onSnapshot(q, (querySnapshot) => {
+  //     const keywords:
+  //       | EntityResponseItem
+  //       | { id: string; value: DocumentData }[] = [];
+  //     querySnapshot.forEach((doc) => {
+  //       keywords.push({ id: doc.id, value: doc.data() });
+  //     });
+  //     const entitiesFromDB = transposeToEntityModel(
+  //       keywords as unknown as EntityResponseItem[]
+  //     );
+  //     setData(entitiesFromDB);
+  //     addCurrentEntityId(entitiesFromDB[0].id);
+  //     setFirstData(entitiesFromDB[0]);
+  //     addEntities(entitiesFromDB);
+  //     selectEntity(entitiesFromDB[0]);
+  //     setLoading(false);
+  //   });
+  //   return () => unSubscribe();
+  // };
+
+  // useEffect(() => {
+  //   if (projectId) {
+  //     appendData(projectId);
+  //   }
+  // }, []);
+
   useEffect(() => {
-    if (projectId) {
-      appendData(projectId);
+    if (projectId && accountId) {
+      getKeywordData();
     }
-  }, []);
+  }, [projectId]);
 
   useEffect(() => {
     if (stateEntityId !== '') {
@@ -156,7 +184,7 @@ export const EntityPage = () => {
             loading={loading}
             data={data}
             onListClick={onListClick}
-            appendData={appendData}
+            appendData={getKeywordData}
           />
         </div>
         <div

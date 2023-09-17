@@ -1,39 +1,48 @@
 import {
-  onSnapshot,
   collection,
   query,
   where,
   getDocs,
   doc,
   getDoc,
+  DocumentData,
 } from 'firebase/firestore';
 
 import { db } from '../../../lib/firebase/firebaseConfig';
 import { CustomError } from '../../../lib/util/customError';
 import { Result } from '../../../lib/util/resultType';
 
-export const readKeywordContents = async (
+export const readAllKeywordContentsForProject = async (
   account_id: string,
   project_id: string
 ): Promise<Result<any, CustomError>> => {
   try {
-    const q = query(
+    const keywordData: {
+      id: string;
+      data: DocumentData;
+    }[] = [];
+    const keywordQuery = query(
       collection(db, 'keyword'),
       where('account_id', '==', account_id),
       where('project_id', '==', project_id)
     );
-    const keywords: any = [];
-    const unSubscribe = onSnapshot(q, (querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        keywords.push({ id: doc.id, value: doc.data() });
-      });
+    const cluterSnapshot = await getDocs(keywordQuery);
+
+    cluterSnapshot.forEach((doc) => {
+      const collection = { id: doc.id, data: doc.data() };
+      keywordData.push(collection);
     });
-    unSubscribe();
-    // useAppStore.setState({ entities: keywords });
-    console.log('Current keywords: ', keywords.values.length);
-    return { ok: true, data: keywords };
+
+    return {
+      ok: true,
+      data: keywordData,
+    };
   } catch (err) {
-    const error = new CustomError(500, '', err);
+    const error = new CustomError(
+      500,
+      'Server Unresoponsive at this time',
+      err
+    );
     return { ok: false, error };
   }
 };

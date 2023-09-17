@@ -170,3 +170,115 @@ export const readClusterContentWithName = async (
     return { ok: false, error };
   }
 };
+
+export const readFromCollectionSubCollectionForEntity = async (
+  accountId: string,
+  projectId: string,
+  entityId: string
+): Promise<Result<any, CustomError>> => {
+  try {
+    const clusterData: {
+      id: string;
+      data: DocumentData;
+    }[] = [];
+
+    const cluterQuery = query(
+      collection(db, 'clusterii'),
+      where('account_id', '==', accountId),
+      where('project_id', '==', projectId),
+      where('entity_id', '==', entityId)
+    );
+    const cluterSnapshot = await getDocs(cluterQuery);
+
+    cluterSnapshot.forEach((doc) => {
+      const collection = { id: doc.id, data: doc.data() };
+      clusterData.push(collection);
+    });
+
+    return {
+      ok: true,
+      data: clusterData,
+    };
+  } catch (err) {
+    const error = new CustomError(
+      500,
+      'Server Unresoponsive at this time',
+      err
+    );
+    return { ok: false, error };
+  }
+};
+
+export const readFromSubCollections = async (
+  clusterId: string,
+  clusterName: string
+): Promise<Result<any, CustomError>> => {
+  try {
+    const clusterData: {
+      id: string;
+      data: DocumentData;
+    }[] = [];
+
+    const subClusterQuery = await getDocs(
+      collection(db, 'clusterii', clusterId, clusterName)
+    );
+
+    subClusterQuery.forEach((doc) => {
+      const collection = { id: doc.id, data: doc.data() };
+      clusterData.push(collection);
+    });
+
+    return {
+      ok: true,
+      data: clusterData,
+    };
+  } catch (err) {
+    const error = new CustomError(
+      500,
+      'Server Unresoponsive at this time',
+      err
+    );
+    return { ok: false, error };
+  }
+};
+
+export const readFromSubCollectionCollections = async (
+  clusterId: string,
+  clusterName: string,
+  subClusterID: string,
+  subClusterName: string
+): Promise<Result<any, CustomError>> => {
+  try {
+    const clusterData: {
+      id: string;
+      data: DocumentData;
+    }[] = [];
+
+    const subClusterQuery = await getDocs(
+      collection(
+        db,
+        'clusterii',
+        clusterId,
+        clusterName,
+        subClusterID,
+        subClusterName
+      )
+    );
+
+    subClusterQuery.forEach((doc) => {
+      const collection = { id: doc.id, data: doc.data() };
+      clusterData.push(collection);
+    });
+    return {
+      ok: true,
+      data: clusterData,
+    };
+  } catch (err) {
+    const error = new CustomError(
+      500,
+      'Server Unresoponsive at this time',
+      err
+    );
+    return { ok: false, error };
+  }
+};
