@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/function-component-definition */
 import { useEffect, useState } from 'react';
-import { Button, Row, Col, message } from 'antd';
-import { useAuth } from '../../hooks/useAuth';
+import { Row, Col, message } from 'antd';
+import { DataNode } from 'antd/es/tree';
 // Store & Model
 import { useAppStore } from '../../store/store';
 import {
@@ -16,12 +16,12 @@ import { ClusterSubCollectionComponent } from './components/ClusterSubCollection
 export const ClusterPage = () => {
   const entity = useAppStore((state) => state.selectedEntity);
   const [messageApi, contextHolder] = message.useMessage();
-  const { addCurrentEntityId } = useAuth();
 
   // For Entity List Component
   const [loading, setLoading] = useState(false);
   const [clusterData, setClusterData] = useState<any>(null);
   const [firstData, setFirstData] = useState<any>(null);
+  const [treeData, setTreeData] = useState<DataNode[]>();
 
   const accountId = JSON.parse(localStorage.getItem('tempUserId') as string);
   const projectId = JSON.parse(localStorage.getItem('tempProjectId') as string);
@@ -129,6 +129,8 @@ export const ClusterPage = () => {
             <ClusterSubCollectionComponent
               entityData={clusterData}
               data={firstData}
+              treeData={treeData}
+              setTreeData={setTreeData}
             />
           </div>
         </div>

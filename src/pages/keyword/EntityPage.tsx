@@ -2,13 +2,6 @@
 /* eslint-disable react/function-component-definition */
 import { useEffect, useState } from 'react';
 import { Button, Row, Col, message } from 'antd';
-import {
-  DocumentData,
-  collection,
-  onSnapshot,
-  query,
-  where,
-} from 'firebase/firestore';
 import { EntityModal } from './components/EntityModal';
 import { EntityDataComponent } from './components/tables/EntityDataComponent';
 import { EntityListComponent } from './components/EntityListComponent';
@@ -24,7 +17,6 @@ import {
   transposeSingleEntityModel,
   transposeToEntityModel,
 } from './model/entityModel';
-import { db } from '../../lib/firebase/firebaseConfig';
 
 export const EntityPage = () => {
   const selectEntity = useAppStore((state) => state.selectEntity);
