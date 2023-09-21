@@ -42,10 +42,7 @@ export function ClusterSubCollectionComponent({
     getTreeData();
   }, [data]);
 
-  useEffect(() => {
-    console.log('The data', data);
-    if (treeData) console.log('The treeData', treeData);
-  }, [entityData, data, treeData]);
+  useEffect(() => {}, [entityData, data, treeData]);
 
   return (
     <div

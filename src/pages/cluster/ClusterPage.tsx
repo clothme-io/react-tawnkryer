@@ -56,7 +56,6 @@ export const ClusterPage = () => {
     if (clusterAPIResponse.ok) {
       const clusterData = transposeToClusterModel(clusterAPIResponse.data);
       setClusterData(clusterData);
-      console.log('The cluster data ===', clusterAPIResponse.data);
       await getSubCollectionData(clusterAPIResponse.data[0]);
     }
     setLoading(false);

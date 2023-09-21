@@ -90,9 +90,7 @@ export function ClusterDrawerPage(props: any) {
     }
   };
 
-  useEffect(() => {
-    console.log('Value of the selected row', props.selectedDrawerRecord);
-  }, [clusterDBData, isButtonDisabled]);
+  useEffect(() => {}, [clusterDBData, isButtonDisabled]);
 
   useEffect(() => {
     getClusterData();
