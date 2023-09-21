@@ -120,7 +120,11 @@ export const addClusterLevel1Data = async (
     return { ok: true, data: 'Successfully Added' };
   } catch (err) {
     console.log('Got err =====', err);
-    const error = new CustomError(500, '', err);
+    const error = new CustomError(
+      500,
+      'Server Unresoponsive at this time',
+      err
+    );
     return { ok: false, error };
   }
 };
@@ -154,7 +158,11 @@ export const addClusterLevel2Data = async (
     return { ok: true, data: 'Successfully Added' };
   } catch (err) {
     console.log('Got err =====', err);
-    const error = new CustomError(500, '', err);
+    const error = new CustomError(
+      500,
+      'Server Unresoponsive at this time',
+      err
+    );
     return { ok: false, error };
   }
 };
@@ -170,7 +178,11 @@ export const UpdateClusteriiData = async (
     return { ok: true, data: 'Successfully Added' };
   } catch (err) {
     console.log('Got err =====', err);
-    const error = new CustomError(500, '', err);
+    const error = new CustomError(
+      500,
+      'Server Unresoponsive at this time',
+      err
+    );
     return { ok: false, error };
   }
 };

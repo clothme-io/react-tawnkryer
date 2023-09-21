@@ -35,7 +35,6 @@ export function ClusterSubCollectionCollapseComponent({
   const onChange = async (key: any) => {
     if (key.length > 0) {
       const inputDetails = key[0].split('||');
-      console.log(inputDetails);
       const subClusterId = inputDetails[0];
       // const hasChild = inputDetails[1];
       // const level = inputDetails[2];
@@ -82,13 +81,15 @@ export function ChildrenComponent(props: any) {
   }, [props]);
   return (
     <>
-      {props.childrenData
-        ? props.childrenData.map((item: any) => (
-            <div key={item.id}>
-              {item ? <p>{item.data.title}</p> : <Empty />}
-            </div>
-          ))
-        : []}
+      {props.childrenData ? (
+        props.childrenData.map((item: any) => (
+          <div key={item.id}>
+            {item.data ? <p>{item.data.title}</p> : <Empty />}
+          </div>
+        ))
+      ) : (
+        <Empty />
+      )}
     </>
   );
 }
