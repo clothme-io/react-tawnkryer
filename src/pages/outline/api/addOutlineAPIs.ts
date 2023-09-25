@@ -1,8 +1,8 @@
 import { doc, setDoc } from 'firebase/firestore';
-// import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
 import { db } from '../../../lib/firebase/firebaseConfig';
 import { CustomError } from '../../../lib/util/customError';
 import { Result } from '../../../lib/util/resultType';
+import { updateSubClusterCollection } from '../../cluster/api/updateClusterAPIs';
 
 export const addOutlineData = async (
   id: string,
@@ -17,11 +17,19 @@ export const addOutlineData = async (
     root_entity_id,
     details: outline,
   };
+  console.log('Got here outlineInput =====', outlineInput);
   try {
     await setDoc(doc(db, 'outline', id), outlineInput, {
       merge: true,
     });
-    console.log('Got here =====', outline);
+    await updateSubClusterCollection(
+      outline.cluster.clusterId,
+      outline.cluster.clusterName,
+      outline.subCluster.subClusterId,
+      outline.subCluster.subClusterName,
+      outline.subClusterCollection.id,
+      { isOutline: true }
+    );
     return { ok: true, data: 'Successfully Added' };
   } catch (err) {
     const error = new CustomError(

@@ -99,27 +99,40 @@ export function transposeToEntityModel(
         entityUrl: model[x].data.details.entityUrl,
       },
       google_adwords: {
-        keywords: model[x].data.google_adwords.keywords,
+        keywords: model[x].data.google_adwords
+          ? model[x].data.google_adwords.keywords
+          : [],
       },
       google_autosuggest: {
-        organic_result: model[x].data.google_autosuggest.organic_result,
+        organic_result: model[x].data.google_autosuggest
+          ? model[x].data.google_autosuggest.organic_result
+          : [],
       },
       google_pytrends: {
-        related_queries_top: model[x].data.google_pytrends.related_queries_top,
-        related_queries_rising:
-          model[x].data.google_pytrends.related_queries_rising,
-        related_topic_rising_title:
-          model[x].data.google_pytrends.related_topic_rising_title,
-        related_topic_top_title:
-          model[x].data.google_pytrends.related_topic_top_title,
+        related_queries_top: model[x].data.google_pytrends
+          ? model[x].data.google_pytrends.related_queries_top
+          : [],
+        related_queries_rising: model[x].data.google_pytrends
+          ? model[x].data.google_pytrends.related_queries_rising
+          : [],
+        related_topic_rising_title: model[x].data.google_pytrends
+          ? model[x].data.google_pytrends.related_topic_rising_title
+          : [],
+        related_topic_top_title: model[x].data.google_pytrends
+          ? model[x].data.google_pytrends.related_topic_top_title
+          : [],
       },
-      people_ask_data: model[x].data.people_ask_data,
+      people_ask_data: model[x].data.people_ask_data
+        ? model[x].data.people_ask_data
+        : [],
       wiki_entity: {
-        search: model[x].data.wiki_entity.search,
-        title: model[x].data.wiki_entity.title,
-        url: model[x].data.wiki_entity.url,
+        search: model[x].data.wiki_entity
+          ? model[x].data.wiki_entity.search
+          : [],
+        title: model[x].data.wiki_entity ? model[x].data.wiki_entity.title : '',
+        url: model[x].data.wiki_entity ? model[x].data.wiki_entity.url : '',
       },
-      openAI: model[x].data.openAI,
+      openAI: model[x].data.openAI ? model[x].data.openAI : [],
     };
     items.push(item);
   }
@@ -145,26 +158,38 @@ export function transposeSingleEntityModel(
       entityUrl: model.data.details.entityUrl,
     },
     google_adwords: {
-      keywords: model.data.google_adwords.keywords,
+      keywords: model.data.google_adwords
+        ? model.data.google_adwords.keywords
+        : [],
     },
     google_autosuggest: {
-      organic_result: model.data.google_autosuggest.organic_result,
+      organic_result: model.data.google_autosuggest
+        ? model.data.google_autosuggest.organic_result
+        : [],
     },
     google_pytrends: {
-      related_queries_top: model.data.google_pytrends.related_queries_top,
-      related_queries_rising: model.data.google_pytrends.related_queries_rising,
-      related_topic_rising_title:
-        model.data.google_pytrends.related_topic_rising_title,
-      related_topic_top_title:
-        model.data.google_pytrends.related_topic_top_title,
+      related_queries_top: model.data.google_pytrends
+        ? model.data.google_pytrends.related_queries_top
+        : [],
+      related_queries_rising: model.data.google_pytrends
+        ? model.data.google_pytrends.related_queries_rising
+        : [],
+      related_topic_rising_title: model.data.google_pytrends
+        ? model.data.google_pytrends.related_topic_rising_title
+        : [],
+      related_topic_top_title: model.data.google_pytrends
+        ? model.data.google_pytrends.related_topic_top_title
+        : [],
     },
-    people_ask_data: model.data.people_ask_data,
+    people_ask_data: model.data.people_ask_data
+      ? model.data.people_ask_data
+      : [],
     wiki_entity: {
-      search: model.data.wiki_entity.search,
-      title: model.data.wiki_entity.title,
-      url: model.data.wiki_entity.url,
+      search: model.data.wiki_entity ? model.data.wiki_entity.search : [],
+      title: model.data.wiki_entity ? model.data.wiki_entity.title : '',
+      url: model.data.wiki_entity ? model.data.wiki_entity.url : '',
     },
-    openAI: model.data.openAI,
+    openAI: model.data.openAI ? model.data.openAI : [],
   };
 }
 

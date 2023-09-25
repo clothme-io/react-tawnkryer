@@ -1,6 +1,4 @@
 import { addDoc, collection, doc, setDoc, updateDoc } from 'firebase/firestore';
-// import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
-
 import { db } from '../../../lib/firebase/firebaseConfig';
 import { CustomError } from '../../../lib/util/customError';
 import { Result } from '../../../lib/util/resultType';
@@ -9,16 +7,17 @@ import { performDelete } from './deleteAPI';
 export const addClusterData = async (
   clsuterData: any
 ): Promise<Result<any, CustomError>> => {
-  console.log('The input for the addKey *****************', clsuterData);
   try {
     await setDoc(doc(db, 'cluster', clsuterData.id), clsuterData.data, {
       merge: true,
     });
-    console.log('Got here =====', clsuterData);
     return { ok: true, data: 'Successfully Added' };
   } catch (err) {
-    console.log('Got err =====', err);
-    const error = new CustomError(500, '', err);
+    const error = new CustomError(
+      500,
+      'Server Unresoponsive at this time',
+      err
+    );
     return { ok: false, error };
   }
 };
@@ -102,9 +101,6 @@ export const addClusterLevel1Data = async (
   root_entity_id: string,
   has_child: boolean
 ): Promise<Result<any, CustomError>> => {
-  console.log('Got level0_id =====', level0_id);
-  console.log('Got leve0_name =====', level0_name);
-  console.log('Got level1_title =====', level1_title);
   try {
     const clusteriiRef = collection(db, 'clusterii');
     await addDoc(collection(clusteriiRef, level0_id, level0_name), {
@@ -119,7 +115,6 @@ export const addClusterLevel1Data = async (
     });
     return { ok: true, data: 'Successfully Added' };
   } catch (err) {
-    console.log('Got err =====', err);
     const error = new CustomError(
       500,
       'Server Unresoponsive at this time',
@@ -157,7 +152,6 @@ export const addClusterLevel2Data = async (
     );
     return { ok: true, data: 'Successfully Added' };
   } catch (err) {
-    console.log('Got err =====', err);
     const error = new CustomError(
       500,
       'Server Unresoponsive at this time',
@@ -177,7 +171,6 @@ export const UpdateClusteriiData = async (
     });
     return { ok: true, data: 'Successfully Added' };
   } catch (err) {
-    console.log('Got err =====', err);
     const error = new CustomError(
       500,
       'Server Unresoponsive at this time',

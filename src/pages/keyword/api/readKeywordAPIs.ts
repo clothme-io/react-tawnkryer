@@ -53,11 +53,10 @@ export const readKeywordContent = async (
   try {
     const docRef = doc(db, 'keyword', docId);
     const docSnap = await getDoc(docRef);
-    const keywordData = { id: '', value: {} };
+    const keywordData = { id: '', data: {} };
     if (docSnap.exists()) {
-      console.log('Document data:', docSnap.data());
       keywordData.id = docSnap.id;
-      keywordData.value = docSnap.data() as unknown as object;
+      keywordData.data = docSnap.data() as unknown as object;
     } else {
       // docSnap.data() will be undefined in this case
       console.log('No such document!');
