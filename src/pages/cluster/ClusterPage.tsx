@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/function-component-definition */
 import { useEffect, useState } from 'react';
@@ -65,9 +66,12 @@ export const ClusterPage = () => {
     setLoading(true);
     const subClusterAPIResponse = await readFromSubCollections(
       cluster.id,
-      cluster.data.title
+      accountId,
+      projectId,
+      entityId
     );
     if (subClusterAPIResponse.ok) {
+      console.log('subClusterAPIResponse.data', subClusterAPIResponse.data)
       setFirstData(subClusterAPIResponse.data);
     }
     setLoading(false);
@@ -79,7 +83,7 @@ export const ClusterPage = () => {
     }
   }, [entity]);
 
-  useEffect(() => {}, [firstData]);
+  useEffect(() => { }, [firstData]);
 
   return (
     <>

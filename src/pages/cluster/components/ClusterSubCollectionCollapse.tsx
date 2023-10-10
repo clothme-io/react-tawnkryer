@@ -1,10 +1,15 @@
+/* eslint-disable react/jsx-key */
+/* eslint-disable prettier/prettier */
 /* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
-import { Collapse, Empty, Button, Divider } from 'antd';
+import { Collapse, Button, Divider } from 'antd';
 import { nanoid } from 'nanoid';
-import { readFromSubCollectionCollections } from '../api/readClusterAPIs';
+import {
+  readFromSubClusterCollections,
+  readFromSubCollectionCollections,
+} from '../api/readClusterAPIs';
 import { addOutlineData } from '../../outline/api/addOutlineAPIs';
 
 interface DataProps {
@@ -18,6 +23,7 @@ export function ClusterSubCollectionCollapseComponent({
 
   const accountId = JSON.parse(localStorage.getItem('tempUserId') as string);
   const projectId = JSON.parse(localStorage.getItem('tempProjectId') as string);
+  const entityId = JSON.parse(localStorage.getItem('tempEntityId') as string);
 
   const [subCollectionData, setSubCollectionData] = useState<any>(null);
 
@@ -25,19 +31,15 @@ export function ClusterSubCollectionCollapseComponent({
     if (key.length > 0) {
       const inputDetails = key[0].split('||');
       const subClusterId = inputDetails[0];
-      const clusterName = inputDetails[3];
-      const clusterId = inputDetails[4];
-      const subCollectionResponse = await readFromSubCollectionCollections(
-        clusterId,
-        clusterName,
+      // const clusterName = inputDetails[3];
+      // const clusterId = inputDetails[4];
+      const subCollectionResponse = await readFromSubClusterCollections(
         subClusterId,
-        childrenData.title
+        accountId,
+        projectId,
+        entityId
       );
       if (subCollectionResponse.ok) {
-        const itemValue: any = [];
-        subCollectionResponse.data.forEach((items: any) => {
-          itemValue.push(items.data.title);
-        });
         setSubCollectionData(subCollectionResponse.data);
       }
     }
@@ -90,7 +92,7 @@ export function ClusterSubCollectionCollapseComponent({
 
   useEffect(() => {
     // console.log('The data in dataComponent', childrenData);
-  }, [childrenData, subCollectionData]);
+  }, [childrenData]);
 
   return (
     <div className="pt-2">
@@ -116,51 +118,90 @@ export function ClusterSubCollectionCollapseComponent({
 }
 
 export function ChildrenComponent(props: any) {
-  useEffect(() => {}, [props.childrenData]);
+  const [collectionData, setCollectionData] = useState<any>({});
+  const setData = () => {
+    setCollectionData(props.childrenData)
+  }
+  useEffect(() => {
+    if (props.childrenData?.data) setData()
+    // console.log('props.childrenData', props.childrenData.data);
+  }, [collectionData, props.childrenData]);
 
   return (
     <>
-      {props.childrenData ? (
-        props.childrenData.map((item: any) => (
-          <>
-            <div key={nanoid()} className="">
-              {item.data ? (
-                <div className="flex">
-                  <div className="flex flex-grow">
-                    <p>{item.data.title}</p>
-                  </div>
-                  <div className="flex">
-                    {item.data.isOutline ? (
-                      <Button
-                        type="text"
-                        size="small"
-                        disabled
-                        onClick={() => props.addToOutline(item)}
-                      >
-                        In Outline Step
-                      </Button>
-                    ) : (
-                      <Button
-                        type="text"
-                        size="small"
-                        onClick={() => props.addToOutline(item)}
-                        className="text-black hover:text-white"
-                      >
-                        Create Outline
-                      </Button>
-                    )}
-                  </div>
-                </div>
-              ) : (
-                <Empty />
-              )}
-            </div>
-            <Divider />
-          </>
-        ))
-      ) : (
-        <Empty key={nanoid()} />
-      )}
+      <div className="px-6 pt-6">
+        <div className="flex mb-10">
+          <p className="flex-1">{collectionData ? collectionData?.data?.title : ''}</p>
+          <div className="flex">
+            {collectionData?.data ? (
+              <Button
+                type="text"
+                size="small"
+                disabled
+              // onClick={() => props.addToOutline(item)}
+              >
+                In Outline Step
+              </Button>
+            ) : (
+              <Button
+                type="text"
+                size="small"
+                // onClick={() => props.addToOutline(item)}
+                className="text-black hover:text-white"
+              >
+                Create Outline
+              </Button>
+            )}
+          </div>
+        </div>
+        <div className="flex">
+          <div className="flex-1">
+            {collectionData?.data && (
+              collectionData?.data?.organic_result?.map((item: any) => (
+                <div className="flex-1" key={item?.id}><RelatedSearchItemComponent item={item} /></div>
+              ))
+            )}
+          </div>
+        </div>
+      </div>
     </>
   );
+}
+
+
+export function RelatedSearchItemComponent(props: any) {
+  return (
+    <>
+      <div key={props.item.link}>
+        <div className="flex">
+          <div className="flex-1 pr-20">
+            <div className="flex">{props.item.domain}</div>
+            <div className="flex">{props.item.link}</div>
+          </div>
+          <div>
+            {false ? (
+              <Button
+                type="text"
+                size="small"
+                disabled
+              // onClick={() => props.addToOutline(item)}
+              >
+                In Outline Step
+              </Button>
+            ) : (
+              <Button
+                type="text"
+                size="small"
+                // onClick={() => props.addToOutline(item)}
+                className="text-black hover:text-white"
+              >
+                Create Outline
+              </Button>
+            )}
+          </div>
+        </div>
+        <Divider style={{ border: "" }} />
+      </div>
+    </>
+  )
 }

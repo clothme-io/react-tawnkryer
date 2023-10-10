@@ -11,6 +11,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <MantineProvider withGlobalStyles withNormalizeCSS>
         <App />
       </MantineProvider>
-      </AuthProvider>
+    </AuthProvider>
   </BrowserRouter>
 );

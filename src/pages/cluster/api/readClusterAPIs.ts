@@ -211,7 +211,9 @@ export const readFromCollectionSubCollectionForEntity = async (
 
 export const readFromSubCollections = async (
   clusterId: string,
-  clusterName: string
+  accountId: string,
+  projectId: string,
+  entityId: string
 ): Promise<Result<any, CustomError>> => {
   try {
     const clusterData: {
@@ -219,11 +221,16 @@ export const readFromSubCollections = async (
       data: DocumentData;
     }[] = [];
 
-    const subClusterQuery = await getDocs(
-      collection(db, 'clusterii', clusterId, clusterName)
+    const subClusterQuery = query(
+      collection(db, 'subCluster'),
+      where('cluster.id', '==', clusterId),
+      where('account_id', '==', accountId),
+      where('project_id', '==', projectId),
+      where('entity_id', '==', entityId)
     );
 
-    subClusterQuery.forEach((doc) => {
+    const snapshot = await getDocs(subClusterQuery);
+    snapshot.forEach((doc) => {
       const collection = { id: doc.id, data: doc.data() };
       clusterData.push(collection);
     });
@@ -242,6 +249,64 @@ export const readFromSubCollections = async (
   }
 };
 
+export const readFromSubClusterCollections = async (
+  subClusterId: string,
+  accountId: string,
+  projectId: string,
+  entityId: string
+): Promise<Result<any, CustomError>> => {
+  console.log('THe subClusterId', subClusterId);
+  console.log('THe accountId', accountId);
+  console.log('THe projectId', projectId);
+  console.log('THe entityId', entityId);
+  try {
+    // const clusterData: {
+    //   id: string;
+    //   data: DocumentData;
+    // }[] = [];
+
+    // const subClusterQuery = query(
+    //   collection(db, 'subCluster'),
+    //   where('cluster.id', '==', subClusterId),
+    //   where('account_id', '==', accountId),
+    //   where('project_id', '==', projectId),
+    //   where('entity_id', '==', entityId)
+    // );
+
+    // const snapshot = await getDocs(subClusterQuery);
+    // snapshot.forEach((doc) => {
+    //   const collection = { id: doc.id, data: doc.data() };
+    //   clusterData.push(collection);
+    // });
+
+    // return {
+    //   ok: true,
+    //   data: clusterData,
+    // };
+
+    const docRef = doc(db, 'subCluster', subClusterId);
+    const docSnap = await getDoc(docRef);
+    const keywordData = { id: '', data: {} };
+    if (docSnap.exists()) {
+      // console.log('Document data:', docSnap.data());
+      keywordData.id = docSnap.id;
+      keywordData.data = docSnap.data() as unknown as object;
+    } else {
+      // docSnap.data() will be undefined in this case
+      console.log('No such document!');
+    }
+    return { ok: true, data: keywordData };
+  } catch (err) {
+    const error = new CustomError(
+      500,
+      'Server Unresoponsive at this time',
+      err
+    );
+    return { ok: false, error };
+  }
+};
+
+// Not gonna used
 export const readFromSubCollectionCollections = async (
   clusterId: string,
   clusterName: string,

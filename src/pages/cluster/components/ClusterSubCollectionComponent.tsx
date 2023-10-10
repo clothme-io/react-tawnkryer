@@ -42,7 +42,10 @@ export function ClusterSubCollectionComponent({
     getTreeData();
   }, [data]);
 
-  useEffect(() => {}, [entityData, data, treeData]);
+  useEffect(() => {
+    // console.log('We are here treeData', treeData);
+    // console.log('We are here data', data);
+  }, [entityData, data, treeData]);
 
   return (
     <div
@@ -59,7 +62,9 @@ export function ClusterSubCollectionComponent({
       </div>
       {treeData &&
         treeData.map((item: any) => (
-          <ClusterSubCollectionCollapseComponent childrenData={item} />
+          <div key={item?.key}>
+            <ClusterSubCollectionCollapseComponent childrenData={item} />
+          </div>
         ))}
     </div>
   );
