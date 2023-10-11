@@ -20,7 +20,7 @@ export const addClusterToOutline = async (
     entity_id: details.entity_id,
     title: details.outLineTopic,
   };
-  console.log('Got here outlineInput =====', outlineInput);
+  // console.log('Got here outlineInput =====', outlineInput);
   try {
     await setDoc(doc(db, 'outline', outline_id), outlineInput, {
       merge: true,

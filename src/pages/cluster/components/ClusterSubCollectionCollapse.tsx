@@ -24,7 +24,7 @@ export function ClusterSubCollectionCollapseComponent({
 
   const accountId = JSON.parse(localStorage.getItem('tempUserId') as string);
   const projectId = JSON.parse(localStorage.getItem('tempProjectId') as string);
-  const entityId = JSON.parse(localStorage.getItem('tempEntityId') as string);
+  // const entityId = JSON.parse(localStorage.getItem('tempEntityId') as string);
 
   const [subCollectionData, setSubCollectionData] = useState<any>(null);
 
@@ -36,9 +36,9 @@ export function ClusterSubCollectionCollapseComponent({
       // const clusterId = inputDetails[4];
       const subCollectionResponse = await readFromSubClusterCollections(
         subClusterId,
-        accountId,
-        projectId,
-        entityId
+        // accountId,
+        // projectId,
+        // entityId
       );
       if (subCollectionResponse.ok) {
         setSubCollectionData(subCollectionResponse.data);

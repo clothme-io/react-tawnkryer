@@ -19,12 +19,12 @@ export interface EntitySlice {
 export const createEntitySlice: StateCreator<EntitySlice> = (set, get) => ({
   entities: [],
   selectedEntity: {
+    key: '',
     id: '',
     url: '',
     created_at: 0,
     updated_at: 0,
     name: '',
-    created_by: '',
     account_id: '',
     project_id: '',
     entity_number: 0,

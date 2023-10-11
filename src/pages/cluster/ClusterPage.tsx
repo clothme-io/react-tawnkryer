@@ -29,6 +29,8 @@ export const ClusterPage = () => {
   const entityId = JSON.parse(localStorage.getItem('tempEntityId') as string);
 
   const onListClick = (key: string) => {
+    console.log(key)
+    console.log(messageApi)
     // addCurrentEntityId(key);
     // setStateEntityId(key);
     // readKeywordContent(key as unknown as string)

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/destructuring-assignment */
 import { Button, Divider, Drawer, Row } from 'antd';
@@ -25,8 +26,8 @@ export function ClusterDrawerPage(props: any) {
 
   const getClusterData = async () => {
     const response = await readFromSubCollectionForEntity(
-      accountId,
-      projectId,
+      // accountId,
+      // projectId,
       entityId
     );
     if (response.ok) setClusterDBData(response.data);
@@ -90,7 +91,7 @@ export function ClusterDrawerPage(props: any) {
     }
   };
 
-  useEffect(() => {}, [clusterDBData, isButtonDisabled]);
+  useEffect(() => { }, [clusterDBData, isButtonDisabled]);
 
   useEffect(() => {
     getClusterData();
