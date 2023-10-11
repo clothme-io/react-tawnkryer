@@ -5,15 +5,11 @@ import { CustomError } from '../../../lib/util/customError';
 import { Result } from '../../../lib/util/resultType';
 
 export const updateSubClusterCollection = async (
-    clusterId: string,
-    clusterName: string,
-    subClusterID: string,
-    subClusterName: string,
-    subClusterCollectionId: string,
+    subClusterId: string,
     details: any
 ): Promise<Result<any, CustomError>> => {
     try {
-        const clusterDocRef = doc(db, 'clusterii', clusterId, clusterName, subClusterID, subClusterName, subClusterCollectionId)
+        const clusterDocRef = doc(db, 'subCluster', subClusterId)
         await updateDoc(clusterDocRef, details);
         return { ok: true, data: 'Successfully Added' };
     } catch (err) {
@@ -21,3 +17,4 @@ export const updateSubClusterCollection = async (
         return { ok: false, error };
     }
 };
+

@@ -306,6 +306,33 @@ export const readFromSubClusterCollections = async (
   }
 };
 
+export const readFromSubCollection = async (
+  subClusterId: string
+): Promise<Result<any, CustomError>> => {
+  try {
+    console.log('The subClusterID', subClusterId);
+    const docRef = doc(db, 'subCluster', subClusterId);
+    const docSnap = await getDoc(docRef);
+    const keywordData = { id: '', data: {} };
+    if (docSnap.exists()) {
+      // console.log('Document data:', docSnap.data());
+      keywordData.id = docSnap.id;
+      keywordData.data = docSnap.data() as unknown as object;
+    } else {
+      // docSnap.data() will be undefined in this case
+      console.log('No such document!');
+    }
+    return { ok: true, data: keywordData };
+  } catch (err) {
+    const error = new CustomError(
+      500,
+      'Server Unresoponsive at this time',
+      err
+    );
+    return { ok: false, error };
+  }
+};
+
 // Not gonna used
 export const readFromSubCollectionCollections = async (
   clusterId: string,

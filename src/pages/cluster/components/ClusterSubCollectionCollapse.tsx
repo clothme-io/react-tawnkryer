@@ -8,9 +8,10 @@ import { Collapse, Button, Divider } from 'antd';
 import { nanoid } from 'nanoid';
 import {
   readFromSubClusterCollections,
+  readFromSubCollection,
   readFromSubCollectionCollections,
 } from '../api/readClusterAPIs';
-import { addOutlineData } from '../../outline/api/addOutlineAPIs';
+import { addClusterToOutline, addSubClusterToOutline } from '../../outline/api/addOutlineAPIs';
 
 interface DataProps {
   childrenData: any;
@@ -63,13 +64,13 @@ export function ClusterSubCollectionCollapseComponent({
         id: item.id,
       },
       outLineTopic: item.data.title,
-    };
-    const id = nanoid();
-    const responseFromAddToOutline = await addOutlineData(
-      id,
       accountId,
       projectId,
       entityId,
+    };
+    const id = nanoid();
+    const responseFromAddToOutline = await addClusterToOutline(
+      id,
       details
     );
     if (responseFromAddToOutline.ok) {
@@ -158,7 +159,7 @@ export function ChildrenComponent(props: any) {
           <div className="flex-1">
             {collectionData?.data && (
               collectionData?.data?.organic_result?.map((item: any) => (
-                <div className="flex-1" key={item?.id}><RelatedSearchItemComponent item={item} /></div>
+                <div className="flex-1" key={item?.id}><RelatedSearchItemComponent item={item} fullData={collectionData} /></div>
               ))
             )}
           </div>
@@ -170,32 +171,83 @@ export function ChildrenComponent(props: any) {
 
 
 export function RelatedSearchItemComponent(props: any) {
+
+  // const accountId = JSON.parse(localStorage.getItem('tempUserId') as string);
+  // const projectId = JSON.parse(localStorage.getItem('tempProjectId') as string);
+  // const entityId = JSON.parse(localStorage.getItem('tempEntityId') as string);
+
+  const [subDisplayData, setDisplayData] = useState<any>(null);
+
+  const addToOutline = async (item: any) => {
+    const { account_id, cluster, processing, title, project_id, entity_id } = props.fullData.data
+
+    const details = {
+      account_id,
+      project_id,
+      entity_id,
+      processing,
+      cluster,
+      subCluster: {
+        title,
+        id: props.fullData.id,
+      },
+      outLineTopic: item.title,
+    };
+
+    const outline_id = nanoid();
+
+    const responseFromAddToOutline = await addSubClusterToOutline(
+      outline_id,
+      details
+    );
+    if (responseFromAddToOutline.ok) {
+      // update subCollectionData with setSubCollectionData()
+      const subCollectionResponse = await readFromSubCollection(
+        props.fullData.id,
+      );
+      if (subCollectionResponse.ok) {
+        setDisplayData(subCollectionResponse.data);
+      }
+    }
+  };
+
+  const setInitialData = () => {
+    if (props.item) {
+      setDisplayData(props.item)
+    }
+  }
+
+  useEffect(() => {
+    setInitialData()
+  }, [])
+
   return (
     <>
       <div key={props.item.link}>
         <div className="flex">
           <div className="flex-1 pr-20">
-            <div className="flex">{props.item.domain}</div>
-            <div className="flex">{props.item.link}</div>
+            <div className="flex">{subDisplayData?.title}</div>
+            <div className="flex">{subDisplayData?.domain}</div>
+            <div className="flex">{subDisplayData?.link}</div>
           </div>
           <div>
-            {false ? (
+            {!subDisplayData?.processing ? (
               <Button
                 type="text"
                 size="small"
                 disabled
-              // onClick={() => props.addToOutline(item)}
+                onClick={() => addToOutline(subDisplayData)}
               >
-                In Outline Step
+                Added To Outline
               </Button>
             ) : (
               <Button
                 type="text"
                 size="small"
-                // onClick={() => props.addToOutline(item)}
+                onClick={() => addToOutline(subDisplayData)}
                 className="text-black hover:text-white"
               >
-                Create Outline
+                Add To Outline
               </Button>
             )}
           </div>
