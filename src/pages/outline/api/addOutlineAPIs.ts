@@ -82,3 +82,35 @@ export const addSubClusterToOutline = async (
     return { ok: false, error };
   }
 };
+
+export const addOutlineToArticle = async (
+  outline_id: string,
+  outline: string,
+  details: any
+): Promise<Result<any, CustomError>> => {
+  const outlineInput = {
+    account_id: details.account_id,
+    project_id: details.project_id,
+    cluster: details.cluster,
+    subCluster: details.subCluster,
+    processing: details.processing,
+    entity_id: details.entity_id,
+    title: details.outLineTopic,
+    outline_data: outline,
+  };
+  try {
+    // console.log('Got here outlineInput =====', outlineInput);
+    await setDoc(doc(db, 'article', outline_id), outlineInput, {
+      merge: true,
+    });
+
+    return { ok: true, data: 'Successfully Added' };
+  } catch (err) {
+    const error = new CustomError(
+      500,
+      'Server Unresoponsive at this time',
+      err
+    );
+    return { ok: false, error };
+  }
+};

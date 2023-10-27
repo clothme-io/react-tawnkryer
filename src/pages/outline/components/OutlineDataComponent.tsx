@@ -1,9 +1,14 @@
-import { RichTextEditorComponent } from '../../../components/ui/richTextEditorComponent';
+import PlaygroundApp from '../../../components/ui/lexical/App';
+import { CustomLexicalEditor } from '../../../components/ui/customEditor/lexicalEditor';
 
-export function OutlineDataComponent() {
+interface OutlineDataProps {
+  content: string;
+}
+
+export function OutlineDataComponent({ content }: OutlineDataProps) {
   return (
     <div className="pt-8 px-4" style={{ height: '100vh' }}>
-      <RichTextEditorComponent />
+      <CustomLexicalEditor type={content} />
     </div>
   );
 }
