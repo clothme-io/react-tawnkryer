@@ -1,4 +1,3 @@
-import PlaygroundApp from '../../../components/ui/lexical/App';
 import { CustomLexicalEditor } from '../../../components/ui/customEditor/lexicalEditor';
 
 interface OutlineDataProps {
