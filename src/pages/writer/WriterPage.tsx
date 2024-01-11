@@ -20,15 +20,8 @@ export function WriterPage() {
         >
           <WriterListComponent />
         </div>
-        <div className="col-span-6" style={{ minHeight: '100vh' }}>
-          <div
-            style={{
-              minHeight: '100vh',
-              backgroundColor: 'white',
-            }}
-          >
-            <WriterDataComponent />
-          </div>
+        <div className="col-span-6 h-full">
+          <WriterDataComponent />
         </div>
       </div>
     </>

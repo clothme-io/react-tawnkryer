@@ -12,6 +12,7 @@ import { HeadingNode, QuoteNode } from "@lexical/rich-text"
 import editorTheme from './themes/lexicalTheme'
 import { ToolbarPlugin } from './plugins/ToolbarPlugin'
 import { prepopulatedRichText } from './initialStateUtil'
+import { CustomHeadingPlugin } from './plugins/CustomHeadingPlugin'
 
 // Catch any errors that occur during Lexical updates and log them
 // or throw them as needed. If you don't throw them, Lexical will
@@ -54,7 +55,6 @@ export function CustomLexicalEditor({ type }: LexicalEditorProps) {
     }, []);
 
     const initialConfig = {
-        // editorState: JSON.stringify(initData),
         editorState: prepopulatedRichText,
         nodes: EDITOR_NODES,
         namespace: 'type',
@@ -76,7 +76,7 @@ export function CustomLexicalEditor({ type }: LexicalEditorProps) {
             />
             <OnChangePlugin onChange={onChange} />
             <HistoryPlugin />
-            {/* <MyCustomAutoFocusPlugin /> */}
+            <CustomHeadingPlugin />
         </LexicalComposer>
     );
 }
